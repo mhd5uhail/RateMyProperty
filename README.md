@@ -9,7 +9,7 @@ The information sometimes can be incomplete and deceiving, which may mislead ten
 
 ## Why RateMyProperty ?
 
-Currently existing similar websites only provide the way to connect property owners to the buyers and renters but Rate my property helps them gain insights about the property from previous users themselves. These insights are helpful in terms of providing information. The review and the rating of the property assists tenantsand buyersin making decision about rentingor buying a property.
+Currently existing similar websites only provide the way to connect property owners to the buyers and renters but Rate my property helps them gain insights about the property from previous users themselves. These insights are helpful in terms of providing information. The review and the rating of the property assists tenants and buyers in making decision about renting or buying a property.
 
 ## About This Repository
 
