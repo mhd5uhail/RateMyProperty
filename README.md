@@ -20,6 +20,6 @@ RateMyProperty is still in the early stages of development, This is a Jetpack co
 ## Screenshots
 
 
-![RMP Android](screenshots/RateMyPropertyAndroid.png)
+![RMP Android](screenshots/RMP_SC.png)
 
 
