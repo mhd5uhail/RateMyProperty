@@ -1,4 +1,5 @@
 package com.mhdsuhail.ratemyproperty.ui.propertyScreen
+
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -6,7 +7,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Email
 import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material.icons.rounded.Phone
 import androidx.compose.runtime.Composable
@@ -15,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.LightGray
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -27,7 +31,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mhdsuhail.ratemyproperty.R
-import com.mhdsuhail.ratemyproperty.data.Address
 import com.mhdsuhail.ratemyproperty.data.Feature
 import com.mhdsuhail.ratemyproperty.data.PosterContact
 import com.mhdsuhail.ratemyproperty.data.Property
@@ -191,10 +194,10 @@ fun PropertyScreen(property: Property) {
         }
     }
 }
-//
+
 //@Preview
 //@Composable
-//fun ContactCardPreview( @PreviewParameter(PosterContactPreviewProvider::class) contactInfo : PosterContact){
+//fun ContactCardPreview(@PreviewParameter(PosterContactPreviewProvider::class) contactInfo: PosterContact) {
 //    RateMyPropertyTheme() {
 //        Surface {
 //            ContactCard(contactInfo)
@@ -204,35 +207,44 @@ fun PropertyScreen(property: Property) {
 
 @Composable
 fun ContactCard(contactInfo: PosterContact) {
-    Card(shape = RoundedCornerShape(35.dp), modifier = Modifier
-        .fillMaxWidth()
-        .height(85.dp),
-        border = BorderStroke(width = 1.5.dp, color = LightGray),
-            backgroundColor = Color.White) {
-            Row(
+    Card(
+        shape = RoundedCornerShape(35.dp), modifier = Modifier
+            .fillMaxWidth()
+            .height(85.dp),
+        border = BorderStroke(width = 1.dp, color = LightGray),
+        backgroundColor = Color.White
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(10.dp), verticalAlignment = Alignment.CenterVertically
+        ) {
+
+            Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(10.dp), verticalAlignment = Alignment.CenterVertically
+                    .weight(0.2f)
             ) {
                 Image(
                     modifier = Modifier
-                        .align(Alignment.CenterVertically)
+                        .align(Alignment.Center)
                         .size(64.dp)
                         .clip(CircleShape), // Descriptive Image
                     painter = painterResource(id = contactInfo.imageResourceId),
                     contentScale = ContentScale.Crop,
                     contentDescription = "Realtor Contact Picture"
                 )
-                Column(
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .padding(start = 15.dp),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
+            }
 
-                    Text(modifier = Modifier.width(140.dp), text =
-                    buildAnnotatedString {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(0.4f)
+                    .padding(start = 5.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = buildAnnotatedString {
                         withStyle(style = SpanStyle(color = Color.Gray)) {
                             append("${contactInfo.title}\n")
                         }
@@ -244,43 +256,56 @@ fun ContactCard(contactInfo: PosterContact) {
                         ) {
                             append(contactInfo.name)
                         }
-                    }
-                    )
-                }
-
-                IconButton(
-                    onClick = { /*TODO*/ },
-                    modifier = Modifier
-                        .padding(start = 20.dp)
-                        .clip(CircleShape)
-                        .size(55.dp)
-                        .background(Color.Blue.copy(alpha = 0.15f))
-                ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.chat),
-                        modifier = Modifier.size(30.dp),
-                        contentDescription = "Chat with Poster",
-                        tint = Color.Blue
-                    )
-                }
-
-                IconButton(
-                    onClick = { /*TODO*/ },
-                    modifier = Modifier
-                        .padding(start = 20.dp)
-                        .clip(CircleShape)
-                        .size(55.dp)
-                        .background(Color.Green.copy(alpha = 0.15f))
-                ) {
-                    Icon(
-                        imageVector = Icons.Rounded.Phone,
-                        modifier = Modifier.size(30.dp),
-                        contentDescription = "Call Poster",
-                        tint = Color.Green
-                    )
-                }
+                    },
+                )
             }
+
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .weight(0.4f)
+                    .padding(start = 5.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+
+                ContactActionButton(modifier = Modifier.padding(start = 10.dp),
+                    imageResourceId = R.drawable.chat,
+                    backgroundColor = Color.Blue.copy(alpha = 0.15f),
+                    tintColor = Color.Blue,
+                    clickHandler = { /* TODO */ })
+
+                ContactActionButton(modifier = Modifier.padding(start = 10.dp),
+                    imageResourceId = R.drawable.phone,
+                    backgroundColor = Color.Green.copy(alpha = 0.15f),
+                    tintColor = Color.Green,
+                    clickHandler = { /* TODO */ })
+
+            }
+
         }
+    }
+}
+
+@Composable
+fun ContactActionButton(
+    modifier: Modifier = Modifier, imageResourceId: Int,
+    backgroundColor: Color, tintColor: Color, clickHandler: () -> Unit,
+    contentDescription: String? = null
+) {
+    IconButton(
+        onClick = clickHandler,
+        modifier = modifier
+            .clip(CircleShape)
+            .size(55.dp)
+            .background(backgroundColor)
+    ) {
+        Icon(
+            painter = painterResource(id = imageResourceId),
+            modifier = Modifier.size(30.dp),
+            contentDescription = contentDescription,
+            tint = tintColor
+        )
+    }
 }
 
 
