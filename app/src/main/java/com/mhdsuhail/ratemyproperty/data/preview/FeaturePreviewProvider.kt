@@ -1,6 +1,5 @@
 package com.mhdsuhail.ratemyproperty.data.preview
 
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.mhdsuhail.ratemyproperty.R
 import com.mhdsuhail.ratemyproperty.data.Feature

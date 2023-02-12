@@ -17,14 +17,9 @@ Currently existing similar websites only provide the way to connect property own
 
 RateMyProperty is still in the early stages of development, This is a Jetpack compose & MVVM take on the RateMyHousing web application
 
-## Screen shots
+## Screenshots
 
-Property Details Page
 
-![RMP Logo](screenshots/PropertyView.png)
-
-Search Page
-
-![RMP Logo](screenshots/SearchPage.png)
+![RMP Android](screenshots/RateMyPropertyAndroid.png)
 
 

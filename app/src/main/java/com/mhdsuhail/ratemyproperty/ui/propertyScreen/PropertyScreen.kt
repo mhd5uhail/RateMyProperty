@@ -1,5 +1,4 @@
 package com.mhdsuhail.ratemyproperty.ui.propertyScreen
-
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -14,9 +13,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Cyan
 import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -30,20 +27,19 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mhdsuhail.ratemyproperty.R
+import com.mhdsuhail.ratemyproperty.data.Address
 import com.mhdsuhail.ratemyproperty.data.Feature
 import com.mhdsuhail.ratemyproperty.data.PosterContact
 import com.mhdsuhail.ratemyproperty.data.Property
 import com.mhdsuhail.ratemyproperty.data.preview.FeaturePreviewProvider
 import com.mhdsuhail.ratemyproperty.data.preview.PosterContactPreviewProvider
 import com.mhdsuhail.ratemyproperty.data.preview.PropertyPreviewParameterProvider
-import com.mhdsuhail.ratemyproperty.ui.theme.Blue200
-import com.mhdsuhail.ratemyproperty.ui.theme.Purple200
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 import com.mhdsuhail.ratemyproperty.ui.theme.primaryTextColor
 
 @Preview
 @Composable
-fun PropertyScreenPreview(
+fun PropertyScreenPreviews(
     @PreviewParameter(PropertyPreviewParameterProvider::class) property: Property
 ) {
     RateMyPropertyTheme() {
@@ -195,7 +191,7 @@ fun PropertyScreen(property: Property) {
         }
     }
 }
-
+//
 //@Preview
 //@Composable
 //fun ContactCardPreview( @PreviewParameter(PosterContactPreviewProvider::class) contactInfo : PosterContact){
@@ -309,10 +305,10 @@ fun FeaturesList(features: List<Feature>) {
         }
     }
 }
-
+//
 //@Preview
 //@Composable
-//fun FeatureItemPreview(@PreviewParameter(FeaturePreviewProvider::class) feature: Feature) {
+//fun FeatureItemPreviews(@PreviewParameter(FeaturePreviewProvider::class) feature: Feature) {
 //    RateMyPropertyTheme() {
 //        Surface() {
 //            FeatureItem(feature)
