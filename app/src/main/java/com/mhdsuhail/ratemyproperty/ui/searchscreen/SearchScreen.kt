@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mhdsuhail.ratemyproperty.data.Property
 import com.mhdsuhail.ratemyproperty.data.preview.PropertyPreviewParameterProvider
+import com.mhdsuhail.ratemyproperty.ui.navbar.BottomNavBar
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 
 @Preview(showSystemUi = true)
@@ -23,6 +24,10 @@ fun SearchScreenPreview(){
     SearchScreen(PropertyPreviewParameterProvider().values.toList())
 }
 
+@Composable
+fun TopActionBar(){
+
+}
 
 @Composable
 fun SearchScreen(recentlyViewedProperties: List<Property>) {
@@ -30,7 +35,7 @@ fun SearchScreen(recentlyViewedProperties: List<Property>) {
 
     RateMyPropertyTheme() {
 
-        Scaffold(scaffoldState = scaffoldState) {
+        Scaffold(scaffoldState = scaffoldState, bottomBar = { BottomNavBar() }) {
 
                 Column(
                     modifier = Modifier
