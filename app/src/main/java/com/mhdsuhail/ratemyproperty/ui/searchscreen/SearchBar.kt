@@ -14,11 +14,11 @@ import com.mhdsuhail.ratemyproperty.ui.theme.textFieldBackGround
 
 
 @Composable
-fun SearchBar() {
+fun SearchBar(modifier: Modifier = Modifier) {
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(180.dp)
     ) {

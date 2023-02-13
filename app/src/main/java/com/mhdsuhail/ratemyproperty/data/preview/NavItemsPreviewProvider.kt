@@ -1,0 +1,15 @@
+package com.mhdsuhail.ratemyproperty.data.preview
+
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import com.mhdsuhail.ratemyproperty.R
+import com.mhdsuhail.ratemyproperty.data.NavBarItem
+
+class NavItemsPreviewProvider : PreviewParameterProvider<List<NavBarItem>> {
+    override val values = sequenceOf(
+        listOf(
+            NavBarItem(R.drawable.search, "Search", "Search Page"),
+            NavBarItem(R.drawable.favourite, "Favourites", "Favourites List"),
+            NavBarItem(R.drawable.chat, "Messages", "Messages")
+        )
+    )
+}

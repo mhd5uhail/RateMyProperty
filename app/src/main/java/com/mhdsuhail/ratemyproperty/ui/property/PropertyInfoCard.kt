@@ -32,28 +32,28 @@ fun PropertyInfoCardPreview(
 }
 
 @Composable
-fun PropertyInfoCard(property: Property) {
+fun PropertyInfoCard( property: Property,modifier: Modifier = Modifier) {
 
     RateMyPropertyTheme() {
 
         Card(shape = RoundedCornerShape(40.dp), modifier = Modifier
-            .fillMaxWidth()
-            .height(360.dp)
-            .padding(top = 5.dp, bottom = 5.dp)) {
+            .width(330.dp)
+            .height(350.dp)
+            .padding(bottom = 15.dp)) {
             Surface {
-                Column(modifier = Modifier.fillMaxSize()) {
-                    Box(modifier = Modifier
+                Column(modifier = modifier.fillMaxSize()) {
+                    Box(modifier = modifier
                         .fillMaxHeight(0.65F)
                         .fillMaxWidth()){
                         Image(
                             painter = painterResource(id = R.drawable.propertyprop2),
                             contentDescription = "",
-                            modifier = Modifier.fillMaxSize(),
+                            modifier = modifier.fillMaxSize(),
                             contentScale = ContentScale.FillBounds
                         )
                     }
                     Column(
-                        modifier = Modifier
+                        modifier = modifier
                             .fillMaxSize()
                             .padding(
                                 start = 15.dp,
@@ -63,7 +63,7 @@ fun PropertyInfoCard(property: Property) {
                             .fillMaxSize(0.5F)
                     ) {
                         Text(
-                            modifier = Modifier
+                            modifier = modifier
                                 .padding(top = 1.dp)
                                 .fillMaxWidth(),
                             text = "${property.currency}" + property.price.toString(),
@@ -74,22 +74,22 @@ fun PropertyInfoCard(property: Property) {
                         Row(
                             horizontalArrangement = Arrangement.Start,
                             verticalAlignment = Alignment.Top,
-                            modifier = Modifier.fillMaxWidth()
+                            modifier = modifier.fillMaxWidth()
                         ) {
                             Text(
-                                modifier = Modifier
+                                modifier = modifier
                                     .padding(top = 1.dp)
                                     .fillMaxWidth(0.85F),
                                 text = "${property.address.street} - ${property.address.city}," + " ${property.address.state}",
                                 fontSize = 18.sp,
                                 color = primaryTextColor
                             )
-                            IconButton( modifier = Modifier.fillMaxSize(),
+                            IconButton( modifier = modifier.fillMaxSize(),
                                 onClick = { /*TODO*/ }) {
                                 Icon(
                                     imageVector = Icons.Default.Add,
                                     contentDescription = "Favourites",
-                                    modifier = Modifier.fillMaxSize()
+                                    modifier = modifier.fillMaxSize()
                                 )
                             }
                         }

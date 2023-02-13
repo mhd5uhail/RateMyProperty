@@ -16,33 +16,31 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import com.mhdsuhail.ratemyproperty.R
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mhdsuhail.ratemyproperty.data.NavBarItem
+import com.mhdsuhail.ratemyproperty.data.preview.NavItemsPreviewProvider
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 
 @Preview
 @Composable
-fun BottomNavBarPreview() {
+fun BottomNavBarPreview( @PreviewParameter(NavItemsPreviewProvider::class) navItems: List<NavBarItem>) {
     RateMyPropertyTheme {
         Surface() {
-            BottomNavBar()
+            BottomNavBar(navItems)
         }
     }
 }
 
 
 @Composable
-fun BottomNavBar() {
+fun BottomNavBar(navItems: List<NavBarItem>) {
 
     // TODO: Parameterize BottomNavBar and move NavBarItems to AppModule and
     //  make it a singleton instance
 
-    val listOfNavItems = listOf(
-        NavBarItem(R.drawable.search,"Search","Search Page"),
-        NavBarItem(R.drawable.favourite,"Favourites","Favourites List"),
-        NavBarItem(R.drawable.chat,"Messages","Messages")
-    )
+
     Surface(modifier = Modifier.alpha(0.9f)) {
         Row(
             modifier = Modifier
@@ -50,7 +48,7 @@ fun BottomNavBar() {
                 .height(70.dp), verticalAlignment = Alignment.CenterVertically
         ) {
 
-            listOfNavItems.forEach { navBarItem ->
+            navItems.forEach { navBarItem ->
                 Box(
                     modifier = Modifier
                         .fillMaxSize()

@@ -1,4 +1,4 @@
-package com.mhdsuhail.ratemyproperty.ui.propertyScreen
+package com.mhdsuhail.ratemyproperty.ui.propertyscreen
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -7,18 +7,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material.icons.rounded.ArrowBack
-import androidx.compose.material.icons.rounded.Email
 import androidx.compose.material.icons.rounded.FavoriteBorder
-import androidx.compose.material.icons.rounded.Phone
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Color.Companion.LightGray
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -34,8 +30,6 @@ import com.mhdsuhail.ratemyproperty.R
 import com.mhdsuhail.ratemyproperty.data.Feature
 import com.mhdsuhail.ratemyproperty.data.PosterContact
 import com.mhdsuhail.ratemyproperty.data.Property
-import com.mhdsuhail.ratemyproperty.data.preview.FeaturePreviewProvider
-import com.mhdsuhail.ratemyproperty.data.preview.PosterContactPreviewProvider
 import com.mhdsuhail.ratemyproperty.data.preview.PropertyPreviewParameterProvider
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 import com.mhdsuhail.ratemyproperty.ui.theme.primaryTextColor
