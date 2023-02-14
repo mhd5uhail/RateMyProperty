@@ -7,7 +7,7 @@ import androidx.room.Query
 import com.mhdsuhail.ratemyproperty.data.Feature
 
 @Entity
-interface  FeatureDao{
+interface  FeatureDao {
     @Insert
     suspend fun insertFeature(feature: Feature)
 
@@ -15,8 +15,9 @@ interface  FeatureDao{
     suspend fun deleteFeature(feature: Feature)
 
     @Query("SELECT * FROM features id = :id")
-    suspend fun getFeatureById(id: Int): Feature?
+    suspend fun getFeaturesById(id: Int): Feature?
 
     @Query("SELECT * FROM features propId = :id")
-    suspend fun getFeatureByPropId(id: Int) : Feature?
+    suspend fun getFeatureByPropId(uri: String): List<Feature>
+
 }

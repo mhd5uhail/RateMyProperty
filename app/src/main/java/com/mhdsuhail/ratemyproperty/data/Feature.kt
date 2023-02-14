@@ -1,5 +1,6 @@
 package com.mhdsuhail.ratemyproperty.data
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
@@ -10,18 +11,17 @@ import androidx.room.PrimaryKey
     tableName = "features", foreignKeys =
     [ForeignKey(
         entity = Property::class,
-        parentColumns = arrayOf("id"),
-        childColumns = arrayOf("propId"),
+        parentColumns = arrayOf("uri"),
+        childColumns = arrayOf("prop_uri"),
         onDelete = CASCADE
     )]
 )
 data class Feature(
-    @PrimaryKey
-    val id: Int? = null,
-    val propId: Int,
-    val name: String,
-    val imageResource: Int,
-    val unit: String,
-    val value: String,
-    val desc: String?
+    @PrimaryKey @ColumnInfo(name = "id") val id: Int? = null,
+    @ColumnInfo(name = "prop_uri") val prop_uri: String,
+    @ColumnInfo(name = "name") val name: String,
+    @ColumnInfo(name = "imageId") val imageResource: Int,
+    @ColumnInfo(name = "unit") val unit: String, // Unit of measurement
+    @ColumnInfo(name = "value") val value: String,
+    @ColumnInfo(name = "description") val description: String?
 )

@@ -8,14 +8,11 @@ import com.mhdsuhail.ratemyproperty.data.PosterContact
 import com.mhdsuhail.ratemyproperty.data.Property
 
 @Database(
-    entities = [Property::class,Feature::class,PosterContact::class,Address::class],
+    entities = [Property::class,Feature::class],
     version = 1,
     exportSchema = false
 )
 abstract class RMPDatabase : RoomDatabase() {
     abstract val propertyDao: PropertyDao
-    abstract val posterContactDao: PosterContactDao
     abstract val featureDao: FeatureDao
-    abstract val addressDao: AddressDao
-
 }

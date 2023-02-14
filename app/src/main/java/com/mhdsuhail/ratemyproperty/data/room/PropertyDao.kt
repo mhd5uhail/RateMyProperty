@@ -15,8 +15,8 @@ interface PropertyDao {
     @Delete
     suspend fun deleteProperty(property: Property);
 
-    @Query("SELECT * FROM property WHERE id = :id")
-    suspend fun getPropertyById(id: Int) : Property?
+    @Query("SELECT * FROM property WHERE uri = :uri")
+    suspend fun getPropertyById(id: String) : Property?
 
     @Query("SELECT * FROM property WHERE recentlyViewed = true")
     fun getAllRecentlyViewedProperties(): Flow<List<Property>>

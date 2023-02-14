@@ -1,6 +1,6 @@
 package com.mhdsuhail.ratemyproperty.data
 
-data class PropertyCard(
+data class PropertyPage(
     val property: Property,
-    val address: Address
+    val features: List<Feature>,
 )

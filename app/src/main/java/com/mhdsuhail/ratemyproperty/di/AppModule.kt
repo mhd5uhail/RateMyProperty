@@ -34,17 +34,6 @@ object AppModule {
         return FeatureRepositoryImpl(db.featureDao)
     }
 
-    @Provides
-    @Singleton
-    fun providePosterContactRepository(db: RMPDatabase) : PosterContactRepository {
-        return PosterContactRepositoryImpl(db.posterContactDao)
-    }
-
-    @Provides
-    @Singleton
-    fun providePosterAddressRepository(db: RMPDatabase) : AddressRepository {
-        return AddressRepositoryImpl(db.addressDao)
-    }
 
 
 }

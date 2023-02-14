@@ -8,7 +8,7 @@ interface FeatureRepository {
 
     suspend fun getFeatureById(id: Int): Feature?
 
-    suspend fun getFeatureByPropId(id: Int): Feature?
+    suspend fun getFeatureByPropId(uri: String): List<Feature>
 
 
 }

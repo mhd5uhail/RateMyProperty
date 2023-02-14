@@ -12,10 +12,11 @@ class FeatureRepositoryImpl(private val dao: FeatureDao) : FeatureRepository{
     }
 
     override suspend fun getFeatureById(id: Int): Feature? {
-        return dao.getFeatureById(id)
+        return dao.getFeaturesById(id)
     }
 
-    override suspend fun getFeatureByPropId(id: Int): Feature? {
-        return dao.getFeatureByPropId(id)
+
+    override suspend fun getFeatureByPropId(uri: String): List<Feature> {
+        return dao.getFeatureByPropId(uri)
     }
 }
