@@ -14,5 +14,5 @@ data class Property(
     @ColumnInfo(name = "favourite")  val favourite: Boolean,
     @ColumnInfo(name = "imageId")  val imageResourceId: Int?,
     @Embedded
-     val address: Address,
+    val address: Address,
 )

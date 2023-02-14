@@ -12,8 +12,8 @@ class PropertyRepositoryImpl(private val dao: PropertyDao) : PropertyRepository 
         dao.deleteProperty(property)
     }
 
-    override suspend fun getPropertyById(id: Int): Property? {
-        return dao.getPropertyById(id)
+    override suspend fun getPropertyById(uri: String): Property? {
+        return dao.getPropertyById(uri)
     }
 
     override fun getProperties(): Flow<List<Property>> {

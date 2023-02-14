@@ -7,7 +7,7 @@ interface PropertyRepository {
 
     suspend fun deleteProperty(property: Property)
 
-    suspend fun getPropertyById(id: Int): Property?
+    suspend fun getPropertyById(uri: String): Property?
 
     fun getProperties(): Flow<List<Property>>
 }
