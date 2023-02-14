@@ -15,4 +15,6 @@ data class Property(
     @ColumnInfo(name = "imageId")  val imageResourceId: Int?,
     @Embedded
     val address: Address,
+    @Embedded
+    val posterContact: PosterContact
 )
