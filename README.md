@@ -1,7 +1,7 @@
 ![RMP Logo](screenshots/rate_my_property_logo_02.png)
 # About 
 
-Rate my property is a website that provides a platform for users to anonymously review and rate their housings (rentals, properties, etc.). This will serve as centralized information center for tenants and property buyers to seek factual recommendations/suggestions about potential rentals and help in their decision-making process.
+Rate my property is a platform for users to anonymously review and rate their housings (rentals, properties, etc.). This will serve as centralized information center for tenants and property buyers to seek factual recommendations/suggestions about potential rentals and help in their decision-making process.
 
 The ability to anonymously post reviews will encourage candid and more genuine feedback. On current housing websites, the properties are posted by the owners.
 
