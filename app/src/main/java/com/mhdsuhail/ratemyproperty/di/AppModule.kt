@@ -34,6 +34,12 @@ object AppModule {
         return FeatureRepositoryImpl(db.featureDao)
     }
 
+    @Provides
+    @Singleton
+    fun providesPropertyWExtraInfo(db: RMPDatabase) : PropertyWithExtraInfoRepo {
+        return PropertyWithExtraInfoRepo(db.propertyWithExtraInfoDao)
+    }
+
 
 
 }

@@ -15,4 +15,5 @@ import com.mhdsuhail.ratemyproperty.data.Property
 abstract class RMPDatabase : RoomDatabase() {
     abstract val propertyDao: PropertyDao
     abstract val featureDao: FeatureDao
+    abstract val propertyWithExtraInfoDao : PropertyWithExtraInfoDao
 }

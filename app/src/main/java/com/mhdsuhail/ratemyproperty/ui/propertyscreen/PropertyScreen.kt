@@ -10,6 +10,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.mhdsuhail.ratemyproperty.R
 import com.mhdsuhail.ratemyproperty.data.Feature
 import com.mhdsuhail.ratemyproperty.data.PosterContact
@@ -33,6 +35,9 @@ import com.mhdsuhail.ratemyproperty.data.Property
 import com.mhdsuhail.ratemyproperty.data.preview.PropertyPreviewParameterProvider
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 import com.mhdsuhail.ratemyproperty.ui.theme.primaryTextColor
+import com.mhdsuhail.ratemyproperty.util.Routes
+import com.mhdsuhail.ratemyproperty.util.UiEvent
+import kotlinx.coroutines.flow.collect
 
 @Preview
 @Composable
@@ -40,17 +45,48 @@ fun PropertyScreenPreviews(
     @PreviewParameter(PropertyPreviewParameterProvider::class) property: Property
 ) {
     RateMyPropertyTheme() {
-        PropertyScreen(property)
+        PropertyScreen({})
     }
 }
 
 @Composable
-fun PropertyScreen(property: Property) {
+// Callback navigation function
+fun PropertyScreen(
+    onNavigate: (UiEvent.Navigate) -> Unit,
+    viewModel: PropertyScreenViewModel = hiltViewModel()
+) {
+
+    val scaffoldState = rememberScaffoldState()
+
+
+    LaunchedEffect(key1 = true) {
+
+        viewModel.uiEvent.collect { event ->
+
+            when (event) {
+
+                is UiEvent.Navigate -> {
+                    onNavigate(event)
+                }
+
+                is UiEvent.ShowSnackbar -> {
+                    val result = scaffoldState.snackbarHostState.showSnackbar(event.message)
+                }
+                else -> Unit
+
+            }
+
+        }
+
+    }
 
     Scaffold(
+        scaffoldState = scaffoldState,
         modifier = Modifier
             .fillMaxSize(),
-        bottomBar = { ContactCard(contactInfo = property.posterContact) }
+        bottomBar = {
+            ContactCard(contactInfo = viewModel.posterContact)
+        }
     ) {
         Column(
             modifier = Modifier
@@ -78,7 +114,12 @@ fun PropertyScreen(property: Property) {
                     )
 
                     IconButton(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            PropertyScreenEvents.OnAddToFavouritesClick(
+                                viewModel.uri,
+                                !viewModel.isfav
+                            )
+                        },
                         modifier = Modifier
                             .align(Alignment.TopEnd)
                             .offset(x = (-10).dp, y = 10.dp)
@@ -95,7 +136,7 @@ fun PropertyScreen(property: Property) {
                     }
 
                     IconButton(
-                        onClick = { /*TODO*/ },
+                        onClick = { onNavigate(UiEvent.Navigate(Routes.HOME_PAGE)) },
                         modifier = Modifier
                             .align(Alignment.TopStart)
                             .offset(x = (10).dp, y = 10.dp)
@@ -121,7 +162,7 @@ fun PropertyScreen(property: Property) {
                         modifier = Modifier
                             .padding(top = 1.dp)
                             .fillMaxWidth(),
-                        text = property.currency + property.price.toString(),
+                        text = viewModel.currency + viewModel.price,
                         fontSize = 35.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = primaryTextColor
@@ -135,7 +176,7 @@ fun PropertyScreen(property: Property) {
                             modifier = Modifier
                                 .padding(top = 1.dp)
                                 .fillMaxWidth(0.85F),
-                            text = "${property.address.street} - ${property.address.city}," + " ${property.address.state}",
+                            text = "${viewModel.address.street} - ${viewModel.address.city}," + " ${viewModel.address.state}",
                             fontSize = 18.sp,
                             color = primaryTextColor
                         )
@@ -180,7 +221,7 @@ fun PropertyScreen(property: Property) {
                         color = Color.LightGray, thickness = 2.dp
                     )
 
-                    FeaturesList(property.features)
+                    FeaturesList(viewModel.features)
                     // To compensate for bottom app bar
                     Spacer(modifier = Modifier.height(85.dp))
                 }
@@ -224,7 +265,9 @@ fun ContactCard(contactInfo: PosterContact) {
                         .align(Alignment.Center)
                         .size(64.dp)
                         .clip(CircleShape), // Descriptive Image
-                    painter = painterResource(id = contactInfo.imageResourceId),
+                    painter = painterResource(
+                        id = contactInfo.imageResourceId ?: R.drawable.contact
+                    ),
                     contentScale = ContentScale.Crop,
                     contentDescription = "Realtor Contact Picture"
                 )
@@ -266,7 +309,7 @@ fun ContactCard(contactInfo: PosterContact) {
                     imageResourceId = R.drawable.chat,
                     backgroundColor = Color.Blue.copy(alpha = 0.15f),
                     tintColor = Color.Blue,
-                    clickHandler = { /* TODO */ })
+                    clickHandler = { })
 
                 ContactActionButton(modifier = Modifier.padding(start = 10.dp),
                     imageResourceId = R.drawable.phone,
@@ -348,7 +391,7 @@ fun FeatureItem(feature: Feature) {
                 .fillMaxHeight()
                 .width(30.dp), // Descriptive Image
             painter = painterResource(id = feature.imageResource),
-            contentDescription = feature.desc
+            contentDescription = feature.description
         )
 
         Text(

@@ -1,12 +1,9 @@
 package com.mhdsuhail.ratemyproperty.data.room
 
-import androidx.room.Delete
-import androidx.room.Entity
-import androidx.room.Insert
-import androidx.room.Query
+import androidx.room.*
 import com.mhdsuhail.ratemyproperty.data.Feature
 
-@Entity
+@Dao
 interface  FeatureDao {
     @Insert
     suspend fun insertFeature(feature: Feature)
@@ -14,10 +11,10 @@ interface  FeatureDao {
     @Delete
     suspend fun deleteFeature(feature: Feature)
 
-    @Query("SELECT * FROM features id = :id")
+    @Query("SELECT * FROM features WHERE id = :id")
     suspend fun getFeaturesById(id: Int): Feature?
 
-    @Query("SELECT * FROM features propId = :id")
-    suspend fun getFeatureByPropId(uri: String): List<Feature>
+    @Query("SELECT * FROM features WHERE prop_uri = :prop_uri")
+    suspend fun getFeatureByPropId(prop_uri: String): List<Feature>
 
 }
