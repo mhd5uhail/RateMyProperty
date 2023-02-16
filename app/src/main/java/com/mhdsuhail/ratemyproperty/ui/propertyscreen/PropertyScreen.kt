@@ -47,7 +47,7 @@ fun PropertyScreenPreviews() {
         )
         PropertyScreen(
             onNavigate = {},
-            viewModel =viewModel
+            viewModel = viewModel
         )
     }
 }
@@ -87,7 +87,12 @@ fun PropertyScreen(
         modifier = Modifier
             .fillMaxSize(),
         bottomBar = {
-            ContactCard(contactInfo = viewModel.state.posterContact)
+            ContactCard(contactInfo = viewModel.state.posterContact,
+                onCallClick = {
+                viewModel.onEvent(PropertyScreenEvents.OnCallPosterClick(viewModel.state.posterContact))
+            }, onMessageClick = {
+                    viewModel.onEvent(PropertyScreenEvents.OnMessagePosterClick(viewModel.state.posterContact))
+            })
         }
     ) {
         Column(
@@ -117,9 +122,11 @@ fun PropertyScreen(
 
                     IconButton(
                         onClick = {
-                            PropertyScreenEvents.OnAddToFavouritesClick(
-                                viewModel.state.uri,
-                                !viewModel.state.isfav
+                            viewModel.onEvent(
+                                PropertyScreenEvents.OnAddToFavouritesClick(
+                                    viewModel.state.uri,
+                                    !viewModel.state.isfav
+                                )
                             )
                         },
                         modifier = Modifier
@@ -138,7 +145,9 @@ fun PropertyScreen(
                     }
 
                     IconButton(
-                        onClick = { onNavigate(UiEvent.Navigate(Routes.HOME_PAGE)) },
+                        onClick = {
+                            //onNavigate(UiEvent.Navigate(Routes.HOME_PAGE))
+                                  viewModel.onEvent(PropertyScreenEvents.OnBackButtonClick) },
                         modifier = Modifier
                             .align(Alignment.TopStart)
                             .offset(x = (10).dp, y = 10.dp)
@@ -244,7 +253,7 @@ fun PropertyScreen(
 //}
 
 @Composable
-fun ContactCard(contactInfo: PosterContact) {
+fun ContactCard(contactInfo: PosterContact, onCallClick: () -> Unit, onMessageClick: () -> Unit) {
     Card(
         shape = RoundedCornerShape(35.dp), modifier = Modifier
             .fillMaxWidth()
@@ -313,13 +322,14 @@ fun ContactCard(contactInfo: PosterContact) {
                     backgroundColor = Color.Blue.copy(alpha = 0.15f),
                     tintColor = Color.Blue,
                     clickHandler = {
+                        onMessageClick()
                     })
 
                 ContactActionButton(modifier = Modifier.padding(start = 10.dp),
                     imageResourceId = R.drawable.phone,
                     backgroundColor = Color.Green.copy(alpha = 0.15f),
                     tintColor = Color.Green,
-                    clickHandler = { /* TODO */ })
+                    clickHandler = { onCallClick() })
 
             }
 

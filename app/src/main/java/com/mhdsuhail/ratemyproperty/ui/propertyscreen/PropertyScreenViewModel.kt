@@ -55,12 +55,14 @@ class PropertyScreenViewModel @Inject constructor(
                 sendUiEvent(UiEvent.ShowSnackbar("Added to favourites !"))
             }
             is PropertyScreenEvents.OnCallPosterClick -> {
-                sendUiEvent(UiEvent.ShowSnackbar("Calling ..."))
+                sendUiEvent(UiEvent.ShowSnackbar("Calling ...${event.posterContact.name}"))
             }
             is PropertyScreenEvents.OnMessagePosterClick -> {
-                sendUiEvent(UiEvent.ShowSnackbar("Messaging ..."))
+                sendUiEvent(UiEvent.ShowSnackbar("Messaging ...${event.posterContact.name}"))
             }
-
+            is PropertyScreenEvents.OnBackButtonClick -> {
+                sendUiEvent(UiEvent.ShowSnackbar("Home Screen coming soon !"))
+            }
         }
 
     }
