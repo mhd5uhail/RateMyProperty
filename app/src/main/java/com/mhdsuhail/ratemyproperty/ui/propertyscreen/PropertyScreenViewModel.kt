@@ -16,42 +16,27 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PropertyScreenViewModel @Inject constructor(
-    private val repository: PropertyWithExtraInfoRepo,
+    private val repository: PropertyWExtraInfoRepo,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    var property by mutableStateOf<Property?>(null)
-    private  set
-    var isfav by mutableStateOf(false)
-    private set
-    var uri by mutableStateOf("")
-    private set
-    var currency by mutableStateOf(" ")
-    private  set
-    var price by mutableStateOf(0)
-    private  set
-    var address by mutableStateOf(PlaceHolderValues().address)
-        private set
-
-    var features by mutableStateOf<List<Feature>>(ArrayList())
-        private set
-
-    var posterContact by mutableStateOf(PlaceHolderValues().posterContact)
-        private set
+    var state by mutableStateOf(PropertyScreenState())
 
     init {
         val propUri = savedStateHandle.get<String>("prop_uri")
         if (!propUri.isNullOrEmpty()) {
             viewModelScope.launch {
                 repository.getPropertyWithExtraInfoById(propUri)?.let { property ->
-                    address = property.property.address
-                    features = property.features
-                    posterContact = property.property.posterContact
-                    currency = property.property.currency
-                    price = property.property.price
-                    isfav = property.property.favourite
-                    uri = property.property.uri
-                    this@PropertyScreenViewModel.property = property.property
+
+                    PropertyScreenState(
+                        address = property.property.address,
+                        features = property.features,
+                        posterContact = property.property.posterContact,
+                        currency = property.property.currency,
+                        price = property.property.price,
+                        isfav = property.property.favourite,
+                        uri = property.property.uri,
+                    )
                 }
             }
         }
@@ -88,18 +73,3 @@ class PropertyScreenViewModel @Inject constructor(
     }
 
 }
-
-
-data class PlaceHolderValues(
-    val address: Address = Address(
-        "Country",
-        "Province",
-        "City",
-        "street",
-        "#",
-        "A#B #C#"
-    ), val posterContact: PosterContact = PosterContact(
-        "Name",
-        "Title", null, "###-###-###"
-    )
-)

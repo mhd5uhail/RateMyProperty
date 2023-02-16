@@ -10,4 +10,5 @@ data class PropertyWithExtraInfo(
         entityColumn = "prop_uri"
     )
     val features: List<Feature>,
+    val description: String?
 )

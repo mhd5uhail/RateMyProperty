@@ -28,36 +28,37 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.SavedStateHandle
 import com.mhdsuhail.ratemyproperty.R
 import com.mhdsuhail.ratemyproperty.data.Feature
 import com.mhdsuhail.ratemyproperty.data.PosterContact
 import com.mhdsuhail.ratemyproperty.data.Property
-import com.mhdsuhail.ratemyproperty.data.preview.PropertyPreviewParameterProvider
+import com.mhdsuhail.ratemyproperty.data.preview.*
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 import com.mhdsuhail.ratemyproperty.ui.theme.primaryTextColor
 import com.mhdsuhail.ratemyproperty.util.Routes
 import com.mhdsuhail.ratemyproperty.util.UiEvent
-import kotlinx.coroutines.flow.collect
 
 @Preview
 @Composable
-fun PropertyScreenPreviews(
-    @PreviewParameter(PropertyPreviewParameterProvider::class) property: Property
-) {
+fun PropertyScreenPreviews() {
     RateMyPropertyTheme() {
-        PropertyScreen({})
+        val savedStateHandle = SavedStateHandle()
+        PropertyScreen(
+            viewModel = PropertyScreenViewModel(savedStateHandle = savedStateHandle,
+                repository = FakePropertyWInfoRepo()
+            ),
+            onNavigate = {})
     }
 }
 
 @Composable
-// Callback navigation function
 fun PropertyScreen(
     onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel: PropertyScreenViewModel = hiltViewModel()
 ) {
 
     val scaffoldState = rememberScaffoldState()
-
 
     LaunchedEffect(key1 = true) {
 
@@ -70,7 +71,7 @@ fun PropertyScreen(
                 }
 
                 is UiEvent.ShowSnackbar -> {
-                    val result = scaffoldState.snackbarHostState.showSnackbar(event.message)
+                    scaffoldState.snackbarHostState.showSnackbar(event.message)
                 }
                 else -> Unit
 
@@ -80,12 +81,24 @@ fun PropertyScreen(
 
     }
 
+    PropertyScreeCanvas(viewModel.state, scaffoldState, onNavigate)
+}
+
+@Composable
+// Callback navigation function
+fun PropertyScreeCanvas(
+    state: PropertyScreenState,
+    scaffoldState: ScaffoldState,
+    onNavigate: (UiEvent.Navigate) -> Unit
+) {
+
+
     Scaffold(
         scaffoldState = scaffoldState,
         modifier = Modifier
             .fillMaxSize(),
         bottomBar = {
-            ContactCard(contactInfo = viewModel.posterContact)
+            ContactCard(contactInfo = state.posterContact)
         }
     ) {
         Column(
@@ -116,8 +129,8 @@ fun PropertyScreen(
                     IconButton(
                         onClick = {
                             PropertyScreenEvents.OnAddToFavouritesClick(
-                                viewModel.uri,
-                                !viewModel.isfav
+                                state.uri,
+                                !state.isfav
                             )
                         },
                         modifier = Modifier
@@ -162,7 +175,7 @@ fun PropertyScreen(
                         modifier = Modifier
                             .padding(top = 1.dp)
                             .fillMaxWidth(),
-                        text = viewModel.currency + viewModel.price,
+                        text = state.currency + state.price,
                         fontSize = 35.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = primaryTextColor
@@ -176,7 +189,7 @@ fun PropertyScreen(
                             modifier = Modifier
                                 .padding(top = 1.dp)
                                 .fillMaxWidth(0.85F),
-                            text = "${viewModel.address.street} - ${viewModel.address.city}," + " ${viewModel.address.state}",
+                            text = "${state.address.street} - ${state.address.city}," + " ${state.address.state}",
                             fontSize = 18.sp,
                             color = primaryTextColor
                         )
@@ -195,7 +208,7 @@ fun PropertyScreen(
 
                         Column(modifier = Modifier.fillMaxSize()) {
                             Text(
-                                text = stringResource(id = R.string.loremIpsum),
+                                text =  state.description ?: stringResource(id = R.string.loremIpsum),
                                 maxLines = 4,
                                 overflow = TextOverflow.Ellipsis,
                                 textAlign = TextAlign.Left,
@@ -221,7 +234,7 @@ fun PropertyScreen(
                         color = Color.LightGray, thickness = 2.dp
                     )
 
-                    FeaturesList(viewModel.features)
+                    FeaturesList(state.features)
                     // To compensate for bottom app bar
                     Spacer(modifier = Modifier.height(85.dp))
                 }
@@ -390,7 +403,7 @@ fun FeatureItem(feature: Feature) {
                 .align(Alignment.CenterVertically)
                 .fillMaxHeight()
                 .width(30.dp), // Descriptive Image
-            painter = painterResource(id = feature.imageResource),
+            painter = painterResource(id = feature.imageResource ?: R.drawable.square_foot),
             contentDescription = feature.description
         )
 

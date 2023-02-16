@@ -20,7 +20,7 @@ data class Feature(
     @PrimaryKey @ColumnInfo(name = "id") val id: Int? = null,
     @ColumnInfo(name = "prop_uri") val prop_uri: String,
     @ColumnInfo(name = "name") val name: String,
-    @ColumnInfo(name = "imageId") val imageResource: Int,
+    @ColumnInfo(name = "imageId") val imageResource: Int?,
     @ColumnInfo(name = "unit") val unit: String, // Unit of measurement
     @ColumnInfo(name = "value") val value: String,
     @ColumnInfo(name = "description") val description: String?
