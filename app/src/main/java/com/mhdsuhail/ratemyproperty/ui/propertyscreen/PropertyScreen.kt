@@ -71,6 +71,7 @@ fun PropertyScreen(
                 }
 
                 is UiEvent.ShowSnackbar -> {
+                    println("Showing Snackbar!")
                     scaffoldState.snackbarHostState.showSnackbar(event.message)
                 }
                 else -> Unit
@@ -197,7 +198,7 @@ fun PropertyScreen(
                         Column(modifier = Modifier.fillMaxSize()) {
                             Text(
                                 text = viewModel.state.description
-                                    ?: stringResource(id = R.string.loremIpsum),
+                                    ?: "No description provided",
                                 maxLines = 4,
                                 overflow = TextOverflow.Ellipsis,
                                 textAlign = TextAlign.Left,
@@ -311,7 +312,8 @@ fun ContactCard(contactInfo: PosterContact) {
                     imageResourceId = R.drawable.chat,
                     backgroundColor = Color.Blue.copy(alpha = 0.15f),
                     tintColor = Color.Blue,
-                    clickHandler = { })
+                    clickHandler = {
+                    })
 
                 ContactActionButton(modifier = Modifier.padding(start = 10.dp),
                     imageResourceId = R.drawable.phone,

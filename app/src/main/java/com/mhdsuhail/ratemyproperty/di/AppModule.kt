@@ -37,8 +37,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesPropertyWExtraInfo(db: RMPDatabase) : PropertyWExtraInfoRepo {
-        return PropertyWithExtraInfoRepo(db.propertyWithExtraInfoDao)
+    fun providesPropertyWExtraInfoRepo(db: RMPDatabase) : PropertyWExtraInfoRepo {
+        return FakePropertyWInfoRepo()
     }
 
 

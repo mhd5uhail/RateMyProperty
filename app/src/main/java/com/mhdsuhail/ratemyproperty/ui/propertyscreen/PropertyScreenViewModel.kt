@@ -24,20 +24,18 @@ class PropertyScreenViewModel @Inject constructor(
 
     init {
         val propUri = savedStateHandle.get<String>("prop_uri")
-        println("PreviewViewModel")
         if (!propUri.isNullOrEmpty()) {
             viewModelScope.launch {
                 repository.getPropertyWithExtraInfoById(propUri)?.let { property ->
+                    state.address = property.property.address
+                    state.features = property.features
+                    state.posterContact = property.property.posterContact
+                    state.currency = property.property.currency
+                    state.price = property.property.price
+                    state.isfav = property.property.favourite
+                    state.uri = property.property.uri
+                    state.description = property.description
 
-                    PropertyScreenState(
-                        address = property.property.address,
-                        features = property.features,
-                        posterContact = property.property.posterContact,
-                        currency = property.property.currency,
-                        price = property.property.price,
-                        isfav = property.property.favourite,
-                        uri = property.property.uri,
-                    )
                 }
             }
         }

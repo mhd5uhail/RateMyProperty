@@ -23,7 +23,7 @@ class FakePropertyWInfoRepo() : PropertyWExtraInfoRepo {
                 ),
             ),
             features = FeaturePreviewProvider().values.toList(),
-            description = null
+            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis finibus sem. Duis nec dolor et tortor malesuada pellentesque. Suspendisse porttitor tempus lectus, non commodo orci rhoncus et. Praesent odio est, ultricies sed augue ut, laoreet congue magna. Duis semper suscipit bibendum. Maecenas semper dolor vel nulla congue dignissim. Ut pretium lobortis felis a tristique\n"
         )
     }
 }
