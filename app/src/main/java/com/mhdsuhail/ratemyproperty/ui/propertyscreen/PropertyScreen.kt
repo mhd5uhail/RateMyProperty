@@ -24,7 +24,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -32,7 +31,6 @@ import androidx.lifecycle.SavedStateHandle
 import com.mhdsuhail.ratemyproperty.R
 import com.mhdsuhail.ratemyproperty.data.Feature
 import com.mhdsuhail.ratemyproperty.data.PosterContact
-import com.mhdsuhail.ratemyproperty.data.Property
 import com.mhdsuhail.ratemyproperty.data.preview.*
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 import com.mhdsuhail.ratemyproperty.ui.theme.primaryTextColor
@@ -43,21 +41,23 @@ import com.mhdsuhail.ratemyproperty.util.UiEvent
 @Composable
 fun PropertyScreenPreviews() {
     RateMyPropertyTheme() {
-        val savedStateHandle = SavedStateHandle()
+        val viewModel = PropertyScreenViewModel(
+            savedStateHandle = SavedStateHandle(),
+            repository = FakePropertyWInfoRepo()
+        )
         PropertyScreen(
-            viewModel = PropertyScreenViewModel(savedStateHandle = savedStateHandle,
-                repository = FakePropertyWInfoRepo()
-            ),
-            onNavigate = {})
+            onNavigate = {},
+            viewModel =viewModel
+        )
     }
 }
 
 @Composable
+// Callback navigation function
 fun PropertyScreen(
     onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel: PropertyScreenViewModel = hiltViewModel()
 ) {
-
     val scaffoldState = rememberScaffoldState()
 
     LaunchedEffect(key1 = true) {
@@ -81,24 +81,12 @@ fun PropertyScreen(
 
     }
 
-    PropertyScreeCanvas(viewModel.state, scaffoldState, onNavigate)
-}
-
-@Composable
-// Callback navigation function
-fun PropertyScreeCanvas(
-    state: PropertyScreenState,
-    scaffoldState: ScaffoldState,
-    onNavigate: (UiEvent.Navigate) -> Unit
-) {
-
-
     Scaffold(
         scaffoldState = scaffoldState,
         modifier = Modifier
             .fillMaxSize(),
         bottomBar = {
-            ContactCard(contactInfo = state.posterContact)
+            ContactCard(contactInfo = viewModel.state.posterContact)
         }
     ) {
         Column(
@@ -129,8 +117,8 @@ fun PropertyScreeCanvas(
                     IconButton(
                         onClick = {
                             PropertyScreenEvents.OnAddToFavouritesClick(
-                                state.uri,
-                                !state.isfav
+                                viewModel.state.uri,
+                                !viewModel.state.isfav
                             )
                         },
                         modifier = Modifier
@@ -175,7 +163,7 @@ fun PropertyScreeCanvas(
                         modifier = Modifier
                             .padding(top = 1.dp)
                             .fillMaxWidth(),
-                        text = state.currency + state.price,
+                        text = viewModel.state.currency + viewModel.state.price,
                         fontSize = 35.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = primaryTextColor
@@ -189,7 +177,7 @@ fun PropertyScreeCanvas(
                             modifier = Modifier
                                 .padding(top = 1.dp)
                                 .fillMaxWidth(0.85F),
-                            text = "${state.address.street} - ${state.address.city}," + " ${state.address.state}",
+                            text = "${viewModel.state.address.street} - ${viewModel.state.address.city}," + " ${viewModel.state.address.state}",
                             fontSize = 18.sp,
                             color = primaryTextColor
                         )
@@ -208,7 +196,8 @@ fun PropertyScreeCanvas(
 
                         Column(modifier = Modifier.fillMaxSize()) {
                             Text(
-                                text =  state.description ?: stringResource(id = R.string.loremIpsum),
+                                text = viewModel.state.description
+                                    ?: stringResource(id = R.string.loremIpsum),
                                 maxLines = 4,
                                 overflow = TextOverflow.Ellipsis,
                                 textAlign = TextAlign.Left,
@@ -234,7 +223,7 @@ fun PropertyScreeCanvas(
                         color = Color.LightGray, thickness = 2.dp
                     )
 
-                    FeaturesList(state.features)
+                    FeaturesList(viewModel.state.features)
                     // To compensate for bottom app bar
                     Spacer(modifier = Modifier.height(85.dp))
                 }

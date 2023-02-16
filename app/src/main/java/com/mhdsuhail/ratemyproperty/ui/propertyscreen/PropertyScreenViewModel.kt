@@ -24,6 +24,7 @@ class PropertyScreenViewModel @Inject constructor(
 
     init {
         val propUri = savedStateHandle.get<String>("prop_uri")
+        println("PreviewViewModel")
         if (!propUri.isNullOrEmpty()) {
             viewModelScope.launch {
                 repository.getPropertyWithExtraInfoById(propUri)?.let { property ->

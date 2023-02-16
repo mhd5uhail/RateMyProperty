@@ -3,6 +3,7 @@ package com.mhdsuhail.ratemyproperty.di
 import android.app.Application
 import androidx.room.Room
 import com.mhdsuhail.ratemyproperty.data.*
+import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyWInfoRepo
 import com.mhdsuhail.ratemyproperty.data.room.RMPDatabase
 import dagger.Module
 import dagger.Provides
@@ -36,7 +37,7 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesPropertyWExtraInfo(db: RMPDatabase) : PropertyWithExtraInfoRepo {
+    fun providesPropertyWExtraInfo(db: RMPDatabase) : PropertyWExtraInfoRepo {
         return PropertyWithExtraInfoRepo(db.propertyWithExtraInfoDao)
     }
 
