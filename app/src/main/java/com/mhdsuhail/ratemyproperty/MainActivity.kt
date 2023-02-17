@@ -38,12 +38,33 @@ class MainActivity : ComponentActivity() {
                     Routes.FAV_PAGE
                 )
                 val navController = rememberNavController()
+                val navBackStackEntry by navController.currentBackStackEntryAsState()
+
                 Scaffold(
-                    topBar = {TopActionBar()},
+                    topBar = {
+                        TopActionBar(onClickUserButton = {},
+                            bannerText = {
+                                val currentDestination = navBackStackEntry?.destination
+                                when (currentDestination?.route) {
+                                    Routes.HOME_PAGE -> {
+                                        "Good Morning"
+                                    }
+                                    Routes.SEARCH_PAGE -> {
+                                        "Search"
+                                    }
+                                    Routes.FAV_PAGE -> {
+                                        "What you like"
+                                    }
+                                    else -> ""
+                                }
+                            }
+                        )
+                    },
                     bottomBar = {
-                        BottomNavigation(backgroundColor = Color.White,
-                        contentColor = Color.Gray ) {
-                            val navBackStackEntry by navController.currentBackStackEntryAsState()
+                        BottomNavigation(
+                            backgroundColor = Color.White,
+                            contentColor = Color.Gray
+                        ) {
                             val currentDestination = navBackStackEntry?.destination
                             items.forEach { screen ->
                                 BottomNavigationItem(
