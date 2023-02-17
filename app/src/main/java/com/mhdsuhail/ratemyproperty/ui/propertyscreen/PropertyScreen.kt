@@ -94,10 +94,10 @@ fun PropertyScreen(
                     viewModel.onEvent(PropertyScreenEvents.OnMessagePosterClick(viewModel.state.posterContact))
             })
         }
-    ) {
+    ) { padding ->
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxSize().padding(padding)
                 .verticalScroll(rememberScrollState())
         ) {
             Column(

@@ -7,9 +7,9 @@ import com.mhdsuhail.ratemyproperty.data.NavBarItem
 class NavItemsPreviewProvider : PreviewParameterProvider<List<NavBarItem>> {
     override val values = sequenceOf(
         listOf(
-            NavBarItem(R.drawable.search, "Search", "Search Page"),
-            NavBarItem(R.drawable.favourite, "Favourites", "Favourites List"),
-            NavBarItem(R.drawable.chat, "Messages", "Messages")
+            NavBarItem(R.drawable.home, "Home", "Home Page"),
+            NavBarItem(R.drawable.search, "Search", "Search Page") ,
+            NavBarItem(R.drawable.favourite, "Favourites", "Favourites Page"),
         )
     )
 }
