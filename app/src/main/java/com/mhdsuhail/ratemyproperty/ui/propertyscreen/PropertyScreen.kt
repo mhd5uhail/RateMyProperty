@@ -34,7 +34,6 @@ import com.mhdsuhail.ratemyproperty.data.PosterContact
 import com.mhdsuhail.ratemyproperty.data.preview.*
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 import com.mhdsuhail.ratemyproperty.ui.theme.primaryTextColor
-import com.mhdsuhail.ratemyproperty.util.Routes
 import com.mhdsuhail.ratemyproperty.util.UiEvent
 
 @Preview
@@ -47,7 +46,8 @@ fun PropertyScreenPreviews() {
         )
         PropertyScreen(
             onNavigate = {},
-            viewModel = viewModel
+            viewModel = viewModel,
+            onPopBackStack = {}
         )
     }
 }
@@ -55,6 +55,7 @@ fun PropertyScreenPreviews() {
 @Composable
 // Callback navigation function
 fun PropertyScreen(
+    onPopBackStack: () -> Unit,
     onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel: PropertyScreenViewModel = hiltViewModel()
 ) {
@@ -74,7 +75,8 @@ fun PropertyScreen(
                     println("Showing Snackbar!")
                     scaffoldState.snackbarHostState.showSnackbar(event.message)
                 }
-                else -> Unit
+
+                is UiEvent.PopBackStack -> onPopBackStack()
 
             }
 

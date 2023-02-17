@@ -12,6 +12,5 @@ class CategoryItemPreviewProvider : PreviewParameterProvider<CategoryItem> {
         CategoryItem("Condos", R.drawable.condo, Color.White, Blue100),
         CategoryItem("Storage", R.drawable.shelves, Color.White, Blue100),
         CategoryItem("Commercial", R.drawable.commercial, Color.White, Blue100),
-        CategoryItem("Commercial", R.drawable.commercial, Color.White, Blue100),
         )
 }

@@ -9,5 +9,5 @@ interface PropertyRepository {
 
     suspend fun getPropertyById(uri: String): Property?
 
-    fun getProperties(): Flow<List<Property>>
+    fun getProperties(): Flow<Property>
 }

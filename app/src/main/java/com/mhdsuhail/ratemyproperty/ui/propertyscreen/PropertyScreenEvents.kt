@@ -1,7 +1,6 @@
 package com.mhdsuhail.ratemyproperty.ui.propertyscreen
 
 import com.mhdsuhail.ratemyproperty.data.PosterContact
-import com.mhdsuhail.ratemyproperty.data.Property
 
 sealed class PropertyScreenEvents {
 

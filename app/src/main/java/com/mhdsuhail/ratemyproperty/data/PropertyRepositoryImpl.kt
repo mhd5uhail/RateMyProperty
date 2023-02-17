@@ -16,7 +16,7 @@ class PropertyRepositoryImpl(private val dao: PropertyDao) : PropertyRepository 
         return dao.getPropertyById(uri)
     }
 
-    override fun getProperties(): Flow<List<Property>> {
+    override fun getProperties(): Flow<Property> {
         return dao.getAllProperties()
     }
 }

@@ -10,15 +10,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.navigation.NavArgument
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.mhdsuhail.ratemyproperty.data.preview.PropertyPreviewParameterProvider
 import com.mhdsuhail.ratemyproperty.ui.homescreen.HomeScreen
 import com.mhdsuhail.ratemyproperty.ui.globalui.TopActionBar
+import com.mhdsuhail.ratemyproperty.ui.propertyscreen.PropertyScreen
 import com.mhdsuhail.ratemyproperty.ui.searchscreen.SearchScreen
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 import com.mhdsuhail.ratemyproperty.util.Routes
@@ -137,10 +141,24 @@ class MainActivity : ComponentActivity() {
                         Modifier.padding(innerPadding)
                     ) {
                         composable(Routes.SEARCH_PAGE) {
-                            SearchScreen(PropertyPreviewParameterProvider().values.toList())
+                            SearchScreen(
+                                PropertyPreviewParameterProvider().values.toList(),
+                                onNavigate = {}
+                            )
                         }
                         composable(Routes.HOME_PAGE) {
                             HomeScreen()
+                        }
+                        composable(
+                            Routes.PROP_VIEW_PAGE,
+                            arguments = listOf(navArgument("prop_uri") {
+                                type = NavType.StringType
+                                defaultValue = ""
+                            })
+                        ) {
+                            PropertyScreen(onNavigate = {
+                                navController.navigate(it.route)
+                            }, onPopBackStack = { navController.popBackStack() })
                         }
                     }
                 }

@@ -7,6 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mhdsuhail.ratemyproperty.data.*
+import com.mhdsuhail.ratemyproperty.util.Routes
 import com.mhdsuhail.ratemyproperty.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -61,7 +62,7 @@ class PropertyScreenViewModel @Inject constructor(
                 sendUiEvent(UiEvent.ShowSnackbar("Messaging ...${event.posterContact.name}"))
             }
             is PropertyScreenEvents.OnBackButtonClick -> {
-                sendUiEvent(UiEvent.ShowSnackbar("Home Screen coming soon !"))
+                sendUiEvent(UiEvent.PopBackStack)
             }
         }
 

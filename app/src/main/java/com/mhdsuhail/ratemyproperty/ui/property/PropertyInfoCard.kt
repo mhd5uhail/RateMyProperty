@@ -1,7 +1,9 @@
 package com.mhdsuhail.ratemyproperty.ui.propertycard
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -28,18 +30,20 @@ import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 fun PropertyInfoCardPreview(
     @PreviewParameter(PropertyPreviewParameterProvider::class) properties: Property
 ) {
-    PropertyInfoCard(properties)
+    PropertyInfoCard(property =  properties, onClickItem = {})
 }
 
 @Composable
-fun PropertyInfoCard( property: Property,modifier: Modifier = Modifier) {
+fun PropertyInfoCard( modifier: Modifier = Modifier,property: Property, onClickItem : (prop_uri: String)->Unit) {
 
     RateMyPropertyTheme() {
 
         Card(shape = RoundedCornerShape(40.dp), modifier = Modifier
             .width(330.dp)
             .height(350.dp)
-            .padding(bottom = 15.dp)) {
+            .padding(bottom = 15.dp).clickable(onClick = {
+                    onClickItem(property.uri)
+            })) {
             Surface {
                 Column(modifier = modifier.fillMaxSize()) {
                     Box(modifier = modifier

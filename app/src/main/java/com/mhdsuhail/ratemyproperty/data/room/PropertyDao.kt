@@ -25,6 +25,6 @@ interface PropertyDao {
     fun getAllFavouriteProperties(): Flow<List<Property>>
 
     @Query("SELECT * FROM property")
-    fun getAllProperties() : Flow<List<Property>>
+    fun getAllProperties() : Flow<Property>
 
 }
