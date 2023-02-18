@@ -23,6 +23,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.mhdsuhail.ratemyproperty.data.preview.PropertyPreviewParameterProvider
+import com.mhdsuhail.ratemyproperty.ui.favouritescreen.FavouriteScreen
 import com.mhdsuhail.ratemyproperty.ui.globalui.BottomNavBar
 import com.mhdsuhail.ratemyproperty.ui.homescreen.HomeScreen
 import com.mhdsuhail.ratemyproperty.ui.globalui.TopActionBar
@@ -69,7 +70,7 @@ class MainActivity : ComponentActivity() {
                                         "Search"
                                     }
                                     Routes.FAV_PAGE -> {
-                                        "What you like so far !"
+                                        "Favourites!"
                                     }
                                     else -> ""
                                 }
@@ -96,6 +97,11 @@ class MainActivity : ComponentActivity() {
                         composable(Routes.HOME_PAGE) {
                             navBarState.value = true
                             HomeScreen()
+                        }
+
+                        composable(Routes.FAV_PAGE){
+                            navBarState.value = true
+                            FavouriteScreen()
                         }
                         composable(
                             Routes.PROP_VIEW_PAGE + "?prop_uri={prop_uri}",
