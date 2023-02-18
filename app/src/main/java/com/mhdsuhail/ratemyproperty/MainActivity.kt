@@ -142,15 +142,14 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable(Routes.SEARCH_PAGE) {
                             SearchScreen(
-                                PropertyPreviewParameterProvider().values.toList(),
-                                onNavigate = {}
+                                onNavigate = { navController.navigate(it.route)}
                             )
                         }
                         composable(Routes.HOME_PAGE) {
                             HomeScreen()
                         }
                         composable(
-                            Routes.PROP_VIEW_PAGE,
+                            Routes.PROP_VIEW_PAGE + "?prop_uri={prop_uri}",
                             arguments = listOf(navArgument("prop_uri") {
                                 type = NavType.StringType
                                 defaultValue = ""

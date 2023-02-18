@@ -16,7 +16,16 @@ class PropertyRepositoryImpl(private val dao: PropertyDao) : PropertyRepository 
         return dao.getPropertyById(uri)
     }
 
-    override fun getProperties(): Flow<Property> {
+    override fun getProperties(): Flow<List<Property>> {
         return dao.getAllProperties()
+    }
+
+    override suspend fun searchProperties(query: String): List<Property> {
+        // API Call to RMH Server search api
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun updateProperty(property: Property) {
+        dao.updateProperty(property)
     }
 }
