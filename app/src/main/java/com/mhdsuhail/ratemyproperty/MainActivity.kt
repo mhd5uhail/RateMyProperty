@@ -6,6 +6,9 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -20,6 +23,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.mhdsuhail.ratemyproperty.data.preview.PropertyPreviewParameterProvider
+import com.mhdsuhail.ratemyproperty.ui.globalui.BottomNavBar
 import com.mhdsuhail.ratemyproperty.ui.homescreen.HomeScreen
 import com.mhdsuhail.ratemyproperty.ui.globalui.TopActionBar
 import com.mhdsuhail.ratemyproperty.ui.propertyscreen.PropertyScreen
@@ -36,13 +40,21 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             RateMyPropertyTheme {
-                val items = listOf(
-                    Routes.HOME_PAGE,
-                    Routes.SEARCH_PAGE,
-                    Routes.FAV_PAGE
-                )
+
                 val navController = rememberNavController()
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val navBarState = rememberSaveable {
+                    mutableStateOf(true)
+                }
+
+                when (navBackStackEntry?.destination?.route) {
+                    Routes.PROP_VIEW_PAGE -> {
+                        navBarState.value = false
+                    }
+                    else -> {
+                        navBarState.value = true
+                    }
+                }
 
                 Scaffold(
                     topBar = {
@@ -57,82 +69,17 @@ class MainActivity : ComponentActivity() {
                                         "Search"
                                     }
                                     Routes.FAV_PAGE -> {
-                                        "What you like"
+                                        "What you like so far !"
                                     }
                                     else -> ""
                                 }
-                            }
+                            },
+                            isVisible = navBarState
                         )
                     },
                     bottomBar = {
-                        BottomNavigation(
-                            backgroundColor = Color.White,
-                            contentColor = Color.Gray
-                        ) {
-                            val currentDestination = navBackStackEntry?.destination
-                            items.forEach { screen ->
-                                BottomNavigationItem(
-                                    icon = {
-                                        when (screen) {
-                                            Routes.HOME_PAGE -> {
-                                                Icon(
-                                                    painter = painterResource(id = R.drawable.home),
-                                                    contentDescription = "Home Page"
-                                                )
-                                            }
-
-                                            Routes.SEARCH_PAGE -> {
-                                                Icon(
-                                                    painter = painterResource(id = R.drawable.search),
-                                                    contentDescription = "Search Page"
-                                                )
-                                            }
-
-                                            Routes.FAV_PAGE -> {
-                                                Icon(
-                                                    painter = painterResource(id = R.drawable.filled_favourite),
-                                                    contentDescription = "Favourite Page"
-                                                )
-                                            }
-                                        }
-                                    },
-                                    label = {
-
-                                        when (screen) {
-                                            Routes.HOME_PAGE -> {
-                                                Text(stringResource(R.string.home_nav))
-                                            }
-
-                                            Routes.SEARCH_PAGE -> {
-                                                Text(stringResource(R.string.search_nav))
-
-                                            }
-
-                                            Routes.FAV_PAGE -> {
-                                                Text(stringResource(R.string.favourite_nav))
-                                            }
-                                        }
-
-                                    },
-                                    selected = currentDestination?.hierarchy?.any { it.route == screen } == true,
-                                    onClick = {
-                                        navController.navigate(screen) {
-                                            // Pop up to the start destination of the graph to
-                                            // avoid building up a large stack of destinations
-                                            // on the back stack as users select items
-                                            popUpTo(navController.graph.findStartDestination().id) {
-                                                saveState = true
-                                            }
-                                            // Avoid multiple copies of the same destination when
-                                            // reselecting the same item
-                                            launchSingleTop = true
-                                            // Restore state when reselecting a previously selected item
-                                            restoreState = true
-                                        }
-                                    }
-                                )
-                            }
-                        }
+                        BottomNavBar(navController = navController,
+                        isVisible = navBarState)
                     }
                 ) { innerPadding ->
                     NavHost(
@@ -141,11 +88,13 @@ class MainActivity : ComponentActivity() {
                         Modifier.padding(innerPadding)
                     ) {
                         composable(Routes.SEARCH_PAGE) {
+                            navBarState.value = true
                             SearchScreen(
-                                onNavigate = { navController.navigate(it.route)}
+                                onNavigate = { navController.navigate(it.route) }
                             )
                         }
                         composable(Routes.HOME_PAGE) {
+                            navBarState.value = true
                             HomeScreen()
                         }
                         composable(
@@ -155,6 +104,7 @@ class MainActivity : ComponentActivity() {
                                 defaultValue = ""
                             })
                         ) {
+                            navBarState.value = false
                             PropertyScreen(onNavigate = {
                                 navController.navigate(it.route)
                             }, onPopBackStack = { navController.popBackStack() })
