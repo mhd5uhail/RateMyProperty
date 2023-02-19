@@ -46,6 +46,7 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
+    buildToolsVersion '33.0.0'
 }
 
 dependencies {
@@ -62,6 +63,10 @@ dependencies {
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
     debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_ui_version"
+
+
+    // Animated NavHost
+    implementation "com.google.accompanist:accompanist-navigation-animation:0.21.1-beta"
 
     // Compose dependencies
 

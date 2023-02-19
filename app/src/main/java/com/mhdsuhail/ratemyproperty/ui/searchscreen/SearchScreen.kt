@@ -13,12 +13,14 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.mhdsuhail.ratemyproperty.R
 import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepo
 import com.mhdsuhail.ratemyproperty.ui.propertycard.PropertyInfoCard
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
@@ -42,7 +44,7 @@ fun SearchScreen(
 ) {
     val scaffoldState = rememberScaffoldState()
     val properties = viewModel.propertyList.collectAsState(initial = emptyList())
-    LaunchedEffect(key1 = 2) {
+    LaunchedEffect(key1 = 1) {
 
         viewModel.uiEvent.collect() { event ->
             when (event) {
@@ -50,7 +52,6 @@ fun SearchScreen(
                     onNavigate(event)
                 }
                 is UiEvent.ShowSnackbar -> {
-                    println("SnackBar showing!")
                     scaffoldState.snackbarHostState.showSnackbar(event.message)
                 }
                 else -> {}

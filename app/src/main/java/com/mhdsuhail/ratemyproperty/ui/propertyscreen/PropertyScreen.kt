@@ -55,6 +55,7 @@ fun PropertyScreenPreviews() {
 @Composable
 // Callback navigation function
 fun PropertyScreen(
+    modifier: Modifier = Modifier,
     onPopBackStack: () -> Unit,
     onNavigate: (UiEvent.Navigate) -> Unit,
     viewModel: PropertyScreenViewModel = hiltViewModel()
@@ -86,7 +87,7 @@ fun PropertyScreen(
 
     Scaffold(
         scaffoldState = scaffoldState,
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize(),
         bottomBar = {
             ContactCard(contactInfo = viewModel.state.posterContact,
@@ -98,7 +99,7 @@ fun PropertyScreen(
         }
     ) { padding ->
         Column(
-            modifier = Modifier
+            modifier = modifier
                 .fillMaxSize().padding(padding)
                 .verticalScroll(rememberScrollState())
         ) {

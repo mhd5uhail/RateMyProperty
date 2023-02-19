@@ -98,7 +98,7 @@ fun BottomNavBar(navController: NavController, isVisible: MutableState<Boolean>)
                                 // Avoid multiple copies of the same destination when
                                 // re-selecting the same item
                                 launchSingleTop = true
-                                // Restore state when reselecting a previously selected item
+                                // Restore state when re-selecting a previously selected item
                                 restoreState = true
                             }
                         }
