@@ -123,7 +123,7 @@ fun DynamicSearchList(
 
         LazyColumn(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.Top,
             modifier = Modifier.fillMaxSize()
         ) {
             items(viewModel.searchResults) { property ->
