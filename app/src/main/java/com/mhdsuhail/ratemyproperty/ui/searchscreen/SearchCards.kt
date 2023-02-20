@@ -26,7 +26,7 @@ fun SearchCardsPreview(){
 
 
 @Composable
-fun SearchCards(modifier: Modifier = Modifier,prevQuery: String){
+fun SearchCards(modifier: Modifier = Modifier,prevQuery: String) {
     Row(modifier = modifier
         .fillMaxWidth()
         .wrapContentHeight(),

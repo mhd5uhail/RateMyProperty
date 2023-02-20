@@ -109,30 +109,44 @@ fun DynamicSearchList(
             shape = RectangleShape
         )
 
-        Text(
-            text = "Recent searches",
-            textAlign = TextAlign.Start,
-            fontWeight = FontWeight.Bold,
-            color = primaryTextColor,
-            fontSize = 20.sp,
-            modifier = Modifier
-                .fillMaxWidth()
-                .wrapContentHeight()
-                .padding(top = 10.dp, start = 20.dp, bottom = 10.dp)
-        )
+        if(viewModel.queryString.value.isBlank() && viewModel.searchResults.isEmpty()){
+            Text(
+                text = "Try entering an address \n example: \"350 Columbia St W\"",
+                textAlign = TextAlign.Center,
+                color = primaryTextColor,
+                fontSize = 15.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(top = 10.dp, start = 20.dp, bottom = 10.dp)
+            )
+        } else if(viewModel.searchResults.isEmpty()){
+            Text(
+                text = "No properties found ;(",
+                textAlign = TextAlign.Center,
+                fontWeight = FontWeight.Bold,
+                color = primaryTextColor,
+                fontSize = 15.sp,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .wrapContentHeight()
+                    .padding(top = 10.dp, start = 20.dp, bottom = 10.dp)
+            )
 
-        LazyColumn(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Top,
-            modifier = Modifier.fillMaxSize()
-        ) {
-            items(viewModel.searchResults) { property ->
-                PropertyInfoCard(property = property, onClickItem = {
-                    // Launch the property page
-                    viewModel.onEvent(SearchScreenEvents.OnPropertyCardClick(property))
-                }, onClickActionButton = {
-                    viewModel.onEvent(SearchScreenEvents.OnAddToFavouritesClick(property))
-                })
+        } else {
+            LazyColumn(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Top,
+                modifier = Modifier.fillMaxSize()
+            ) {
+                items(viewModel.searchResults) { property ->
+                    PropertyInfoCard(property = property, onClickItem = {
+                        // Launch the property page
+                        viewModel.onEvent(SearchScreenEvents.OnPropertyCardClick(property))
+                    }, onClickActionButton = {
+                        viewModel.onEvent(SearchScreenEvents.OnAddToFavouritesClick(property))
+                    })
+                }
             }
         }
     }
