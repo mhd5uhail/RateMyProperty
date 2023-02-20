@@ -40,7 +40,7 @@ class MainActivity : ComponentActivity() {
         setContent {
 
             RateMyPropertyTheme {
-
+                val animDuration = 700
                 val navController = rememberAnimatedNavController()
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val navBarState = rememberSaveable {
@@ -85,74 +85,10 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable(
                             route = Routes.SEARCH_PAGE,
-                            enterTransition = {
-                                when (initialState.destination.route) {
-                                    Routes.HOME_PAGE -> {
-                                        slideIntoContainer(
-                                            AnimatedContentScope.SlideDirection.Left,
-                                            animationSpec = tween(700)
-                                        )
-                                    }
-                                    Routes.FAV_PAGE -> {
-                                        slideIntoContainer(
-                                            AnimatedContentScope.SlideDirection.Right,
-                                            animationSpec = tween(700)
-                                        )
-                                    }
-                                    else -> null
-                                }
-                            },
-                            exitTransition = {
-                                when (targetState.destination.route) {
-                                    Routes.FAV_PAGE -> {
-                                        slideOutOfContainer(
-                                            AnimatedContentScope.SlideDirection.Left,
-                                            animationSpec = tween(700)
-                                        )
-                                    }
-                                    Routes.HOME_PAGE -> {
-                                        slideOutOfContainer(
-                                            AnimatedContentScope.SlideDirection.Right,
-                                            animationSpec = tween(700)
-                                        )
-                                    }
-                                    else -> null
-                                }
-                            },
-                            popEnterTransition = {
-                                when (initialState.destination.route) {
-                                    Routes.HOME_PAGE -> {
-                                        slideIntoContainer(
-                                            AnimatedContentScope.SlideDirection.Left,
-                                            animationSpec = tween(700)
-                                        )
-                                    }
-                                    Routes.FAV_PAGE -> {
-                                        slideIntoContainer(
-                                            AnimatedContentScope.SlideDirection.Right,
-                                            animationSpec = tween(700)
-                                        )
-                                    }
-                                    else -> null
-                                }
-                            },
-                            popExitTransition = {
-                                when (targetState.destination.route) {
-                                    Routes.FAV_PAGE -> {
-                                        slideOutOfContainer(
-                                            AnimatedContentScope.SlideDirection.Left,
-                                            animationSpec = tween(700)
-                                        )
-                                    }
-                                    Routes.HOME_PAGE -> {
-                                        slideOutOfContainer(
-                                            AnimatedContentScope.SlideDirection.Right,
-                                            animationSpec = tween(700)
-                                        )
-                                    }
-                                    else -> null
-                                }
-                            }
+                            enterTransition = {fadeIn(animationSpec = tween(animDuration))} ,
+                            exitTransition =  {fadeOut(animationSpec = tween(animDuration))},
+                            popEnterTransition = { fadeIn(animationSpec = tween(animDuration)) },
+                            popExitTransition = { fadeOut(animationSpec = tween(animDuration)) }
                         ) {
                             navBarState.value = true
                             topBarTextState.value = "Search"
@@ -162,30 +98,10 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(
                             route = Routes.HOME_PAGE,
-                            enterTransition = {
-                                slideIntoContainer(
-                                    AnimatedContentScope.SlideDirection.Right,
-                                    animationSpec = tween(700)
-                                )
-                            },
-                            exitTransition = {
-                                slideOutOfContainer(
-                                    AnimatedContentScope.SlideDirection.Left,
-                                    animationSpec = tween(700)
-                                )
-                            },
-                            popEnterTransition = {
-                                slideIntoContainer(
-                                    AnimatedContentScope.SlideDirection.Right,
-                                    animationSpec = tween(700)
-                                )
-                            },
-                            popExitTransition = {
-                                slideOutOfContainer(
-                                    AnimatedContentScope.SlideDirection.Left,
-                                    animationSpec = tween(700)
-                                )
-                            }
+                            enterTransition = {fadeIn(animationSpec = tween(animDuration))} ,
+                            exitTransition =  {fadeOut(animationSpec = tween(animDuration))},
+                            popEnterTransition = { fadeIn(animationSpec = tween(animDuration)) },
+                            popExitTransition = { fadeOut(animationSpec = tween(animDuration)) }
                         ) {
                             navBarState.value = true
                             topBarTextState.value = "Welcome"
@@ -194,74 +110,10 @@ class MainActivity : ComponentActivity() {
 
                         composable(
                             route = Routes.FAV_PAGE,
-                            enterTransition = {
-                                when (initialState.destination.route) {
-                                    Routes.SEARCH_PAGE -> {
-                                        slideIntoContainer(
-                                            AnimatedContentScope.SlideDirection.Left,
-                                            animationSpec = tween(700)
-                                        )
-                                    }
-                                    Routes.HOME_PAGE -> {
-                                        slideIntoContainer(
-                                            AnimatedContentScope.SlideDirection.Left,
-                                            animationSpec = tween(700)
-                                        )
-                                    }
-                                    else -> null
-                                }
-                            },
-                            exitTransition = {
-                                when (targetState.destination.route) {
-                                    Routes.SEARCH_PAGE -> {
-                                        slideOutOfContainer(
-                                            AnimatedContentScope.SlideDirection.Right,
-                                            animationSpec = tween(700)
-                                        )
-                                    }
-                                    Routes.HOME_PAGE -> {
-                                        slideOutOfContainer(
-                                            AnimatedContentScope.SlideDirection.Right,
-                                            animationSpec = tween(700)
-                                        )
-                                    }
-                                    else -> null
-                                }
-                            },
-                            popEnterTransition = {
-                                when (initialState.destination.route) {
-                                    Routes.SEARCH_PAGE -> {
-                                        slideIntoContainer(
-                                            AnimatedContentScope.SlideDirection.Left,
-                                            animationSpec = tween(700)
-                                        )
-                                    }
-                                    Routes.HOME_PAGE -> {
-                                        slideIntoContainer(
-                                            AnimatedContentScope.SlideDirection.Left,
-                                            animationSpec = tween(700)
-                                        )
-                                    }
-                                    else -> null
-                                }
-                            },
-                            popExitTransition = {
-                                when (targetState.destination.route) {
-                                    Routes.SEARCH_PAGE -> {
-                                        slideOutOfContainer(
-                                            AnimatedContentScope.SlideDirection.Right,
-                                            animationSpec = tween(700)
-                                        )
-                                    }
-                                    Routes.HOME_PAGE -> {
-                                        slideOutOfContainer(
-                                            AnimatedContentScope.SlideDirection.Right,
-                                            animationSpec = tween(700)
-                                        )
-                                    }
-                                    else -> null
-                                }
-                            }
+                            enterTransition = {fadeIn(animationSpec = tween(animDuration))} ,
+                            exitTransition =  {fadeOut(animationSpec = tween(animDuration))},
+                            popEnterTransition = { fadeIn(animationSpec = tween(animDuration)) },
+                            popExitTransition = { fadeOut(animationSpec = tween(animDuration)) }
                         ) {
                             navBarState.value = true
                             topBarTextState.value = "Favourites!"
@@ -274,19 +126,19 @@ class MainActivity : ComponentActivity() {
                                 defaultValue = ""
                             }),
                             enterTransition = {
-                                scaleIn(animationSpec = tween(700))
+                                scaleIn(animationSpec = tween(animDuration))
                             },
                             exitTransition = {
                                 slideOutOfContainer(
                                     AnimatedContentScope.SlideDirection.Down,
-                                    animationSpec = tween(700))                            },
+                                    animationSpec = tween(animDuration))                            },
                             popEnterTransition = {
-                                scaleIn(animationSpec = tween(700))
+                                scaleIn(animationSpec = tween(animDuration))
                             },
                             popExitTransition = {
                                 slideOutOfContainer(
                                     AnimatedContentScope.SlideDirection.Down,
-                                    animationSpec = tween(700))                                }
+                                    animationSpec = tween(animDuration))                                }
                         ) {
                             navBarState.value = false
                             topBarTextState.value = ""
