@@ -40,7 +40,7 @@ fun RateMyPropertyTheme(
     val systemUiController = rememberSystemUiController()
     val colors = if (darkTheme) {
         systemUiController.setSystemBarsColor(
-            color = Color.Transparent
+            color = Color.LightGray
         )
         DarkColorPalette
     } else {
