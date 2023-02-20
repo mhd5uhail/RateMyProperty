@@ -4,7 +4,7 @@ import com.mhdsuhail.ratemyproperty.data.Property
 
 sealed class SearchScreenEvents {
     data class OnPropertyCardClick(val property: Property) : SearchScreenEvents()
-    data class OnShowResultsClick(val query: String) : SearchScreenEvents()
+    object OnSearchBarClick : SearchScreenEvents()
     data class OnAddToFavouritesClick(val property: Property) : SearchScreenEvents()
     data class OnSearchQueryChange(val query: String): SearchScreenEvents()
 }

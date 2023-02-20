@@ -26,6 +26,7 @@ import com.mhdsuhail.ratemyproperty.ui.globalui.BottomNavBar
 import com.mhdsuhail.ratemyproperty.ui.homescreen.HomeScreen
 import com.mhdsuhail.ratemyproperty.ui.globalui.TopActionBar
 import com.mhdsuhail.ratemyproperty.ui.propertyscreen.PropertyScreen
+import com.mhdsuhail.ratemyproperty.ui.searchscreen.DynamicSearchList
 import com.mhdsuhail.ratemyproperty.ui.searchscreen.SearchScreen
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 import com.mhdsuhail.ratemyproperty.util.Routes
@@ -106,6 +107,18 @@ class MainActivity : ComponentActivity() {
                             navBarState.value = true
                             topBarTextState.value = "Welcome"
                             HomeScreen()
+                        }
+
+                        composable(route = Routes.SEARCH_LIST,
+                            enterTransition = { fadeIn(animationSpec = tween(animDuration)) },
+                            exitTransition = { fadeOut(animationSpec = tween(animDuration)) },
+                            popEnterTransition = { fadeIn(animationSpec = tween(animDuration)) },
+                            popExitTransition = { fadeOut(animationSpec = tween(animDuration)) }){
+                            navBarState.value = false
+                            DynamicSearchList(
+                                onBackPressed = { navController.popBackStack() },
+                                onNavigate = { navController.navigate(it.route)},
+                            )
                         }
 
                         composable(

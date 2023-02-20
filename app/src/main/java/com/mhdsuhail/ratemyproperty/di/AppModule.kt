@@ -18,30 +18,37 @@ object AppModule {
     //Define all singleton instances like databases access instances
     @Provides
     @Singleton
-    fun provideRMPDatabase(app: Application): RMPDatabase{
-        return Room.databaseBuilder(app,
+    fun provideRMPDatabase(app: Application): RMPDatabase {
+        return Room.databaseBuilder(
+            app,
             RMPDatabase::class.java,
-        "rmp_db").build()
+            "rmp_db"
+        ).addTypeConverter(DateTimeTypeConverters()).fallbackToDestructiveMigration().build()
     }
 
     @Provides
     @Singleton
-    fun providePropertyRepository(db: RMPDatabase) : PropertyRepository {
+    fun providePropertyRepository(db: RMPDatabase): PropertyRepository {
         return FakePropertyRepo()
     }
 
     @Provides
     @Singleton
-    fun provideFeatureRepository(db: RMPDatabase) : FeatureRepository {
+    fun provideFeatureRepository(db: RMPDatabase): FeatureRepository {
         return FeatureRepositoryImpl(db.featureDao)
     }
 
     @Provides
     @Singleton
-    fun providesPropertyWExtraInfoRepo(db: RMPDatabase) : PropertyWExtraInfoRepo {
+    fun providesPropertyWExtraInfoRepo(db: RMPDatabase): PropertyWExtraInfoRepo {
         return FakePropertyWInfoRepo()
     }
 
+    @Provides
+    @Singleton
+    fun providesSearchQueryRepository(db: RMPDatabase): SearchHistoryRepository {
+        return SearchHistoryRepoImpl(db.searchQueryDao)
+    }
 
 
 }
