@@ -1,5 +1,6 @@
 package com.mhdsuhail.ratemyproperty.ui.propertyscreen
 
+import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
@@ -9,8 +10,8 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.FavoriteBorder
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -92,21 +93,22 @@ fun PropertyScreen(
         bottomBar = {
             ContactCard(contactInfo = viewModel.state.posterContact,
                 onCallClick = {
-                viewModel.onEvent(PropertyScreenEvents.OnCallPosterClick(viewModel.state.posterContact))
-            }, onMessageClick = {
+                    viewModel.onEvent(PropertyScreenEvents.OnCallPosterClick(viewModel.state.posterContact))
+                }, onMessageClick = {
                     viewModel.onEvent(PropertyScreenEvents.OnMessagePosterClick(viewModel.state.posterContact))
-            })
+                })
         }
     ) { padding ->
         Column(
             modifier = modifier
-                .fillMaxSize().padding(padding)
+                .fillMaxSize()
+                .padding(padding)
                 .verticalScroll(rememberScrollState())
         ) {
             Column(
                 verticalArrangement = Arrangement.Top,
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth().wrapContentHeight()
             ) {
                 Box(
                     modifier = Modifier
@@ -150,7 +152,8 @@ fun PropertyScreen(
                     IconButton(
                         onClick = {
                             //onNavigate(UiEvent.Navigate(Routes.HOME_PAGE))
-                                  viewModel.onEvent(PropertyScreenEvents.OnBackButtonClick) },
+                            viewModel.onEvent(PropertyScreenEvents.OnBackButtonClick)
+                        },
                         modifier = Modifier
                             .align(Alignment.TopStart)
                             .offset(x = (10).dp, y = 10.dp)
@@ -172,20 +175,20 @@ fun PropertyScreen(
                         .fillMaxSize()
                         .padding(15.dp)
                 ) {
-                    Text(
+                    Column(
                         modifier = Modifier
-                            .padding(top = 1.dp)
-                            .fillMaxWidth(),
-                        text = viewModel.state.currency + viewModel.state.price,
-                        fontSize = 35.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = primaryTextColor
-                    )
-                    Row(
-                        horizontalArrangement = Arrangement.Start,
-                        verticalAlignment = Alignment.Top,
-                        modifier = Modifier.fillMaxWidth()
+                            .fillMaxWidth()
+                            .wrapContentHeight()
                     ) {
+                        Text(
+                            modifier = Modifier
+                                .padding(top = 1.dp)
+                                .fillMaxWidth(),
+                            text = viewModel.state.currency + viewModel.state.price,
+                            fontSize = 35.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = primaryTextColor
+                        )
                         Text(
                             modifier = Modifier
                                 .padding(top = 1.dp)
@@ -194,20 +197,20 @@ fun PropertyScreen(
                             fontSize = 18.sp,
                             color = primaryTextColor
                         )
-                    }
 
+                    }
                     Divider(
                         modifier = Modifier.padding(top = 15.dp, bottom = 15.dp),
                         color = Color.LightGray, thickness = 2.dp
                     )
 
-                    Box(
+                    Column(
                         modifier = Modifier
+                            .animateContentSize()
                             .fillMaxWidth()
-                            .height(100.dp)
+                            .wrapContentHeight()
                     ) {
-
-                        Column(modifier = Modifier.fillMaxSize()) {
+                        if (!viewModel.showMoreState.value) {
                             Text(
                                 text = viewModel.state.description
                                     ?: "No description provided",
@@ -216,19 +219,31 @@ fun PropertyScreen(
                                 textAlign = TextAlign.Left,
                                 color = Color.Gray
                             )
-
-                            ClickableText(modifier = Modifier.align(Alignment.End),
-                                text = AnnotatedString(
-                                    text = "Show more",
-                                    spanStyle = SpanStyle(
-                                        color = primaryTextColor,
-                                        fontWeight = FontWeight.Bold,
-                                        fontSize = 17.sp
-                                    )
-                                ),
-                                onClick = {/*TODO*/ })
+                        } else {
+                            Text(
+                                text = viewModel.state.description
+                                    ?: "No description provided",
+                                textAlign = TextAlign.Left,
+                                color = Color.Gray
+                            )
                         }
 
+                        ClickableText(modifier = Modifier.align(Alignment.End),
+                            text = AnnotatedString(
+                                text = if (!viewModel.showMoreState.value) {
+                                    "Show more"
+                                } else {
+                                    "Show less"
+                                },
+                                spanStyle = SpanStyle(
+                                    color = primaryTextColor,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 17.sp
+                                )
+                            ),
+                            onClick = {
+                                viewModel.onEvent(PropertyScreenEvents.OnClickShowMore)
+                            })
                     }
 
                     Divider(
@@ -237,8 +252,6 @@ fun PropertyScreen(
                     )
 
                     FeaturesList(viewModel.state.features)
-                    // To compensate for bottom app bar
-                    Spacer(modifier = Modifier.height(85.dp))
                 }
             }
         }
@@ -368,7 +381,7 @@ fun FeaturesList(features: List<Feature>) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .fillMaxSize()
+            .wrapContentHeight()
     ) {
         Text(
             modifier = Modifier

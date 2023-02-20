@@ -8,5 +8,5 @@ sealed class PropertyScreenEvents {
     data class OnMessagePosterClick(val posterContact: PosterContact) : PropertyScreenEvents()
     data class OnAddToFavouritesClick(val propertyUri: String, val isFav: Boolean ) : PropertyScreenEvents()
     object OnBackButtonClick: PropertyScreenEvents()
-
+    object OnClickShowMore: PropertyScreenEvents()
 }

@@ -16,5 +16,5 @@ data class PropertyScreenState(
     var address: Address = Address("", "", "", "", "", ""),
     var features : List<Feature>  = listOf(Feature(1,"","",null,"","","")),
     var posterContact: PosterContact = PosterContact("", "", null, ""),
-    var description: String? = ""
+    var description: String? = null
 )

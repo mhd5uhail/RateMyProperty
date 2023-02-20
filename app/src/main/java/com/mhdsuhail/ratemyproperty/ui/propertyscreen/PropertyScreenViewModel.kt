@@ -2,6 +2,7 @@ package com.mhdsuhail.ratemyproperty.ui.propertyscreen
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -22,6 +23,7 @@ class PropertyScreenViewModel @Inject constructor(
 ) : ViewModel() {
 
     var state by mutableStateOf(PropertyScreenState())
+    val showMoreState = mutableStateOf(false)
 
     init {
         val propUri = savedStateHandle.get<String>("prop_uri")
@@ -63,6 +65,9 @@ class PropertyScreenViewModel @Inject constructor(
             }
             is PropertyScreenEvents.OnBackButtonClick -> {
                 sendUiEvent(UiEvent.PopBackStack)
+            }
+            is PropertyScreenEvents.OnClickShowMore ->{
+                showMoreState.value = !showMoreState.value
             }
         }
 
