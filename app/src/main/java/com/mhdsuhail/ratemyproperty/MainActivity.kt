@@ -85,8 +85,8 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable(
                             route = Routes.SEARCH_PAGE,
-                            enterTransition = {fadeIn(animationSpec = tween(animDuration))} ,
-                            exitTransition =  {fadeOut(animationSpec = tween(animDuration))},
+                            enterTransition = { fadeIn(animationSpec = tween(animDuration)) },
+                            exitTransition = { fadeOut(animationSpec = tween(animDuration)) },
                             popEnterTransition = { fadeIn(animationSpec = tween(animDuration)) },
                             popExitTransition = { fadeOut(animationSpec = tween(animDuration)) }
                         ) {
@@ -98,8 +98,8 @@ class MainActivity : ComponentActivity() {
                         }
                         composable(
                             route = Routes.HOME_PAGE,
-                            enterTransition = {fadeIn(animationSpec = tween(animDuration))} ,
-                            exitTransition =  {fadeOut(animationSpec = tween(animDuration))},
+                            enterTransition = { fadeIn(animationSpec = tween(animDuration)) },
+                            exitTransition = { fadeOut(animationSpec = tween(animDuration)) },
                             popEnterTransition = { fadeIn(animationSpec = tween(animDuration)) },
                             popExitTransition = { fadeOut(animationSpec = tween(animDuration)) }
                         ) {
@@ -110,14 +110,16 @@ class MainActivity : ComponentActivity() {
 
                         composable(
                             route = Routes.FAV_PAGE,
-                            enterTransition = {fadeIn(animationSpec = tween(animDuration))} ,
-                            exitTransition =  {fadeOut(animationSpec = tween(animDuration))},
+                            enterTransition = { fadeIn(animationSpec = tween(animDuration)) },
+                            exitTransition = { fadeOut(animationSpec = tween(animDuration)) },
                             popEnterTransition = { fadeIn(animationSpec = tween(animDuration)) },
                             popExitTransition = { fadeOut(animationSpec = tween(animDuration)) }
                         ) {
                             navBarState.value = true
                             topBarTextState.value = "Favourites!"
-                            FavouriteScreen()
+                            FavouriteScreen(onNavigate =
+                            { navController.navigate(it.route) }
+                            )
                         }
                         composable(route =
                         Routes.PROP_VIEW_PAGE + "?prop_uri={prop_uri}",
@@ -131,14 +133,18 @@ class MainActivity : ComponentActivity() {
                             exitTransition = {
                                 slideOutOfContainer(
                                     AnimatedContentScope.SlideDirection.Down,
-                                    animationSpec = tween(animDuration))                            },
+                                    animationSpec = tween(animDuration)
+                                )
+                            },
                             popEnterTransition = {
                                 scaleIn(animationSpec = tween(animDuration))
                             },
                             popExitTransition = {
                                 slideOutOfContainer(
                                     AnimatedContentScope.SlideDirection.Down,
-                                    animationSpec = tween(animDuration))                                }
+                                    animationSpec = tween(animDuration)
+                                )
+                            }
                         ) {
                             navBarState.value = false
                             topBarTextState.value = ""

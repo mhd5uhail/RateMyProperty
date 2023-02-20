@@ -33,10 +33,10 @@ class SearchScreenViewModel @Inject constructor(private val propertyRepository: 
 
             is SearchScreenEvents.OnAddToFavouritesClick -> {
                 /*TODO Implementation not completed*/
-//                viewModelScope.launch {
-//                    propertyRepository.updateProperty(property = event.property.copy(favourite = !event.property.favourite))
-//                    sendUIEvent(UiEvent.ShowSnackbar("Added to Favorites!"))
-//                }
+                viewModelScope.launch {
+                    propertyRepository.updateProperty(property = event.property.copy(favourite = true))
+                    sendUIEvent(UiEvent.ShowSnackbar("Added to Favorites!"))
+                }
             }
             is SearchScreenEvents.OnPropertyCardClick -> {
                 // Need to couple property_uri with this

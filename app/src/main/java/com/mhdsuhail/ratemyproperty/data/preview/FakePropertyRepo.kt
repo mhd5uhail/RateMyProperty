@@ -28,11 +28,20 @@ class FakePropertyRepo : PropertyRepository {
         }
     }
 
+    override fun getFavouriteProperties(): Flow<List<Property>> {
+        return flow {
+            while(true) {
+                emit(PropertyPreviewParameterProvider().values.toList())
+                delay(10000)
+            }
+        }
+    }
+
     override suspend fun searchProperties(query: String): List<Property> {
-        TODO("Not yet implemented")
+        return PropertyPreviewParameterProvider().values.toList()
     }
 
     override suspend fun updateProperty(property: Property) {
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 }

@@ -11,6 +11,8 @@ interface PropertyRepository {
 
     fun getProperties(): Flow<List<Property>>
 
+    fun getFavouriteProperties(): Flow<List<Property>>
+
     suspend fun searchProperties(query: String): List<Property>
 
     suspend fun updateProperty(property: Property)

@@ -20,6 +20,10 @@ class PropertyRepositoryImpl(private val dao: PropertyDao) : PropertyRepository 
         return dao.getAllProperties()
     }
 
+    override fun getFavouriteProperties(): Flow<List<Property>> {
+        return dao.getAllFavouriteProperties()
+    }
+
     override suspend fun searchProperties(query: String): List<Property> {
         // API Call to RMH Server search api
         TODO("Not yet implemented")

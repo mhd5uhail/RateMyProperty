@@ -73,7 +73,6 @@ fun PropertyScreen(
                 }
 
                 is UiEvent.ShowSnackbar -> {
-                    println("Showing Snackbar!")
                     scaffoldState.snackbarHostState.showSnackbar(event.message)
                 }
 

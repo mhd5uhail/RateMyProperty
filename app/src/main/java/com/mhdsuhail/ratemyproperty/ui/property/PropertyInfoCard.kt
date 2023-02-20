@@ -11,6 +11,7 @@ import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import com.mhdsuhail.ratemyproperty.ui.theme.primaryTextColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -30,25 +31,35 @@ import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 fun PropertyInfoCardPreview(
     @PreviewParameter(PropertyPreviewParameterProvider::class) properties: Property
 ) {
-    PropertyInfoCard(property =  properties, onClickItem = {})
+    PropertyInfoCard(property = properties, onClickItem = {}, onClickActionButton = {})
 }
 
 @Composable
-fun PropertyInfoCard( modifier: Modifier = Modifier,property: Property, onClickItem : (prop_uri: String)->Unit) {
+fun PropertyInfoCard(
+    modifier: Modifier = Modifier,
+    property: Property,
+    onClickItem: (property: Property) -> Unit,
+    onClickActionButton: (property: Property) -> Unit,
+    actionImageVector: ImageVector = Icons.Default.Add
+) {
 
     RateMyPropertyTheme() {
 
         Card(shape = RoundedCornerShape(40.dp), modifier = Modifier
             .width(330.dp)
             .height(350.dp)
-            .padding(bottom = 15.dp).clickable(onClick = {
-                    onClickItem(property.uri)
-            })) {
+            .padding(bottom = 15.dp)
+            .clickable(onClick = {
+                onClickItem(property)
+            })
+        ) {
             Surface {
                 Column(modifier = modifier.fillMaxSize()) {
-                    Box(modifier = modifier
-                        .fillMaxHeight(0.65F)
-                        .fillMaxWidth()){
+                    Box(
+                        modifier = modifier
+                            .fillMaxHeight(0.65F)
+                            .fillMaxWidth()
+                    ) {
                         Image(
                             painter = painterResource(id = R.drawable.propertyprop2),
                             contentDescription = "",
@@ -70,7 +81,7 @@ fun PropertyInfoCard( modifier: Modifier = Modifier,property: Property, onClickI
                             modifier = modifier
                                 .padding(top = 1.dp)
                                 .fillMaxWidth(),
-                            text = "${property.currency}" + property.price.toString(),
+                            text = property.currency + property.price.toString(),
                             fontSize = 35.sp,
                             fontWeight = FontWeight.SemiBold,
                             color = primaryTextColor
@@ -88,10 +99,10 @@ fun PropertyInfoCard( modifier: Modifier = Modifier,property: Property, onClickI
                                 fontSize = 18.sp,
                                 color = primaryTextColor
                             )
-                            IconButton( modifier = modifier.fillMaxSize(),
-                                onClick = { /*TODO*/ }) {
+                            IconButton(modifier = modifier.fillMaxSize(),
+                                onClick = { onClickActionButton(property) }) {
                                 Icon(
-                                    imageVector = Icons.Default.Add,
+                                    imageVector = actionImageVector,
                                     contentDescription = "Favourites",
                                     modifier = modifier.fillMaxSize()
                                 )

@@ -132,6 +132,8 @@ fun SearchScreen(
                         PropertyInfoCard(property = property, onClickItem = {
                             // Launch the property page
                             viewModel.onEvent(SearchScreenEvents.OnPropertyCardClick(property))
+                        }, onClickActionButton = {
+                            viewModel.onEvent(SearchScreenEvents.OnAddToFavouritesClick(property))
                         })
                     }
                 }
