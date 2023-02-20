@@ -22,6 +22,6 @@ RateMyProperty is still in the early stages of development, This is a Jetpack co
 ![RMP Android](screenshots/RMP_SC.png)
 
 ## Search Flow
-<img src="screenshots/SearchPageActions.gif" width="350">
+<img src="screenshots/SearchPageFlow.gif" width="350">
 
 
