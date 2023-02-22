@@ -82,23 +82,6 @@ fun TitledLazyRowProperty(
 }
 
 @Composable
-fun NewsFeed(modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier, verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        Text(
-            text = "News",
-            fontWeight = FontWeight.Bold,
-            color = primaryTextColor,
-            fontSize = 25.sp,
-            modifier = Modifier.fillMaxWidth()
-        )
-        ArticleCard(modifier = Modifier.padding(top = 10.dp), summary = "", title = "", date = LocalDateTime.now())
-    }
-}
-
-@Composable
 fun HomeScreen(modifier: Modifier = Modifier) {
 
     val properties = PropertyPreviewParameterProvider().values.toList()
@@ -111,8 +94,7 @@ fun HomeScreen(modifier: Modifier = Modifier) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
 
-        NewsFeed(
-            modifier = Modifier.padding(start = 15.dp, end = 15.dp),)
+        ArticleCard(modifier = Modifier.padding(10.dp), summary = "", title = "", date = LocalDateTime.now())
 
         TitledLazyRowProperty(title = "Your Favorites", properties = properties)
 
