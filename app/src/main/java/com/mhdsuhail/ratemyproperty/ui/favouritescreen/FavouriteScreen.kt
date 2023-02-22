@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepo
-import com.mhdsuhail.ratemyproperty.ui.property.PropertyInfoCardX
+import com.mhdsuhail.ratemyproperty.ui.property.PropertyInfoCard
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 import com.mhdsuhail.ratemyproperty.util.UiEvent
 
@@ -76,8 +76,7 @@ fun FavouriteScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(favProperties.value) { property ->
-                    PropertyInfoCardX(property = property,
-                        actionImageVector = Icons.Default.Delete,
+                    PropertyInfoCard(property = property,
                         onClickItem = {
                         // Launch the property page
                         viewModel.onEvent(FavouriteScreenEvents.OnPropertyCardClick(property))

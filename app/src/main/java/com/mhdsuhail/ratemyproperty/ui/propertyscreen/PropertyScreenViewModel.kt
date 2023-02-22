@@ -22,7 +22,8 @@ class PropertyScreenViewModel @Inject constructor(
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
-    var state by mutableStateOf(PropertyScreenState())
+    var state =
+        mutableStateOf(getEmptyPropertyWInfo())
     val showMoreState = mutableStateOf(false)
 
     init {
@@ -30,15 +31,7 @@ class PropertyScreenViewModel @Inject constructor(
         if (!propUri.isNullOrEmpty()) {
             viewModelScope.launch {
                 repository.getPropertyWithExtraInfoById(propUri)?.let { property ->
-                    state.address = property.property.address
-                    state.features = property.features
-                    state.posterContact = property.property.posterContact
-                    state.currency = property.property.currency
-                    state.price = property.property.price
-                    state.isfav = property.property.favourite
-                    state.uri = property.property.uri
-                    state.description = property.description
-
+                    state.value = property
                 }
             }
         }
@@ -55,6 +48,7 @@ class PropertyScreenViewModel @Inject constructor(
         when (event) {
 
             is PropertyScreenEvents.OnAddToFavouritesClick -> {
+                state.value = state.value.copy(property = state.value.property.copy(favourite = !state.value.property.favourite))
                 sendUiEvent(UiEvent.ShowSnackbar("Added to favourites !"))
             }
             is PropertyScreenEvents.OnCallPosterClick -> {
@@ -66,7 +60,7 @@ class PropertyScreenViewModel @Inject constructor(
             is PropertyScreenEvents.OnBackButtonClick -> {
                 sendUiEvent(UiEvent.PopBackStack)
             }
-            is PropertyScreenEvents.OnClickShowMore ->{
+            is PropertyScreenEvents.OnClickShowMore -> {
                 showMoreState.value = !showMoreState.value
             }
         }
@@ -77,6 +71,20 @@ class PropertyScreenViewModel @Inject constructor(
         viewModelScope.launch {
             _uiEvent.send(event)
         }
+    }
+
+    private fun getEmptyPropertyWInfo(): PropertyWithExtraInfo {
+        return PropertyWithExtraInfo(
+            property = Property(
+                "", 0, "", false,
+                favourite = false,
+                imageResourceId = null,
+                address = Address("", "", "", "", "", ""),
+                posterContact = PosterContact("", "", null, "")
+            ),
+            features = emptyList(),
+            description = null
+        )
     }
 
 }

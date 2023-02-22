@@ -24,7 +24,7 @@ class PropertyPreviewParameterProvider : PreviewParameterProvider<Property> {
             price = 1300,
             currency = "$",
             recentlyViewed = true,
-            favourite = true,
+            favourite = false,
             imageResourceId = null,
             address = Address("Canada", "ON", "Toronto", "88 Harbor St N", "1432", "H2A 4L2"),
             posterContact = adPosters.elementAt(1)

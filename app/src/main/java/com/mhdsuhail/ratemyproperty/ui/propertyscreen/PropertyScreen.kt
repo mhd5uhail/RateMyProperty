@@ -9,6 +9,7 @@ import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -89,11 +90,11 @@ fun PropertyScreen(
         modifier = modifier
             .fillMaxSize(),
         bottomBar = {
-            ContactCard(contactInfo = viewModel.state.posterContact,
+            ContactCard(contactInfo = viewModel.state.value.property.posterContact,
                 onCallClick = {
-                    viewModel.onEvent(PropertyScreenEvents.OnCallPosterClick(viewModel.state.posterContact))
+                    viewModel.onEvent(PropertyScreenEvents.OnCallPosterClick(viewModel.state.value.property.posterContact))
                 }, onMessageClick = {
-                    viewModel.onEvent(PropertyScreenEvents.OnMessagePosterClick(viewModel.state.posterContact))
+                    viewModel.onEvent(PropertyScreenEvents.OnMessagePosterClick(viewModel.state.value.property.posterContact))
                 })
         }
     ) { padding ->
@@ -106,7 +107,8 @@ fun PropertyScreen(
             Column(
                 verticalArrangement = Arrangement.Top,
                 modifier = Modifier
-                    .fillMaxWidth().wrapContentHeight()
+                    .fillMaxWidth()
+                    .wrapContentHeight()
             ) {
                 Box(
                     modifier = Modifier
@@ -127,8 +129,8 @@ fun PropertyScreen(
                         onClick = {
                             viewModel.onEvent(
                                 PropertyScreenEvents.OnAddToFavouritesClick(
-                                    viewModel.state.uri,
-                                    !viewModel.state.isfav
+                                    viewModel.state.value.property.uri,
+                                    !viewModel.state.value.property.favourite
                                 )
                             )
                         },
@@ -140,7 +142,11 @@ fun PropertyScreen(
                             .background(Color.White.copy(alpha = 0.2f))
                     ) {
                         Icon(
-                            imageVector = Icons.Rounded.FavoriteBorder,
+                            imageVector = if (viewModel.state.value.property.favourite) {
+                                Icons.Rounded.Favorite
+                            } else {
+                                Icons.Rounded.FavoriteBorder
+                            },
                             modifier = Modifier.size(30.dp),
                             contentDescription = "Add to Favourites",
                             tint = Color.White
@@ -149,7 +155,6 @@ fun PropertyScreen(
 
                     IconButton(
                         onClick = {
-                            //onNavigate(UiEvent.Navigate(Routes.HOME_PAGE))
                             viewModel.onEvent(PropertyScreenEvents.OnBackButtonClick)
                         },
                         modifier = Modifier
@@ -182,7 +187,7 @@ fun PropertyScreen(
                             modifier = Modifier
                                 .padding(top = 1.dp)
                                 .fillMaxWidth(),
-                            text = viewModel.state.currency + viewModel.state.price,
+                            text = viewModel.state.value.property.currency + viewModel.state.value.property.price,
                             fontSize = 35.sp,
                             fontWeight = FontWeight.SemiBold,
                             color = primaryTextColor
@@ -191,7 +196,7 @@ fun PropertyScreen(
                             modifier = Modifier
                                 .padding(top = 1.dp)
                                 .fillMaxWidth(0.85F),
-                            text = "${viewModel.state.address.street} - ${viewModel.state.address.city}," + " ${viewModel.state.address.state}",
+                            text = "${viewModel.state.value.property.address.street} - ${viewModel.state.value.property.address.city}," + " ${viewModel.state.value.property.address.state}",
                             fontSize = 18.sp,
                             color = primaryTextColor
                         )
@@ -210,7 +215,7 @@ fun PropertyScreen(
                     ) {
                         if (!viewModel.showMoreState.value) {
                             Text(
-                                text = viewModel.state.description
+                                text = viewModel.state.value.description
                                     ?: "No description provided",
                                 maxLines = 4,
                                 overflow = TextOverflow.Ellipsis,
@@ -219,7 +224,7 @@ fun PropertyScreen(
                             )
                         } else {
                             Text(
-                                text = viewModel.state.description
+                                text = viewModel.state.value.description
                                     ?: "No description provided",
                                 textAlign = TextAlign.Left,
                                 color = Color.Gray
@@ -249,7 +254,7 @@ fun PropertyScreen(
                         color = Color.LightGray, thickness = 2.dp
                     )
 
-                    FeaturesList(viewModel.state.features)
+                    FeaturesList(viewModel.state.value.features)
                 }
             }
         }

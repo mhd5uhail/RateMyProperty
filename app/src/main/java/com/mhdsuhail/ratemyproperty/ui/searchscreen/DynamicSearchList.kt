@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepo
 import com.mhdsuhail.ratemyproperty.data.preview.FakeSearchRepository
-import com.mhdsuhail.ratemyproperty.ui.property.PropertyInfoCardX
+import com.mhdsuhail.ratemyproperty.ui.property.PropertyInfoCard
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 import com.mhdsuhail.ratemyproperty.ui.theme.primaryTextColor
 import com.mhdsuhail.ratemyproperty.ui.theme.textFieldBackGround
@@ -140,7 +140,7 @@ fun DynamicSearchList(
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(viewModel.searchResults) { property ->
-                    PropertyInfoCardX(property = property, onClickItem = {
+                    PropertyInfoCard(property = property, onClickItem = {
                         // Launch the property page
                         viewModel.onEvent(SearchScreenEvents.OnPropertyCardClick(property))
                     }, onClickActionButton = {

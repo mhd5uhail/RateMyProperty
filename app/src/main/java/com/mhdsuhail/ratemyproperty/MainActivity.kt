@@ -15,7 +15,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
-import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
@@ -106,7 +105,9 @@ class MainActivity : ComponentActivity() {
                         ) {
                             navBarState.value = true
                             topBarTextState.value = "Welcome"
-                            HomeScreen()
+                            HomeScreen(onNavigate = {
+                                navController.navigate(it.route)
+                            })
                         }
 
                         composable(route = Routes.SEARCH_LIST,

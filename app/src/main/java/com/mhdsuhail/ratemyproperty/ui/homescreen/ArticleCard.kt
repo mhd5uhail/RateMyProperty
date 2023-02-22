@@ -27,6 +27,7 @@ import com.mhdsuhail.ratemyproperty.ui.theme.Blue200
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 import com.mhdsuhail.ratemyproperty.ui.theme.primaryTextColor
 import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import java.util.Date
 
 @Preview
@@ -34,23 +35,23 @@ import java.util.Date
 fun PreviewArticleCard(){
     RateMyPropertyTheme() {
         Surface {
-            ArticleCard(summary = "", title = "", date = LocalDateTime.now())
+            ArticleCard(summary = stringResource(id =R.string.loremIpsum), title = "About us", date = LocalDateTime.now())
         }
     }
 }
 
 @Composable
 fun ArticleCard(modifier : Modifier = Modifier,imageResourceId : Int? = null, summary: String, title: String, date : LocalDateTime){
+    var formatter = DateTimeFormatter.ofPattern("dd MMMM yyyy")
     Card(shape = RoundedCornerShape(15.dp), modifier = modifier
         .fillMaxWidth()
-        .height(350.dp)
-        .padding(bottom = 15.dp)
+        .wrapContentHeight()
         .clickable(onClick = {
             // TODO:
         })
     ) {
         Surface {
-            Column(modifier = Modifier.fillMaxSize()) {
+            Column(modifier = Modifier.wrapContentHeight()) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
@@ -66,16 +67,17 @@ fun ArticleCard(modifier : Modifier = Modifier,imageResourceId : Int? = null, su
                 ) {
                     Image(
                         painter = painterResource(id = R.drawable.rmplogo_white),
-                        contentDescription = "",
-                        modifier = Modifier.fillMaxSize(),
+                        contentDescription = null,
+                        modifier = Modifier.fillMaxWidth().height(280.dp),
                         contentScale = ContentScale.Fit)
                 }
 
                 Text(
                     modifier = Modifier
                         .padding(start = 25.dp, end = 25.dp, top = 5.dp)
-                        .fillMaxWidth(),
-                    text = "About us",
+                        .fillMaxWidth().wrapContentHeight(),
+                    text = title,
+                    maxLines = 1,
                     fontSize = 25.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = primaryTextColor
@@ -84,9 +86,8 @@ fun ArticleCard(modifier : Modifier = Modifier,imageResourceId : Int? = null, su
                 Text(
                     modifier = Modifier
                         .padding(start = 25.dp, end = 25.dp, top = 5.dp)
-                        .fillMaxWidth(),
-                    text = stringResource(id = R.string.loremIpsum),
-                    maxLines = 5,
+                        .fillMaxWidth().wrapContentHeight(),
+                    text = summary,
                     overflow = TextOverflow.Ellipsis,
                     textAlign = TextAlign.Justify,
                     color = Color.Gray,
@@ -95,12 +96,12 @@ fun ArticleCard(modifier : Modifier = Modifier,imageResourceId : Int? = null, su
 
                 Text(
                     modifier = Modifier
-                        .padding(start = 25.dp, end = 25.dp, top = 5.dp)
-                        .fillMaxWidth(),
-                    text = stringResource(id = R.string.sample_date),
+                        .padding(end = 25.dp, top = 5.dp, bottom = 15.dp)
+                        .fillMaxWidth().wrapContentHeight(),
+                    text = date.format(formatter).toString(),
                     textAlign = TextAlign.Right,
                     color = Color.Gray,
-                    fontSize = 12.sp,
+                    fontSize = 13.sp,
                     maxLines = 1
                 )
             }

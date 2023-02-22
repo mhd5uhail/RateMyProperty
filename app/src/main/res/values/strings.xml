@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">RateMyProperty</string>
     <string name="loremIpsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis finibus sem. Duis nec dolor et tortor malesuada pellentesque. Suspendisse porttitor tempus lectus, non commodo orci rhoncus et. Praesent odio est, ultricies sed augue ut, laoreet congue magna. Duis semper suscipit bibendum. Maecenas semper dolor vel nulla congue dignissim. Ut pretium lobortis felis a tristique.</string>
+    <string name="about_us">Rate my property is a platform for users to anonymously review and rate their housings (rentals, properties, etc.). This will serve as centralized information center for tenants and property buyers to seek factual recommendations/suggestions about potential rentals and help in their decision-making process.</string>
+    <string name="about_us_title">About us</string>
     <string name="feature_text">Features</string>
     <string name="home_nav">Home</string>
     <string name="search_nav">Search</string>
