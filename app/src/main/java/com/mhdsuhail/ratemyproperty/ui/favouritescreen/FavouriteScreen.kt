@@ -2,13 +2,10 @@ package com.mhdsuhail.ratemyproperty.ui.favouritescreen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
-import androidx.compose.material.TextField
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.rememberScaffoldState
@@ -20,11 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepo
-import com.mhdsuhail.ratemyproperty.ui.propertycard.PropertyInfoCard
-import com.mhdsuhail.ratemyproperty.ui.searchscreen.SearchScreenEvents
+import com.mhdsuhail.ratemyproperty.ui.property.PropertyInfoCardX
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 import com.mhdsuhail.ratemyproperty.util.UiEvent
-import kotlinx.coroutines.flow.collect
 
 @Preview
 @Composable
@@ -81,7 +76,7 @@ fun FavouriteScreen(
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(favProperties.value) { property ->
-                    PropertyInfoCard(property = property,
+                    PropertyInfoCardX(property = property,
                         actionImageVector = Icons.Default.Delete,
                         onClickItem = {
                         // Launch the property page

@@ -1,9 +1,8 @@
-package com.mhdsuhail.ratemyproperty.ui.propertycard
+package com.mhdsuhail.ratemyproperty.ui.property
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -16,7 +15,6 @@ import com.mhdsuhail.ratemyproperty.ui.theme.primaryTextColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -28,14 +26,14 @@ import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 
 @Preview
 @Composable
-fun PropertyInfoCardPreview(
+fun PropertyInfoCardXPreview(
     @PreviewParameter(PropertyPreviewParameterProvider::class) properties: Property
 ) {
-    PropertyInfoCard(property = properties, onClickItem = {}, onClickActionButton = {})
+    PropertyInfoCardX(property = properties, onClickItem = {}, onClickActionButton = {})
 }
 
 @Composable
-fun PropertyInfoCard(
+fun PropertyInfoCardX(
     modifier: Modifier = Modifier,
     property: Property,
     onClickItem: (property: Property) -> Unit,
@@ -45,9 +43,9 @@ fun PropertyInfoCard(
 
     RateMyPropertyTheme() {
 
-        Card(shape = RoundedCornerShape(40.dp), modifier = modifier
+        Card(shape = RoundedCornerShape(20.dp), modifier = modifier
             .width(280.dp)
-            .height(350.dp)
+            .height(300.dp)
             .padding(bottom = 15.dp)
             .clickable(onClick = {
                 onClickItem(property)
@@ -82,7 +80,7 @@ fun PropertyInfoCard(
                                 .padding(top = 1.dp)
                                 .fillMaxWidth(),
                             text = property.currency + property.price.toString(),
-                            fontSize = 35.sp,
+                            fontSize = 25.sp,
                             fontWeight = FontWeight.SemiBold,
                             color = primaryTextColor
                         )

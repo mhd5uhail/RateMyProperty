@@ -1,7 +1,6 @@
 package com.mhdsuhail.ratemyproperty.ui.searchscreen
 
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -22,9 +21,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepo
 import com.mhdsuhail.ratemyproperty.data.preview.FakeSearchRepository
-import com.mhdsuhail.ratemyproperty.ui.propertycard.PropertyInfoCard
+import com.mhdsuhail.ratemyproperty.ui.property.PropertyInfoCardX
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
-import com.mhdsuhail.ratemyproperty.ui.theme.textFieldBackGround
 import com.mhdsuhail.ratemyproperty.util.UiEvent
 
 @Preview
@@ -139,7 +137,7 @@ fun SearchScreen(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     items(recentlyViewed.value) { property ->
-                        PropertyInfoCard(property = property, onClickItem = {
+                        PropertyInfoCardX(property = property, onClickItem = {
                             // Launch the property page
                             viewModel.onEvent(SearchScreenEvents.OnPropertyCardClick(property))
                         }, onClickActionButton = {
