@@ -70,8 +70,9 @@ fun ContributeScreen(onNavigate: (UiEvent.Navigate) -> Unit) {
         Text(
             modifier = Modifier.padding(start = 30.dp, end = 30.dp, bottom = 20.dp, top = 20.dp),
             text = stringResource(id = R.string.help_us),
-            textAlign = TextAlign.Justify,
-            color = Color.Gray
+            textAlign = TextAlign.Center,
+            color = Color.Gray,
+            fontWeight = FontWeight.SemiBold
         )
 
         Column(
