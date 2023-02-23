@@ -57,7 +57,7 @@ fun BottomNavBar(navController: NavController, isVisible: MutableState<Boolean>,
 
                                 Routes.CONTRIBUTE_PAGE -> {
                                     Icon(
-                                        painter = painterResource(id = R.drawable.filled_favourite),
+                                        painter = painterResource(id = R.drawable.contribute_to_library),
                                         contentDescription = "Contribute Page"
                                     )
                                 }
