@@ -4,9 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.*
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
@@ -14,13 +12,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavType
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.mhdsuhail.ratemyproperty.ui.favouritescreen.FavouriteScreen
+import com.mhdsuhail.ratemyproperty.ui.favouritescreen.ContributeScreen
 import com.mhdsuhail.ratemyproperty.ui.globalui.BottomNavBar
 import com.mhdsuhail.ratemyproperty.ui.homescreen.HomeScreen
 import com.mhdsuhail.ratemyproperty.ui.globalui.TopActionBar
@@ -52,13 +51,13 @@ class MainActivity : ComponentActivity() {
 
                 when (navBackStackEntry?.destination?.route) {
                     Routes.HOME_PAGE -> {
-                        topBarTextState.value = "Welcome"
+                        topBarTextState.value = stringResource(id = R.string.home_nav)
                     }
                     Routes.SEARCH_PAGE -> {
-                        topBarTextState.value = "Search"
+                        topBarTextState.value = stringResource(id = R.string.search_nav)
                     }
-                    Routes.FAV_PAGE -> {
-                        topBarTextState.value = "Favourites!"
+                    Routes.CONTRIBUTE_PAGE -> {
+                        topBarTextState.value = stringResource(id = R.string.contribute_nav)
                     }
                 }
 
@@ -74,7 +73,12 @@ class MainActivity : ComponentActivity() {
                     bottomBar = {
                         BottomNavBar(
                             navController = navController,
-                            isVisible = navBarState
+                            isVisible = navBarState,
+                            routes = listOf(
+                                Routes.SEARCH_PAGE,
+                                Routes.HOME_PAGE,
+                                Routes.CONTRIBUTE_PAGE
+                            )
                         )
                     }
                 ) { innerPadding ->
@@ -91,7 +95,7 @@ class MainActivity : ComponentActivity() {
                             popExitTransition = { fadeOut(animationSpec = tween(animDuration)) }
                         ) {
                             navBarState.value = true
-                            topBarTextState.value = "Search"
+                            topBarTextState.value = stringResource(id = R.string.search_nav)
                             SearchScreen(
                                 onNavigate = { navController.navigate(it.route) }
                             )
@@ -104,7 +108,7 @@ class MainActivity : ComponentActivity() {
                             popExitTransition = { fadeOut(animationSpec = tween(animDuration)) }
                         ) {
                             navBarState.value = true
-                            topBarTextState.value = "Welcome"
+                            topBarTextState.value = stringResource(id = R.string.home_nav)
                             HomeScreen(onNavigate = {
                                 navController.navigate(it.route)
                             })
@@ -114,24 +118,24 @@ class MainActivity : ComponentActivity() {
                             enterTransition = { fadeIn(animationSpec = tween(animDuration)) },
                             exitTransition = { fadeOut(animationSpec = tween(animDuration)) },
                             popEnterTransition = { fadeIn(animationSpec = tween(animDuration)) },
-                            popExitTransition = { fadeOut(animationSpec = tween(animDuration)) }){
+                            popExitTransition = { fadeOut(animationSpec = tween(animDuration)) }) {
                             navBarState.value = false
                             DynamicSearchList(
                                 onBackPressed = { navController.popBackStack() },
-                                onNavigate = { navController.navigate(it.route)},
+                                onNavigate = { navController.navigate(it.route) },
                             )
                         }
 
                         composable(
-                            route = Routes.FAV_PAGE,
+                            route = Routes.CONTRIBUTE_PAGE,
                             enterTransition = { fadeIn(animationSpec = tween(animDuration)) },
                             exitTransition = { fadeOut(animationSpec = tween(animDuration)) },
                             popEnterTransition = { fadeIn(animationSpec = tween(animDuration)) },
                             popExitTransition = { fadeOut(animationSpec = tween(animDuration)) }
                         ) {
                             navBarState.value = true
-                            topBarTextState.value = "Favourites!"
-                            FavouriteScreen(onNavigate =
+                            topBarTextState.value = stringResource(id = R.string.contribute_nav)
+                            ContributeScreen(onNavigate =
                             { navController.navigate(it.route) }
                             )
                         }

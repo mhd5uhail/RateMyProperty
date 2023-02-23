@@ -21,13 +21,8 @@ import com.mhdsuhail.ratemyproperty.R
 import com.mhdsuhail.ratemyproperty.util.Routes
 
 @Composable
-fun BottomNavBar(navController: NavController, isVisible: MutableState<Boolean>) {
+fun BottomNavBar(navController: NavController, isVisible: MutableState<Boolean>, routes: List<String>) {
 
-    val items = listOf(
-        Routes.HOME_PAGE,
-        Routes.SEARCH_PAGE,
-        Routes.FAV_PAGE
-    )
     AnimatedVisibility(
         visible = isVisible.value,
         enter = slideInVertically(initialOffsetY = { it }),
@@ -42,7 +37,7 @@ fun BottomNavBar(navController: NavController, isVisible: MutableState<Boolean>)
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
 
-                items.forEach { screen ->
+                routes.forEach { screen ->
                     BottomNavigationItem(
                         icon = {
                             when (screen) {
@@ -60,10 +55,10 @@ fun BottomNavBar(navController: NavController, isVisible: MutableState<Boolean>)
                                     )
                                 }
 
-                                Routes.FAV_PAGE -> {
+                                Routes.CONTRIBUTE_PAGE -> {
                                     Icon(
                                         painter = painterResource(id = R.drawable.filled_favourite),
-                                        contentDescription = "Favourite Page"
+                                        contentDescription = "Contribute Page"
                                     )
                                 }
                             }
@@ -80,8 +75,8 @@ fun BottomNavBar(navController: NavController, isVisible: MutableState<Boolean>)
 
                                 }
 
-                                Routes.FAV_PAGE -> {
-                                    Text(stringResource(R.string.favourite_nav))
+                                Routes.CONTRIBUTE_PAGE -> {
+                                    Text(stringResource(R.string.contribute_nav))
                                 }
                             }
 
