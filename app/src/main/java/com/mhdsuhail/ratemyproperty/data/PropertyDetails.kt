@@ -7,7 +7,7 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "property_details")
 data class PropertyDetails(
-    @PrimaryKey @ColumnInfo(name = "uri") val uri: String,
+    @PrimaryKey @ColumnInfo(index = true, name = "uri") val uri: String,
     @ColumnInfo(name = "price") val price: Int,
     @ColumnInfo(name = "currency") val currency: String,
     @ColumnInfo(name = "recent") val recentlyViewed: Boolean,

@@ -3,7 +3,7 @@ package com.mhdsuhail.ratemyproperty.data.room
 import androidx.room.*
 import com.mhdsuhail.ratemyproperty.data.PropertyDetails
 import kotlinx.coroutines.flow.Flow
-
+@Dao
 interface PropertyDetailsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)

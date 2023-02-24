@@ -3,6 +3,7 @@ package com.mhdsuhail.ratemyproperty.di
 import android.app.Application
 import androidx.room.Room
 import com.mhdsuhail.ratemyproperty.data.*
+import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepository
 import com.mhdsuhail.ratemyproperty.data.room.RMPDatabase
 import dagger.Module
 import dagger.Provides
@@ -27,7 +28,7 @@ object AppModule {
     @Provides
     @Singleton
     fun providePropertyRepository(db: RMPDatabase): PropertyRepository {
-        return FakePropertyRepo()
+        return FakePropertyRepository()
     }
 
     @Provides

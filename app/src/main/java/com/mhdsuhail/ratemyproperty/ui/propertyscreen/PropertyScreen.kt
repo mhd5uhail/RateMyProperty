@@ -43,7 +43,7 @@ fun PropertyScreenPreviews() {
     RateMyPropertyTheme() {
         val viewModel = PropertyScreenViewModel(
             savedStateHandle = SavedStateHandle(),
-            repository = FakePropertyWInfoRepo()
+            repository = FakePropertyRepository()
         )
         PropertyScreen(
             onNavigate = {},
