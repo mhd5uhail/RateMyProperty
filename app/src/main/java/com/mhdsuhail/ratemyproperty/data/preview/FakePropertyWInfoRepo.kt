@@ -3,7 +3,7 @@ package com.mhdsuhail.ratemyproperty.data.preview
 import com.mhdsuhail.ratemyproperty.R
 import com.mhdsuhail.ratemyproperty.data.*
 
-class FakePropertyWInfoRepo() : PropertyWExtraInfoRepo {
+class FakePropertyWInfoRepo() : PropertyRepository {
 
     override fun getPropertyWithExtraInfoById(uri: String): Property? {
         return Property(
@@ -21,9 +21,11 @@ class FakePropertyWInfoRepo() : PropertyWExtraInfoRepo {
                     R.drawable.sample_realtor,
                     "523-349-233"
                 ),
+                description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis finibus sem. Duis nec dolor et tortor malesuada pellentesque. Suspendisse porttitor tempus lectus, non commodo orci rhoncus et. Praesent odio est, ultricies sed augue ut, laoreet congue magna. Duis semper suscipit bibendum. Maecenas semper dolor vel nulla congue dignissim. Ut pretium lobortis felis a tristique\n"
             ),
             features = FeaturePreviewProvider().values.toList(),
-            description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis finibus sem. Duis nec dolor et tortor malesuada pellentesque. Suspendisse porttitor tempus lectus, non commodo orci rhoncus et. Praesent odio est, ultricies sed augue ut, laoreet congue magna. Duis semper suscipit bibendum. Maecenas semper dolor vel nulla congue dignissim. Ut pretium lobortis felis a tristique\n"
         )
     }
+
+
 }

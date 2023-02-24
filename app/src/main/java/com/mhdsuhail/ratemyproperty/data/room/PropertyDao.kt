@@ -37,4 +37,7 @@ interface PropertyDao {
     @Query("SELECT * FROM property_details WHERE favourite = true")
     fun getAllFavouriteProperties(): Flow<List<PropertyDetails>>
 
+    @Update
+    fun updatePropertyDetails(propertyDetails: PropertyDetails)
+
 }

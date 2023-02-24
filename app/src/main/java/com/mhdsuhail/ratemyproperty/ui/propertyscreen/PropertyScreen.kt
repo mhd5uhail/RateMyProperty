@@ -215,7 +215,7 @@ fun PropertyScreen(
                     ) {
                         if (!viewModel.showMoreState.value) {
                             Text(
-                                text = viewModel.state.value.description
+                                text = viewModel.state.value.propertyDetails.description
                                     ?: "No description provided",
                                 maxLines = 4,
                                 overflow = TextOverflow.Ellipsis,
@@ -224,7 +224,7 @@ fun PropertyScreen(
                             )
                         } else {
                             Text(
-                                text = viewModel.state.value.description
+                                text = viewModel.state.value.propertyDetails.description
                                     ?: "No description provided",
                                 textAlign = TextAlign.Left,
                                 color = Color.Gray

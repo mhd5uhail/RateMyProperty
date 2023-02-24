@@ -21,7 +21,7 @@ class SearchScreenViewModel @Inject constructor(
     ViewModel() {
 
     val searchResults = mutableListOf<PropertyDetails>()
-    val recentlyViewed = propertyRepository.getProperties()
+    val recentlyViewed = propertyRepository.getAllPropertiesDetails()
     val queryString = mutableStateOf("")
     private val _uiEvents = Channel<UiEvent>()
     val uiEvent = _uiEvents.receiveAsFlow()
@@ -32,7 +32,7 @@ class SearchScreenViewModel @Inject constructor(
             is SearchScreenEvents.OnAddToFavouritesClick -> {
                 /*TODO Implementation not completed*/
                 viewModelScope.launch {
-                    propertyRepository.updateProperty(propertyDetails = event.propertyDetails.copy(favourite = true))
+                    propertyRepository.updatePropertyDetails(event.propertyDetails.copy(favourite = true))
                     sendUIEvent(UiEvent.ShowSnackbar("Added to Favorites!"))
                 }
             }
@@ -56,7 +56,7 @@ class SearchScreenViewModel @Inject constructor(
             is SearchScreenEvents.OnSearchQueryChange -> {
                 queryString.value = event.query
                 viewModelScope.launch {
-                    val results = propertyRepository.searchProperties(event.query)
+                    val results = propertyRepository.searchPropertiesDetails(event.query)
                         .filter { property ->
                             AddressTypeConverter().toString(property.address)
                                 .contains(event.query, ignoreCase = true)

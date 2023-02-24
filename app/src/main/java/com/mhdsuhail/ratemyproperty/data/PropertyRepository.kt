@@ -18,5 +18,8 @@ interface PropertyRepository {
 
     suspend fun getPropertyDetails(uri: String) : PropertyDetails?
 
-    fun getAllPropertiesDetails(uri: String) : Flow<List<PropertyDetails>>
+    fun getAllPropertiesDetails() : Flow<List<PropertyDetails>>
+
+    suspend fun updatePropertyDetails(propertyDetails: PropertyDetails)
+
 }

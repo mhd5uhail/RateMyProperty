@@ -20,8 +20,8 @@ class HomeScreeViewModel @Inject constructor(private val propertyRepository: Pro
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    val favoriteProperties = propertyRepository.getFavouriteProperties()
-    val myListings = propertyRepository.getProperties()
+    val favoriteProperties = propertyRepository.getFavouritePropertiesDetails()
+    val myListings = propertyRepository.getAllPropertiesDetails()
     private var removedPropertyDetails: PropertyDetails? = null
 
     fun onEvent(event: HomeScreenEvents) {
@@ -34,7 +34,7 @@ class HomeScreeViewModel @Inject constructor(private val propertyRepository: Pro
                     if (!event.propertyDetails.favourite) {
                         favstate = true
                     }
-                    propertyRepository.updateProperty(event.propertyDetails.copy(favourite = favstate))
+                    propertyRepository.updatePropertyDetails(event.propertyDetails.copy(favourite = favstate))
                     var actionSting: String? = null
                     var uiMessage: String = ""
                     if (favstate) {
@@ -59,7 +59,7 @@ class HomeScreeViewModel @Inject constructor(private val propertyRepository: Pro
             is HomeScreenEvents.OnClickUndoAddToFav -> {
                 viewModelScope.launch {
                     removedPropertyDetails?.let {
-                        propertyRepository.updateProperty(it.copy(favourite = true))
+                        propertyRepository.updatePropertyDetails(it.copy(favourite = true))
                     }
                 }
             }

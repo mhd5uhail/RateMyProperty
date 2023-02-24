@@ -14,19 +14,19 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PropertyScreenViewModel @Inject constructor(
-    private val repository: PropertyWExtraInfoRepo,
+    private val repository: PropertyRepository,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
 
     var state =
-        mutableStateOf(getEmptyPropertyWInfo())
+        mutableStateOf(getEmptyProperty())
     val showMoreState = mutableStateOf(false)
 
     init {
         val propUri = savedStateHandle.get<String>("prop_uri")
         if (!propUri.isNullOrEmpty()) {
             viewModelScope.launch {
-                repository.getPropertyWithExtraInfoById(propUri)?.let { property ->
+                repository.getPropertyById(propUri)?.let { property ->
                     state.value = property
                 }
             }
@@ -69,17 +69,17 @@ class PropertyScreenViewModel @Inject constructor(
         }
     }
 
-    private fun getEmptyPropertyWInfo(): Property {
+    private fun getEmptyProperty(): Property {
         return Property(
             propertyDetails = PropertyDetails(
                 "", 0, "", false,
                 favourite = false,
                 imageResourceId = null,
                 address = Address("", "", "", "", "", ""),
-                posterContact = PosterContact("", "", null, "")
+                posterContact = PosterContact("", "", null, ""),
+                description = null
             ),
             features = emptyList(),
-            description = null
         )
     }
 

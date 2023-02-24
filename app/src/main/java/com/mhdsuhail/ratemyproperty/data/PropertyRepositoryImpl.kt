@@ -32,6 +32,14 @@ class PropertyRepositoryImpl(private val dao: PropertyDao) : PropertyRepository 
         return dao.getPropertyDetails(uri)
     }
 
+    override fun getAllPropertiesDetails(): Flow<List<PropertyDetails>> {
+        TODO("Not yet implemented")
+    }
+
+    override suspend fun updatePropertyDetails(propertyDetails: PropertyDetails) {
+        TODO("Not yet implemented")
+    }
+
     override fun getAllPropertiesDetails(uri: String): Flow<List<PropertyDetails>> {
         return dao.getAllPropertiesDetails()
     }
