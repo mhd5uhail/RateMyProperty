@@ -12,7 +12,7 @@ import com.mhdsuhail.ratemyproperty.data.*
 )
 @TypeConverters(DateTimeTypeConverters::class)
 abstract class RMPDatabase : RoomDatabase() {
-    abstract val propertyDao: PropertyDao
+    abstract val propertyDetails: PropertyDetails
     abstract val featureDao: FeatureDao
     abstract val searchQueryDao : SearchQueryDao
 }

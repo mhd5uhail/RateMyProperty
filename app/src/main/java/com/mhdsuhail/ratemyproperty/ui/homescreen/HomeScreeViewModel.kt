@@ -20,7 +20,7 @@ class HomeScreeViewModel @Inject constructor(private val propertyRepository: Pro
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    val favoriteProperties = propertyRepository.getFavouritePropertiesDetails()
+    val favoriteProperties = propertyRepository.getAllFavouritePropertyDetails()
     val myListings = propertyRepository.getAllPropertiesDetails()
     private var removedPropertyDetails: PropertyDetails? = null
 

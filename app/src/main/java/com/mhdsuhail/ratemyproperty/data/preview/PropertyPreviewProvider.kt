@@ -15,7 +15,8 @@ class PropertyPreviewParameterProvider : PreviewParameterProvider<PropertyDetail
             favourite = true,
             imageResourceId = null,
             address = Address("Canada", "ON", "Waterloo", "350 Columbia St W", "102", "N2L6P1"),
-            posterContact = adPosters.elementAt(0)
+            posterContact = adPosters.elementAt(0),
+            description = ""
         ),
 
         PropertyDetails(
@@ -26,7 +27,8 @@ class PropertyPreviewParameterProvider : PreviewParameterProvider<PropertyDetail
             favourite = false,
             imageResourceId = null,
             address = Address("Canada", "ON", "Toronto", "88 Harbor St N", "1432", "H2A 4L2"),
-            posterContact = adPosters.elementAt(1)
+            posterContact = adPosters.elementAt(1),
+            description = ""
         ),
 
         PropertyDetails(
@@ -44,7 +46,8 @@ class PropertyPreviewParameterProvider : PreviewParameterProvider<PropertyDetail
                 "350",
                 "G91 4AK"
             ),
-            posterContact = adPosters.elementAt(2)
+            posterContact = adPosters.elementAt(2),
+            description = ""
         ),
 
         )

@@ -12,11 +12,11 @@ interface PropertyRepository {
 
     suspend fun updateProperty(property: Property)
 
-    fun getFavouritePropertiesDetails(): Flow<List<PropertyDetails>>
+    suspend fun getPropertyDetailsById(uri: String) : PropertyDetails?
+
+    fun getAllFavouritePropertyDetails(): Flow<List<PropertyDetails>>
 
     suspend fun searchPropertiesDetails(query: String): List<PropertyDetails>
-
-    suspend fun getPropertyDetails(uri: String) : PropertyDetails?
 
     fun getAllPropertiesDetails() : Flow<List<PropertyDetails>>
 

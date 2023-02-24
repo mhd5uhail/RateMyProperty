@@ -3,8 +3,6 @@ package com.mhdsuhail.ratemyproperty.di
 import android.app.Application
 import androidx.room.Room
 import com.mhdsuhail.ratemyproperty.data.*
-import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepo
-import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyWInfoRepo
 import com.mhdsuhail.ratemyproperty.data.room.RMPDatabase
 import dagger.Module
 import dagger.Provides

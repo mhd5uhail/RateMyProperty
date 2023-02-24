@@ -28,7 +28,6 @@ import com.mhdsuhail.ratemyproperty.ui.property.PropertyInfoCard
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 import com.mhdsuhail.ratemyproperty.ui.theme.primaryTextColor
 import com.mhdsuhail.ratemyproperty.R
-import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepo
 import com.mhdsuhail.ratemyproperty.util.UiEvent
 import java.time.LocalDateTime
 

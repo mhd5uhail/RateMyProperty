@@ -1,46 +1,46 @@
 package com.mhdsuhail.ratemyproperty.data
 
 import com.mhdsuhail.ratemyproperty.data.room.PropertyDao
+import com.mhdsuhail.ratemyproperty.data.room.PropertyDetailsDao
 import kotlinx.coroutines.flow.Flow
 
-class PropertyRepositoryImpl(private val dao: PropertyDao) : PropertyRepository {
+class PropertyRepositoryImpl(
+    private val propertyDao: PropertyDao,
+    private val propertyDetailsDao: PropertyDetailsDao
+) : PropertyRepository {
     override suspend fun insertProperty(property: Property) {
-        dao.insertProperty(property)
+        propertyDao.insertProperty(property)
     }
 
     override suspend fun deleteProperty(property: Property) {
-        dao.deleteProperty(property)
+        propertyDao.deleteProperty(property)
     }
 
     override suspend fun getPropertyById(uri: String): Property? {
-        return dao.getPropertyById(uri)
+        return propertyDao.getPropertyById(uri)
     }
 
     override suspend fun updateProperty(property: Property) {
-        dao.updateProperty(property)
+        propertyDao.updateProperty(property)
     }
 
-    override fun getFavouritePropertiesDetails(): Flow<List<PropertyDetails>> {
-        return dao.getAllFavouriteProperties()
+    override suspend fun getPropertyDetailsById(uri: String): PropertyDetails? {
+        return propertyDetailsDao.getPropertyDetails(uri)
+    }
+
+    override fun getAllFavouritePropertyDetails(): Flow<List<PropertyDetails>> {
+        return propertyDetailsDao.getAllPropertiesDetails()
     }
 
     override suspend fun searchPropertiesDetails(query: String): List<PropertyDetails> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getPropertyDetails(uri: String): PropertyDetails? {
-        return dao.getPropertyDetails(uri)
-    }
-
     override fun getAllPropertiesDetails(): Flow<List<PropertyDetails>> {
-        TODO("Not yet implemented")
+        return propertyDetailsDao.getAllPropertiesDetails()
     }
 
     override suspend fun updatePropertyDetails(propertyDetails: PropertyDetails) {
-        TODO("Not yet implemented")
-    }
-
-    override fun getAllPropertiesDetails(uri: String): Flow<List<PropertyDetails>> {
-        return dao.getAllPropertiesDetails()
+        propertyDetailsDao.updatePropertyDetails(propertyDetails)
     }
 }
