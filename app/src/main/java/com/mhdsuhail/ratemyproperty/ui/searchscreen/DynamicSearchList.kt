@@ -140,7 +140,7 @@ fun DynamicSearchList(
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(viewModel.searchResults) { property ->
-                    PropertyInfoCard(property = property, onClickItem = {
+                    PropertyInfoCard(propertyDetails = property, onClickItem = {
                         // Launch the property page
                         viewModel.onEvent(SearchScreenEvents.OnPropertyCardClick(property))
                     }, onClickActionButton = {

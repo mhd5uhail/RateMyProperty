@@ -5,9 +5,9 @@ import com.mhdsuhail.ratemyproperty.data.*
 
 class FakePropertyWInfoRepo() : PropertyWExtraInfoRepo {
 
-    override fun getPropertyWithExtraInfoById(uri: String): PropertyWithExtraInfo? {
-        return PropertyWithExtraInfo(
-            property = Property(
+    override fun getPropertyWithExtraInfoById(uri: String): Property? {
+        return Property(
+            propertyDetails = PropertyDetails(
                 uri = "90741389-caa6-4d22-9f4f-1a4201db3be1",
                 price = 1300,
                 currency = "$",

@@ -40,12 +40,6 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesPropertyWExtraInfoRepo(db: RMPDatabase): PropertyWExtraInfoRepo {
-        return FakePropertyWInfoRepo()
-    }
-
-    @Provides
-    @Singleton
     fun providesSearchQueryRepository(db: RMPDatabase): SearchHistoryRepository {
         return SearchHistoryRepoImpl(db.searchQueryDao)
     }

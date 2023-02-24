@@ -19,7 +19,7 @@ import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.mhdsuhail.ratemyproperty.ui.favouritescreen.ContributeScreen
+import com.mhdsuhail.ratemyproperty.ui.contributescreen.ContributeScreen
 import com.mhdsuhail.ratemyproperty.ui.globalui.BottomNavBar
 import com.mhdsuhail.ratemyproperty.ui.homescreen.HomeScreen
 import com.mhdsuhail.ratemyproperty.ui.globalui.TopActionBar

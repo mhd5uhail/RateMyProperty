@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.mhdsuhail.ratemyproperty.data.Property
+import com.mhdsuhail.ratemyproperty.data.PropertyDetails
 import com.mhdsuhail.ratemyproperty.ui.property.PropertyInfoCard
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 import com.mhdsuhail.ratemyproperty.ui.theme.primaryTextColor
@@ -47,9 +47,9 @@ fun HomeScreenPreview() {
 fun TitledLazyRowProperty(
     modifier: Modifier = Modifier,
     title: String,
-    properties: List<Property>,
-    onClickItem: (property:Property)->Unit,
-    onClickActionButton: (property:Property)->Unit
+    properties: List<PropertyDetails>,
+    onClickItem: (propertyDetails:PropertyDetails)->Unit,
+    onClickActionButton: (propertyDetails:PropertyDetails)->Unit
     ) {
     Column(
         modifier = modifier
@@ -75,7 +75,7 @@ fun TitledLazyRowProperty(
             items(properties) { property ->
                 PropertyInfoCard(
                     modifier = Modifier.padding(10.dp),
-                    property = property,
+                    propertyDetails = property,
                     onClickItem = {
                         onClickItem(it)
                     },

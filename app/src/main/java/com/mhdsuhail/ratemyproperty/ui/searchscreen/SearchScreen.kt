@@ -137,7 +137,7 @@ fun SearchScreen(
                     modifier = Modifier.fillMaxSize()
                 ) {
                     items(recentlyViewed.value) { property ->
-                        PropertyInfoCard(property = property, onClickItem = {
+                        PropertyInfoCard(propertyDetails = property, onClickItem = {
                             // Launch the property page
                             viewModel.onEvent(SearchScreenEvents.OnPropertyCardClick(property))
                         }, onClickActionButton = {

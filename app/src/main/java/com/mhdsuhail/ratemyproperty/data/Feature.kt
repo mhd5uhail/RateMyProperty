@@ -10,7 +10,7 @@ import androidx.room.PrimaryKey
 @Entity(
     tableName = "features", foreignKeys =
     [ForeignKey(
-        entity = Property::class,
+        entity = PropertyDetails::class,
         parentColumns = arrayOf("uri"),
         childColumns = arrayOf("prop_uri"),
         onDelete = CASCADE

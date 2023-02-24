@@ -1,14 +1,10 @@
 package com.mhdsuhail.ratemyproperty.ui.propertyscreen
 
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mhdsuhail.ratemyproperty.data.*
-import com.mhdsuhail.ratemyproperty.util.Routes
 import com.mhdsuhail.ratemyproperty.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -48,7 +44,7 @@ class PropertyScreenViewModel @Inject constructor(
         when (event) {
 
             is PropertyScreenEvents.OnAddToFavouritesClick -> {
-                state.value = state.value.copy(property = state.value.property.copy(favourite = !state.value.property.favourite))
+                state.value = state.value.copy(propertyDetails = state.value.propertyDetails.copy(favourite = !state.value.propertyDetails.favourite))
                 sendUiEvent(UiEvent.ShowSnackbar("Added to favourites !"))
             }
             is PropertyScreenEvents.OnCallPosterClick -> {
@@ -73,9 +69,9 @@ class PropertyScreenViewModel @Inject constructor(
         }
     }
 
-    private fun getEmptyPropertyWInfo(): PropertyWithExtraInfo {
-        return PropertyWithExtraInfo(
-            property = Property(
+    private fun getEmptyPropertyWInfo(): Property {
+        return Property(
+            propertyDetails = PropertyDetails(
                 "", 0, "", false,
                 favourite = false,
                 imageResourceId = null,

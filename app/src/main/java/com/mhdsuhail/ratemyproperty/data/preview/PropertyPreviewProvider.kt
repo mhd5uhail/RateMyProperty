@@ -1,14 +1,13 @@
 package com.mhdsuhail.ratemyproperty.data.preview
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
-import com.mhdsuhail.ratemyproperty.data.Property
+import com.mhdsuhail.ratemyproperty.data.PropertyDetails
 import com.mhdsuhail.ratemyproperty.data.Address
-import com.mhdsuhail.ratemyproperty.data.PosterContact
 
-class PropertyPreviewParameterProvider : PreviewParameterProvider<Property> {
+class PropertyPreviewParameterProvider : PreviewParameterProvider<PropertyDetails> {
     private val adPosters = PosterContactPreviewProvider().values
     override val values = sequenceOf(
-        Property(
+        PropertyDetails(
             uri = "59ac0c32-cc0e-49f9-a881-c0bd073f11cd",
             price = 2500,
             currency = "$",
@@ -19,7 +18,7 @@ class PropertyPreviewParameterProvider : PreviewParameterProvider<Property> {
             posterContact = adPosters.elementAt(0)
         ),
 
-        Property(
+        PropertyDetails(
             uri = "90741389-caa6-4d22-9f4f-1a4201db3be1",
             price = 1300,
             currency = "$",
@@ -30,7 +29,7 @@ class PropertyPreviewParameterProvider : PreviewParameterProvider<Property> {
             posterContact = adPosters.elementAt(1)
         ),
 
-        Property(
+        PropertyDetails(
             uri = "90741389-caa6-4d22-9f4f-1a4201db3be1",
             price = 849,
             currency = "$",
