@@ -77,9 +77,9 @@ class PropertyScreenViewModel @Inject constructor(
                 imageResourceId = null,
                 address = Address("", "", "", "", "", ""),
                 posterContact = PosterContact("", "", null, ""),
-                description = null
             ),
             features = emptyList(),
+            description = PropertyDescription(prop_uri = "", text = "")
         )
     }
 

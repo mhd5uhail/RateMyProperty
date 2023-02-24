@@ -41,6 +41,6 @@ class PropertyRepositoryImpl(
     }
 
     override suspend fun updatePropertyDetails(propertyDetails: PropertyDetails) {
-        propertyDetailsDao.updatePropertyDetails(propertyDetails)
+        propertyDetailsDao.update(propertyDetails)
     }
 }

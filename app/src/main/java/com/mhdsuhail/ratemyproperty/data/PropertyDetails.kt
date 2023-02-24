@@ -13,7 +13,6 @@ data class PropertyDetails(
     @ColumnInfo(name = "recent") val recentlyViewed: Boolean,
     @ColumnInfo(name = "favourite")  val favourite: Boolean,
     @ColumnInfo(name = "imageId")  val imageResourceId: Int?,
-    @ColumnInfo(name ="description") val description: String?,
     @Embedded
     val address: Address,
     @Embedded

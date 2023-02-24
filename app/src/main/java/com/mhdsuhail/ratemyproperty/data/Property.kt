@@ -10,4 +10,8 @@ data class Property(
         entityColumn = "prop_uri"
     )
     val features: List<Feature>,
-)
+    @Relation(
+        parentColumn = "uri",
+        entityColumn = "prop_uri"
+    )
+    val description : PropertyDescription)

@@ -43,5 +43,11 @@ object AppModule {
         return SearchHistoryRepoImpl(db.searchQueryDao)
     }
 
+    @Provides
+    @Singleton
+    fun providesPropertyDescriptionsRepository(db: RMPDatabase): PropertyDescriptionRepository {
+        return PropertyDescriptionRepoImpl(db.descriptionsDao)
+    }
+
 
 }
