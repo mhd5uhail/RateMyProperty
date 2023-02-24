@@ -4,16 +4,13 @@ import kotlinx.coroutines.flow.Flow
 
 interface PropertyRepository {
 
-    // CRUD for main PropertyObject
-    suspend fun insertProperty(propertyDetails: Property)
+    suspend fun insertProperty(property: Property)
 
-    suspend fun deleteProperty(propertyDetails: Property)
+    suspend fun deleteProperty(property: Property)
 
     suspend fun getPropertyById(uri: String): Property?
 
     suspend fun updateProperty(property: Property)
-
-    // Read functions for PropertyDetails
 
     fun getFavouritePropertiesDetails(): Flow<List<PropertyDetails>>
 
@@ -21,5 +18,5 @@ interface PropertyRepository {
 
     suspend fun getPropertyDetails(uri: String) : PropertyDetails?
 
-    suspend fun getAllPropertiesDetails(uri: String) : Flow<List<Property>>
+    fun getAllPropertiesDetails(uri: String) : Flow<List<PropertyDetails>>
 }

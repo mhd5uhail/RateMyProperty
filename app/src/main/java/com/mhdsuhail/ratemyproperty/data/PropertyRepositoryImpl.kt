@@ -4,32 +4,35 @@ import com.mhdsuhail.ratemyproperty.data.room.PropertyDao
 import kotlinx.coroutines.flow.Flow
 
 class PropertyRepositoryImpl(private val dao: PropertyDao) : PropertyRepository {
-    override suspend fun insertProperty(propertyDetails: PropertyDetails) {
-        dao.insertProperty(propertyDetails)
+    override suspend fun insertProperty(property: Property) {
+        dao.insertProperty(property)
     }
 
-    override suspend fun deleteProperty(propertyDetails: PropertyDetails) {
-        dao.deleteProperty(propertyDetails)
+    override suspend fun deleteProperty(property: Property) {
+        dao.deleteProperty(property)
     }
 
-    override suspend fun getPropertyById(uri: String): PropertyDetails? {
+    override suspend fun getPropertyById(uri: String): Property? {
         return dao.getPropertyById(uri)
     }
 
-    override fun getProperties(): Flow<List<PropertyDetails>> {
-        return dao.getAllProperties()
+    override suspend fun updateProperty(property: Property) {
+        dao.updateProperty(property)
     }
 
-    override fun getFavouriteProperties(): Flow<List<PropertyDetails>> {
+    override fun getFavouritePropertiesDetails(): Flow<List<PropertyDetails>> {
         return dao.getAllFavouriteProperties()
     }
 
-    override suspend fun searchProperties(query: String): List<PropertyDetails> {
-        // API Call to RMH Server search api
+    override suspend fun searchPropertiesDetails(query: String): List<PropertyDetails> {
         TODO("Not yet implemented")
     }
 
-    override suspend fun updateProperty(propertyDetails: PropertyDetails) {
-        dao.updateProperty(propertyDetails)
+    override suspend fun getPropertyDetails(uri: String): PropertyDetails? {
+        return dao.getPropertyDetails(uri)
+    }
+
+    override fun getAllPropertiesDetails(uri: String): Flow<List<PropertyDetails>> {
+        return dao.getAllPropertiesDetails()
     }
 }
