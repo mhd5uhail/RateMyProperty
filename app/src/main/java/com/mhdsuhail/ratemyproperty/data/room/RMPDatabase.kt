@@ -16,4 +16,5 @@ abstract class RMPDatabase : RoomDatabase() {
     abstract val featureDao: FeatureDao
     abstract val searchQueryDao : SearchQueryDao
     abstract val descriptionsDao: DescriptionsDao
+    abstract val propertyDao: PropertyDao
 }
