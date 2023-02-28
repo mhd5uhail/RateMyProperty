@@ -1,11 +1,9 @@
 package com.mhdsuhail.ratemyproperty.data
 
-import com.mhdsuhail.ratemyproperty.data.room.PropertyDao
 import com.mhdsuhail.ratemyproperty.data.room.PropertyDetailsDao
 import kotlinx.coroutines.flow.Flow
 
 class PropertyRepositoryImpl(
-    private val propertyDao: PropertyDao,
     private val propertyDetailsDao: PropertyDetailsDao
 ) : PropertyRepository {
     override suspend fun insertProperty(property: Property) {
@@ -17,7 +15,7 @@ class PropertyRepositoryImpl(
     }
 
     override suspend fun getPropertyById(uri: String): Property? {
-        return propertyDao.getPropertyById(uri)
+        return propertyDetailsDao.getPropertyById(uri)
     }
 
     override suspend fun updateProperty(property: Property) {

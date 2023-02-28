@@ -1,6 +1,7 @@
 package com.mhdsuhail.ratemyproperty.data.room
 
 import androidx.room.*
+import com.mhdsuhail.ratemyproperty.data.Property
 import com.mhdsuhail.ratemyproperty.data.PropertyDetails
 import kotlinx.coroutines.flow.Flow
 @Dao
@@ -18,5 +19,9 @@ interface PropertyDetailsDao : BaseDao<PropertyDetails> {
 
     @Query("SELECT * FROM property_details WHERE favourite = true")
     fun getAllFavouriteProperties(): Flow<List<PropertyDetails>>
+
+    @Transaction
+    @Query("SELECT * FROM property_details WHERE uri = :uri")
+    suspend fun getPropertyById(uri: String) : Property?
 
 }
