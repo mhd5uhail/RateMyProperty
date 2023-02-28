@@ -12,6 +12,7 @@ import com.mhdsuhail.ratemyproperty.data.preview.FeaturePreviewProvider
 import com.mhdsuhail.ratemyproperty.data.preview.PropertySampleData
 import com.mhdsuhail.ratemyproperty.data.room.*
 import junit.framework.TestCase
+import kotlinx.coroutines.Runnable
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.flow.first
@@ -28,11 +29,10 @@ class RoomDatabaseTest : TestCase() {
 
     private lateinit var rmpDatabase: RMPDatabase
     private lateinit var featureDao: FeatureDao
-    private lateinit var descriptionDao : DescriptionsDao
+    private lateinit var descriptionDao: DescriptionsDao
     private lateinit var searchDao: SearchQueryDao
     private lateinit var propertyDetailsDao: PropertyDetailsDao
     private lateinit var propertyDao: PropertyDao
-
 
 
     @Before
@@ -46,6 +46,7 @@ class RoomDatabaseTest : TestCase() {
         propertyDetailsDao = rmpDatabase.propertyDetailsDao
         propertyDao = rmpDatabase.propertyDao
         Log.i(TAG, "createDb")
+
     }
 
     @After
@@ -61,25 +62,29 @@ class RoomDatabaseTest : TestCase() {
         propertyDetailsDao.insert(propertyDetails)
 
         val result = propertyDetailsDao.getPropertyDetails(propertyDetails.uri)
-        assertEquals(result!!.uri,propertyDetails.uri)
+        assertEquals(result!!.uri, propertyDetails.uri)
     }
 
     @Test
     fun propertyRelationTest() = runBlocking {
-        val propertyDetails =  PropertySampleData().sample.propertyDetails
-        val features =  PropertySampleData().sample.features
-        val desc =  PropertySampleData().sample.description
+        val propertyDetails = PropertySampleData().sample.propertyDetails
+        val features = PropertySampleData().sample.features
+        val desc = PropertySampleData().sample.description
 
-        propertyDetailsDao.insert(propertyDetails)
-        featureDao.insertAll(features)
-        descriptionDao.insert(desc)
+        rmpDatabase.runInTransaction(Runnable{
+            runBlocking(){
+                propertyDetailsDao.insert(propertyDetails)
+                featureDao.insertAll(features)
+                descriptionDao.insert(desc)
+            }
+        })
 
         val result = propertyDao.getPropertyById(propertyDetails.uri)
         assertNotNull(result)
         if (result != null) {
-            assertEquals(result.propertyDetails.uri,propertyDetails.uri)
+            assertEquals(result.propertyDetails.uri, propertyDetails.uri)
             assertTrue(result.features.containsAll(features))
-            assertEquals(result.description.prop_uri,desc.prop_uri)
+            assertEquals(result.description.prop_uri, desc.prop_uri)
         }
     }
 
@@ -89,7 +94,7 @@ class RoomDatabaseTest : TestCase() {
         val searchQuery = SearchQuery("test", LocalDateTime.now(), 1)
         searchDao.insert(searchQuery)
         val result = searchDao.getSearchHistory().first()
-        assertEquals(result[0].query,searchQuery.query)
+        assertEquals(result[0].query, searchQuery.query)
 
     }
 
