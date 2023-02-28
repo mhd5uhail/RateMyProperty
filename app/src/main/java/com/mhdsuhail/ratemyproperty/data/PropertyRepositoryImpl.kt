@@ -9,11 +9,11 @@ class PropertyRepositoryImpl(
     private val propertyDetailsDao: PropertyDetailsDao
 ) : PropertyRepository {
     override suspend fun insertProperty(property: Property) {
-        propertyDao.insertProperty(property)
+        //propertyDao.insertProperty(property)
     }
 
     override suspend fun deleteProperty(property: Property) {
-        propertyDao.deleteProperty(property)
+        //propertyDao.deleteProperty(property)
     }
 
     override suspend fun getPropertyById(uri: String): Property? {
@@ -21,7 +21,7 @@ class PropertyRepositoryImpl(
     }
 
     override suspend fun updateProperty(property: Property) {
-        propertyDao.updateProperty(property)
+        //propertyDao.updateProperty(property)
     }
 
     override suspend fun getPropertyDetailsById(uri: String): PropertyDetails? {

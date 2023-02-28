@@ -4,7 +4,7 @@ import androidx.room.Embedded
 import androidx.room.Relation
 
 data class Property(
-    @Embedded val propertyDetails: PropertyDetails,
+    @Embedded val propertyDetails: PropertyDetails ,
     @Relation(
         parentColumn = "uri",
         entityColumn = "prop_uri"

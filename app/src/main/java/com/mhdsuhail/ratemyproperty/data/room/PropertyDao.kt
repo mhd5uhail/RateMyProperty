@@ -10,16 +10,16 @@ interface PropertyDao {
     @Query("SELECT * FROM property_details WHERE uri = :uri")
     suspend fun getPropertyById(uri: String) : Property?
 
-    @Transaction
-    @Insert
-    suspend fun insertProperty(property: Property)
-
-    @Transaction
-    @Delete
-    suspend fun deleteProperty(property: Property)
-
-    @Transaction
-    @Update
-    suspend fun updateProperty(property: Property)
+//    @Transaction
+//    @Query("SELECT * FROM property_details WHERE uri = :uri")
+//    suspend fun insertProperty(property: Property)
+//
+//    @Transaction
+//    @Query("SELECT * FROM property_details WHERE uri = :uri")
+//    suspend fun deleteProperty(property: Property)
+//
+//    @Transaction
+//    @Query("SELECT * FROM property_details WHERE uri = :uri")
+//    suspend fun updateProperty(property: Property)
 
 }

@@ -1,7 +1,6 @@
 package com.mhdsuhail.ratemyproperty.di
 
 import android.app.Application
-import androidx.room.Room
 import com.mhdsuhail.ratemyproperty.data.*
 import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepository
 import com.mhdsuhail.ratemyproperty.data.room.RMPDatabase
@@ -18,11 +17,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideRMPDatabase(app: Application): RMPDatabase {
-        return Room.databaseBuilder(
-            app,
-            RMPDatabase::class.java,
-            "rmp_db"
-        ).addTypeConverter(DateTimeTypeConverters()).fallbackToDestructiveMigration().build()
+        return RMPDatabase.getInstance(app.applicationContext)
     }
 
     @Provides
