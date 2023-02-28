@@ -9,6 +9,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mhdsuhail.ratemyproperty.R
 import com.mhdsuhail.ratemyproperty.data.*
 import com.mhdsuhail.ratemyproperty.data.preview.FeaturePreviewProvider
+import com.mhdsuhail.ratemyproperty.data.preview.PropertySampleData
 import com.mhdsuhail.ratemyproperty.data.room.*
 import junit.framework.TestCase
 import kotlinx.coroutines.flow.collect
@@ -32,25 +33,7 @@ class RoomDatabaseTest : TestCase() {
     private lateinit var propertyDetailsDao: PropertyDetailsDao
     private lateinit var propertyDao: PropertyDao
 
-    private val dummyProperty =  Property(
-                propertyDetails = PropertyDetails(
-                uri = "59ac0c32-cc0e-49f9-a881-c0bd073f11cd",
-                price = 1300,
-                currency = "$",
-                recentlyViewed = true,
-                favourite = true,
-                imageResourceId = null,
-                address = Address("Canada", "ON", "Toronto", "88 Harbor St N", "1432", "H2A 4L2"),
-                posterContact = PosterContact(
-                    "Mohammed Suhail",
-                    "Realtor",
-                    R.drawable.sample_realtor,
-                    "523-349-233"
-                ),
-            ),
-            features = FeaturePreviewProvider().values.toList(),
-            description = PropertyDescription(prop_uri = "59ac0c32-cc0e-49f9-a881-c0bd073f11cd",text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis finibus sem. Duis nec dolor et tortor malesuada pellentesque. Suspendisse porttitor tempus lectus, non commodo orci rhoncus et. Praesent odio est, ultricies sed augue ut, laoreet congue magna. Duis semper suscipit bibendum. Maecenas semper dolor vel nulla congue dignissim. Ut pretium lobortis felis a tristique\n")
-    )
+
 
     @Before
     public override fun setUp() {
@@ -73,7 +56,7 @@ class RoomDatabaseTest : TestCase() {
 
     @Test
     fun insertPropertyDetails() = runBlocking {
-        val propertyDetails = dummyProperty.propertyDetails
+        val propertyDetails = PropertySampleData().sample.propertyDetails
 
         propertyDetailsDao.insert(propertyDetails)
 
@@ -83,9 +66,9 @@ class RoomDatabaseTest : TestCase() {
 
     @Test
     fun propertyRelationTest() = runBlocking {
-        val propertyDetails = dummyProperty.propertyDetails
-        val features = dummyProperty.features
-        val desc = dummyProperty.description
+        val propertyDetails =  PropertySampleData().sample.propertyDetails
+        val features =  PropertySampleData().sample.features
+        val desc =  PropertySampleData().sample.description
 
         propertyDetailsDao.insert(propertyDetails)
         featureDao.insertAll(features)
