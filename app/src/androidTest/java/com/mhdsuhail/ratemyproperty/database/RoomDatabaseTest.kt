@@ -9,9 +9,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import com.mhdsuhail.ratemyproperty.R
 import com.mhdsuhail.ratemyproperty.data.*
 import com.mhdsuhail.ratemyproperty.data.preview.FeaturePreviewProvider
-import com.mhdsuhail.ratemyproperty.data.room.PropertyDetailsDao
-import com.mhdsuhail.ratemyproperty.data.room.RMPDatabase
-import com.mhdsuhail.ratemyproperty.data.room.SearchQueryDao
+import com.mhdsuhail.ratemyproperty.data.room.*
 import junit.framework.TestCase
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.collectLatest
@@ -28,12 +26,14 @@ import java.time.LocalDateTime
 class RoomDatabaseTest : TestCase() {
 
     private lateinit var rmpDatabase: RMPDatabase
+    private lateinit var featureDao: FeatureDao
+    private lateinit var descriptionDao : DescriptionsDao
     private lateinit var searchDao: SearchQueryDao
     private lateinit var propertyDetailsDao: PropertyDetailsDao
 
     private val dummyProperty =  Property(
                 propertyDetails = PropertyDetails(
-                uri = "90741389-caa6-4d22-9f4f-1a4201db3be1",
+                uri = "59ac0c32-cc0e-49f9-a881-c0bd073f11cd",
                 price = 1300,
                 currency = "$",
                 recentlyViewed = true,
@@ -48,7 +48,7 @@ class RoomDatabaseTest : TestCase() {
                 ),
             ),
             features = FeaturePreviewProvider().values.toList(),
-            description = PropertyDescription(prop_uri = "90741389-caa6-4d22-9f4f-1a4201db3be1",text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis finibus sem. Duis nec dolor et tortor malesuada pellentesque. Suspendisse porttitor tempus lectus, non commodo orci rhoncus et. Praesent odio est, ultricies sed augue ut, laoreet congue magna. Duis semper suscipit bibendum. Maecenas semper dolor vel nulla congue dignissim. Ut pretium lobortis felis a tristique\n")
+            description = PropertyDescription(prop_uri = "59ac0c32-cc0e-49f9-a881-c0bd073f11cd",text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis finibus sem. Duis nec dolor et tortor malesuada pellentesque. Suspendisse porttitor tempus lectus, non commodo orci rhoncus et. Praesent odio est, ultricies sed augue ut, laoreet congue magna. Duis semper suscipit bibendum. Maecenas semper dolor vel nulla congue dignissim. Ut pretium lobortis felis a tristique\n")
     )
 
     @Before
@@ -57,6 +57,8 @@ class RoomDatabaseTest : TestCase() {
         rmpDatabase = Room.inMemoryDatabaseBuilder(context, RMPDatabase::class.java)
             .addTypeConverter(DateTimeTypeConverters()).fallbackToDestructiveMigration().build()
         searchDao = rmpDatabase.searchQueryDao
+        featureDao = rmpDatabase.featureDao
+        descriptionDao = rmpDatabase.descriptionsDao
         propertyDetailsDao = rmpDatabase.propertyDetailsDao
         Log.i(TAG, "createDb")
     }
@@ -75,6 +77,25 @@ class RoomDatabaseTest : TestCase() {
 
         val result = propertyDetailsDao.getPropertyDetails(propertyDetails.uri)
         assertEquals(result!!.uri,propertyDetails.uri)
+    }
+
+    @Test
+    fun propertyRelationTest() = runBlocking {
+        val propertyDetails = dummyProperty.propertyDetails
+        val features = dummyProperty.features
+        val desc = dummyProperty.description
+
+        propertyDetailsDao.insert(propertyDetails)
+        featureDao.insertAll(features)
+        descriptionDao.insert(desc)
+
+        val result = propertyDetailsDao.getPropertyById(propertyDetails.uri)
+        assertNotNull(result)
+        if (result != null) {
+            assertEquals(result.propertyDetails.uri,propertyDetails.uri)
+            assertTrue(result.features.containsAll(features))
+            assertEquals(result.description.prop_uri,desc.prop_uri)
+        }
     }
 
     @Test
