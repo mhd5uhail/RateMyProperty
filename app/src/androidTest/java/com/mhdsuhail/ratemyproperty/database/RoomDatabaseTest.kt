@@ -30,6 +30,7 @@ class RoomDatabaseTest : TestCase() {
     private lateinit var descriptionDao : DescriptionsDao
     private lateinit var searchDao: SearchQueryDao
     private lateinit var propertyDetailsDao: PropertyDetailsDao
+    private lateinit var propertyDao: PropertyDao
 
     private val dummyProperty =  Property(
                 propertyDetails = PropertyDetails(
@@ -60,6 +61,7 @@ class RoomDatabaseTest : TestCase() {
         featureDao = rmpDatabase.featureDao
         descriptionDao = rmpDatabase.descriptionsDao
         propertyDetailsDao = rmpDatabase.propertyDetailsDao
+        propertyDao = rmpDatabase.propertyDao
         Log.i(TAG, "createDb")
     }
 
@@ -89,7 +91,7 @@ class RoomDatabaseTest : TestCase() {
         featureDao.insertAll(features)
         descriptionDao.insert(desc)
 
-        val result = propertyDetailsDao.getPropertyById(propertyDetails.uri)
+        val result = propertyDao.getPropertyById(propertyDetails.uri)
         assertNotNull(result)
         if (result != null) {
             assertEquals(result.propertyDetails.uri,propertyDetails.uri)

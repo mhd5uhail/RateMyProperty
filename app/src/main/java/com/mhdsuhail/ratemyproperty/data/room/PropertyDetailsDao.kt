@@ -20,8 +20,4 @@ interface PropertyDetailsDao : BaseDao<PropertyDetails> {
     @Query("SELECT * FROM property_details WHERE favourite = true")
     fun getAllFavouriteProperties(): Flow<List<PropertyDetails>>
 
-    @Transaction
-    @Query("SELECT * FROM property_details WHERE uri = :uri")
-    suspend fun getPropertyById(uri: String) : Property?
-
 }
