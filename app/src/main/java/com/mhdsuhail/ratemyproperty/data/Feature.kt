@@ -1,12 +1,9 @@
 package com.mhdsuhail.ratemyproperty.data
 
-import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.ForeignKey.Companion.CASCADE
-import androidx.room.PrimaryKey
-import javax.annotation.Nonnull
 
 // TODO: Features image selection utility function/class needs to be created
 @Entity(

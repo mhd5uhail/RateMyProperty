@@ -11,4 +11,10 @@ class AddressTypeConverter {
         }
     }
 
+    @TypeConverter
+    fun fromString(address: String): Address? {
+        // "Regex based address converter to re-create the address object")
+        TODO("Not yet Implemented")
+    }
+
 }
