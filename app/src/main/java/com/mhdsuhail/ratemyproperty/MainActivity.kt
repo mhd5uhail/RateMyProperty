@@ -37,7 +37,6 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-
             RateMyPropertyTheme {
                 val animDuration = 700
                 val navController = rememberAnimatedNavController()
