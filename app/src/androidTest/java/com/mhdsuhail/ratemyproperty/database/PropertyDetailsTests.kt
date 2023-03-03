@@ -9,12 +9,8 @@ import com.mhdsuhail.ratemyproperty.data.AddressTypeConverter
 import com.mhdsuhail.ratemyproperty.data.DateTimeTypeConverters
 import com.mhdsuhail.ratemyproperty.data.preview.PropertySampleData
 import com.mhdsuhail.ratemyproperty.data.room.*
-import junit.framework.TestCase
 import junit.framework.TestCase.*
-import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.take
-import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
