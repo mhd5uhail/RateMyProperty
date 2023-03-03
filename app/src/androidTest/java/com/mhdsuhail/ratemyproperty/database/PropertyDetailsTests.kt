@@ -11,6 +11,10 @@ import com.mhdsuhail.ratemyproperty.data.preview.PropertySampleData
 import com.mhdsuhail.ratemyproperty.data.room.*
 import junit.framework.TestCase
 import junit.framework.TestCase.*
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.take
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Before
@@ -48,7 +52,39 @@ class PropertyDetailsTests : DatabaseTests() {
         val result = propertyDetailsDao.getPropertyDetails(propertyDetails.uri)
         assertEquals(result!!.uri, propertyDetails.uri)
     }
-    // TODO : Insert duplicate property
+
+    @Test
+    fun insertDuplicate_PropertyDetails() = runBlocking {
+        val propertyDetails = PropertySampleData().sample.propertyDetails
+
+        propertyDetailsDao.insert(propertyDetails)
+
+        var result = propertyDetailsDao.getPropertyDetails(propertyDetails.uri)
+        assertEquals(result!!.uri, propertyDetails.uri)
+
+        val duplicateProp = propertyDetails.copy(price = 1243)
+        propertyDetailsDao.insert(duplicateProp)
+
+        result = propertyDetailsDao.getPropertyDetails(duplicateProp.uri)
+        assertEquals(result!!.uri, duplicateProp.uri)
+        assertEquals(result.price, duplicateProp.price)
+    }
+
+    @Test
+    fun insertMultiple_PropertyDetails() = runBlocking {
+        val testList = listOf(
+            PropertySampleData().sample.propertyDetails,
+            PropertySampleData().sample.propertyDetails.copy(uri = "testUri")
+        )
+        propertyDetailsDao.insertAll(testList)
+        val result = propertyDetailsDao.getAllPropertiesDetails().first()
+
+        assertEquals(result.size, testList.size)
+        testList.forEach { item ->
+            assertTrue(result.any { resultProp -> resultProp.uri == item.uri })
+        }
+    }
+
 
     @Test
     fun delete_PropertyDetails() = runBlocking {
