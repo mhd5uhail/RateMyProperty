@@ -4,12 +4,7 @@ import androidx.room.*
 import com.mhdsuhail.ratemyproperty.data.Feature
 
 @Dao
-interface  FeatureDao {
-    @Insert
-    suspend fun insertFeature(feature: Feature)
-
-    @Delete
-    suspend fun deleteFeature(feature: Feature)
+interface  FeatureDao : BaseDao<Feature>{
 
     @Query("SELECT * FROM features WHERE id = :id")
     suspend fun getFeaturesById(id: Int): Feature?

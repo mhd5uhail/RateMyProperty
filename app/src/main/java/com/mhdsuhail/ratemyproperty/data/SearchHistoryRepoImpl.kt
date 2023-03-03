@@ -5,11 +5,11 @@ import kotlinx.coroutines.flow.Flow
 
 class SearchHistoryRepoImpl(private val dao: SearchQueryDao) : SearchHistoryRepository {
     override suspend fun insertSearchQuery(searchQuery: SearchQuery) {
-        dao.insertSearchQuery(searchQuery)
+        dao.insert(searchQuery)
     }
 
     override suspend fun deleteSearchQuery(searchQuery: SearchQuery) {
-        dao.deleteSearchQuery(searchQuery)
+        dao.delete(searchQuery)
     }
 
     override suspend fun getCountOfSearches(): Int {

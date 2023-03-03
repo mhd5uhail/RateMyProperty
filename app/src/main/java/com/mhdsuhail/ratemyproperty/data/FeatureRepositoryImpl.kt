@@ -4,11 +4,11 @@ import com.mhdsuhail.ratemyproperty.data.room.FeatureDao
 
 class FeatureRepositoryImpl(private val dao: FeatureDao) : FeatureRepository{
     override suspend fun insertFeature(feature: Feature) {
-        dao.insertFeature(feature)
+        dao.insert(feature)
     }
 
     override suspend fun deleteFeature(feature: Feature) {
-        dao.deleteFeature(feature)
+        dao.delete(feature)
     }
 
     override suspend fun getFeatureById(id: Int): Feature? {

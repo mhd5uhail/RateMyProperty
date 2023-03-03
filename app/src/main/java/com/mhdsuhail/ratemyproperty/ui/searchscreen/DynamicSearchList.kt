@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepo
+import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepository
 import com.mhdsuhail.ratemyproperty.data.preview.FakeSearchRepository
 import com.mhdsuhail.ratemyproperty.ui.property.PropertyInfoCard
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
@@ -35,7 +35,7 @@ fun DynamicSearchListPreview() {
         Surface() {
 
             DynamicSearchList( viewModel = SearchScreenViewModel(
-                propertyRepository = FakePropertyRepo(),
+                propertyRepository = FakePropertyRepository(),
                 searchHistoryRepository = FakeSearchRepository()
             ),
                 onNavigate = {},
@@ -140,7 +140,7 @@ fun DynamicSearchList(
                 modifier = Modifier.fillMaxSize()
             ) {
                 items(viewModel.searchResults) { property ->
-                    PropertyInfoCard(property = property, onClickItem = {
+                    PropertyInfoCard(propertyDetails = property, onClickItem = {
                         // Launch the property page
                         viewModel.onEvent(SearchScreenEvents.OnPropertyCardClick(property))
                     }, onClickActionButton = {

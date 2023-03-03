@@ -2,7 +2,7 @@ package com.mhdsuhail.ratemyproperty.ui.homescreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mhdsuhail.ratemyproperty.data.Property
+import com.mhdsuhail.ratemyproperty.data.PropertyDetails
 import com.mhdsuhail.ratemyproperty.data.PropertyRepository
 import com.mhdsuhail.ratemyproperty.util.Routes
 import com.mhdsuhail.ratemyproperty.util.UiEvent
@@ -20,9 +20,9 @@ class HomeScreeViewModel @Inject constructor(private val propertyRepository: Pro
     private val _uiEvent = Channel<UiEvent>()
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    val favoriteProperties = propertyRepository.getFavouriteProperties()
-    val myListings = propertyRepository.getProperties()
-    private var removedProperty: Property? = null
+    val favoriteProperties = propertyRepository.getAllFavouritePropertyDetails()
+    val myListings = propertyRepository.getAllPropertiesDetails()
+    private var removedPropertyDetails: PropertyDetails? = null
 
     fun onEvent(event: HomeScreenEvents) {
 
@@ -31,10 +31,10 @@ class HomeScreeViewModel @Inject constructor(private val propertyRepository: Pro
             is HomeScreenEvents.OnClickFavourite -> {
                 viewModelScope.launch {
                     var favstate = false
-                    if (!event.property.favourite) {
+                    if (!event.propertyDetails.favourite) {
                         favstate = true
                     }
-                    propertyRepository.updateProperty(event.property.copy(favourite = favstate))
+                    propertyRepository.updatePropertyDetails(event.propertyDetails.copy(favourite = favstate))
                     var actionSting: String? = null
                     var uiMessage: String = ""
                     if (favstate) {
@@ -53,13 +53,13 @@ class HomeScreeViewModel @Inject constructor(private val propertyRepository: Pro
             }
 
             is HomeScreenEvents.OnClickPropertyCard -> {
-                sendUiEvent(UiEvent.Navigate(Routes.PROP_VIEW_PAGE + "?prop_uri=${event.property.uri}"))
+                sendUiEvent(UiEvent.Navigate(Routes.PROP_VIEW_PAGE + "?prop_uri=${event.propertyDetails.uri}"))
             }
 
             is HomeScreenEvents.OnClickUndoAddToFav -> {
                 viewModelScope.launch {
-                    removedProperty?.let {
-                        propertyRepository.updateProperty(it.copy(favourite = true))
+                    removedPropertyDetails?.let {
+                        propertyRepository.updatePropertyDetails(it.copy(favourite = true))
                     }
                 }
             }

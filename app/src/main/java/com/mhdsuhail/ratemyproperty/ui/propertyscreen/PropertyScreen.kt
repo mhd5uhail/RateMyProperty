@@ -43,7 +43,7 @@ fun PropertyScreenPreviews() {
     RateMyPropertyTheme() {
         val viewModel = PropertyScreenViewModel(
             savedStateHandle = SavedStateHandle(),
-            repository = FakePropertyWInfoRepo()
+            repository = FakePropertyRepository()
         )
         PropertyScreen(
             onNavigate = {},
@@ -90,11 +90,11 @@ fun PropertyScreen(
         modifier = modifier
             .fillMaxSize(),
         bottomBar = {
-            ContactCard(contactInfo = viewModel.state.value.property.posterContact,
+            ContactCard(contactInfo = viewModel.state.value.propertyDetails.posterContact,
                 onCallClick = {
-                    viewModel.onEvent(PropertyScreenEvents.OnCallPosterClick(viewModel.state.value.property.posterContact))
+                    viewModel.onEvent(PropertyScreenEvents.OnCallPosterClick(viewModel.state.value.propertyDetails.posterContact))
                 }, onMessageClick = {
-                    viewModel.onEvent(PropertyScreenEvents.OnMessagePosterClick(viewModel.state.value.property.posterContact))
+                    viewModel.onEvent(PropertyScreenEvents.OnMessagePosterClick(viewModel.state.value.propertyDetails.posterContact))
                 })
         }
     ) { padding ->
@@ -129,8 +129,8 @@ fun PropertyScreen(
                         onClick = {
                             viewModel.onEvent(
                                 PropertyScreenEvents.OnAddToFavouritesClick(
-                                    viewModel.state.value.property.uri,
-                                    !viewModel.state.value.property.favourite
+                                    viewModel.state.value.propertyDetails.uri,
+                                    !viewModel.state.value.propertyDetails.favourite
                                 )
                             )
                         },
@@ -142,7 +142,7 @@ fun PropertyScreen(
                             .background(Color.White.copy(alpha = 0.2f))
                     ) {
                         Icon(
-                            imageVector = if (viewModel.state.value.property.favourite) {
+                            imageVector = if (viewModel.state.value.propertyDetails.favourite) {
                                 Icons.Rounded.Favorite
                             } else {
                                 Icons.Rounded.FavoriteBorder
@@ -187,7 +187,7 @@ fun PropertyScreen(
                             modifier = Modifier
                                 .padding(top = 1.dp)
                                 .fillMaxWidth(),
-                            text = viewModel.state.value.property.currency + viewModel.state.value.property.price,
+                            text = viewModel.state.value.propertyDetails.currency + viewModel.state.value.propertyDetails.price,
                             fontSize = 35.sp,
                             fontWeight = FontWeight.SemiBold,
                             color = primaryTextColor
@@ -196,7 +196,7 @@ fun PropertyScreen(
                             modifier = Modifier
                                 .padding(top = 1.dp)
                                 .fillMaxWidth(0.85F),
-                            text = "${viewModel.state.value.property.address.street} - ${viewModel.state.value.property.address.city}," + " ${viewModel.state.value.property.address.state}",
+                            text = "${viewModel.state.value.propertyDetails.address.street} - ${viewModel.state.value.propertyDetails.address.city}," + " ${viewModel.state.value.propertyDetails.address.state}",
                             fontSize = 18.sp,
                             color = primaryTextColor
                         )
@@ -215,7 +215,7 @@ fun PropertyScreen(
                     ) {
                         if (!viewModel.showMoreState.value) {
                             Text(
-                                text = viewModel.state.value.description
+                                text = viewModel.state.value.description.text
                                     ?: "No description provided",
                                 maxLines = 4,
                                 overflow = TextOverflow.Ellipsis,
@@ -224,7 +224,7 @@ fun PropertyScreen(
                             )
                         } else {
                             Text(
-                                text = viewModel.state.value.description
+                                text = viewModel.state.value.description.text
                                     ?: "No description provided",
                                 textAlign = TextAlign.Left,
                                 color = Color.Gray

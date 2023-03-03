@@ -5,13 +5,7 @@ import com.mhdsuhail.ratemyproperty.data.SearchQuery
 import kotlinx.coroutines.flow.Flow
 
 @Dao
-interface SearchQueryDao {
-
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun insertSearchQuery(searchQuery: SearchQuery)
-
-    @Delete
-    suspend fun deleteSearchQuery(searchQuery: SearchQuery)
+interface SearchQueryDao : BaseDao<SearchQuery>{
 
     @Query("SELECT COUNT(*) FROM search_history")
     suspend fun getCountOfSearches() : Int

@@ -6,13 +6,11 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.rounded.Favorite
 import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import com.mhdsuhail.ratemyproperty.ui.theme.primaryTextColor
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -22,24 +20,23 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mhdsuhail.ratemyproperty.R
-import com.mhdsuhail.ratemyproperty.data.Property
+import com.mhdsuhail.ratemyproperty.data.PropertyDetails
 import com.mhdsuhail.ratemyproperty.data.preview.PropertyPreviewParameterProvider
-import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 
 @Preview
 @Composable
 fun PropertyInfoCardXPreview(
-    @PreviewParameter(PropertyPreviewParameterProvider::class) properties: Property
+    @PreviewParameter(PropertyPreviewParameterProvider::class) properties: PropertyDetails
 ) {
-    PropertyInfoCard(property = properties, onClickItem = {}, onClickActionButton = {})
+    PropertyInfoCard(propertyDetails = properties, onClickItem = {}, onClickActionButton = {})
 }
 
 @Composable
 fun PropertyInfoCard(
     modifier: Modifier = Modifier,
-    property: Property,
-    onClickItem: (property: Property) -> Unit,
-    onClickActionButton: (property: Property) -> Unit,
+    propertyDetails: PropertyDetails,
+    onClickItem: (propertyDetails: PropertyDetails) -> Unit,
+    onClickActionButton: (propertyDetails: PropertyDetails) -> Unit,
 ) {
 
     Card(
@@ -48,7 +45,7 @@ fun PropertyInfoCard(
             .height(300.dp)
             .padding(bottom = 15.dp)
             .clickable(onClick = {
-                onClickItem(property)
+                onClickItem(propertyDetails)
             })
     ) {
         Surface {
@@ -79,7 +76,7 @@ fun PropertyInfoCard(
                         modifier = Modifier
                             .padding(top = 1.dp)
                             .fillMaxWidth(),
-                        text = property.currency + property.price.toString(),
+                        text = propertyDetails.currency + propertyDetails.price.toString(),
                         fontSize = 25.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = primaryTextColor
@@ -93,14 +90,14 @@ fun PropertyInfoCard(
                             modifier = Modifier
                                 .padding(top = 1.dp)
                                 .fillMaxWidth(0.85F),
-                            text = "${property.address.street} - ${property.address.city}," + " ${property.address.state}",
+                            text = "${propertyDetails.address.street} - ${propertyDetails.address.city}," + " ${propertyDetails.address.state}",
                             fontSize = 18.sp,
                             color = primaryTextColor
                         )
                         IconButton(modifier = Modifier.fillMaxSize(),
-                            onClick = { onClickActionButton(property) }) {
+                            onClick = { onClickActionButton(propertyDetails) }) {
                             Icon(
-                                imageVector = if (property.favourite) {
+                                imageVector = if (propertyDetails.favourite) {
                                     Icons.Rounded.Favorite
                                 } else {
                                     Icons.Rounded.FavoriteBorder

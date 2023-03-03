@@ -1,10 +1,8 @@
 package com.mhdsuhail.ratemyproperty.di
 
 import android.app.Application
-import androidx.room.Room
 import com.mhdsuhail.ratemyproperty.data.*
-import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepo
-import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyWInfoRepo
+import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepository
 import com.mhdsuhail.ratemyproperty.data.room.RMPDatabase
 import dagger.Module
 import dagger.Provides
@@ -19,17 +17,13 @@ object AppModule {
     @Provides
     @Singleton
     fun provideRMPDatabase(app: Application): RMPDatabase {
-        return Room.databaseBuilder(
-            app,
-            RMPDatabase::class.java,
-            "rmp_db"
-        ).addTypeConverter(DateTimeTypeConverters()).fallbackToDestructiveMigration().build()
+        return RMPDatabase.getInstance(app.applicationContext)
     }
 
     @Provides
     @Singleton
     fun providePropertyRepository(db: RMPDatabase): PropertyRepository {
-        return FakePropertyRepo()
+        return FakePropertyRepository()
     }
 
     @Provides
@@ -40,14 +34,14 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun providesPropertyWExtraInfoRepo(db: RMPDatabase): PropertyWExtraInfoRepo {
-        return FakePropertyWInfoRepo()
+    fun providesSearchQueryRepository(db: RMPDatabase): SearchHistoryRepository {
+        return SearchHistoryRepoImpl(db.searchQueryDao)
     }
 
     @Provides
     @Singleton
-    fun providesSearchQueryRepository(db: RMPDatabase): SearchHistoryRepository {
-        return SearchHistoryRepoImpl(db.searchQueryDao)
+    fun providesPropertyDescriptionsRepository(db: RMPDatabase): PropertyDescriptionRepository {
+        return PropertyDescriptionRepoImpl(db.descriptionsDao)
     }
 
 

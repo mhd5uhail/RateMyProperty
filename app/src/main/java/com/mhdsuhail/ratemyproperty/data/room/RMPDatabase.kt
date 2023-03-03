@@ -1,20 +1,41 @@
 package com.mhdsuhail.ratemyproperty.data.room
 
+import android.content.Context
 import androidx.room.Database
+import androidx.room.Room
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverter
 import androidx.room.TypeConverters
 import com.mhdsuhail.ratemyproperty.data.*
 
 @Database(
-    entities = [Property::class,Feature::class,SearchQuery::class],
-    version = 2,
+    entities = [PropertyDetails::class, Feature::class, PropertyDescription::class, SearchQuery::class],
+    version = 5,
     exportSchema = false
 )
 @TypeConverters(DateTimeTypeConverters::class)
 abstract class RMPDatabase : RoomDatabase() {
+
+    abstract val propertyDetailsDao: PropertyDetailsDao
     abstract val propertyDao: PropertyDao
     abstract val featureDao: FeatureDao
-    abstract val propertyWithExtraInfoDao : PropertyWithExtraInfoDao
-    abstract val searchQueryDao : SearchQueryDao
+    abstract val searchQueryDao: SearchQueryDao
+    abstract val descriptionsDao: DescriptionsDao
+
+    companion object {
+        @Volatile
+        private var INSTANCE: RMPDatabase? = null
+
+        fun getInstance(context: Context): RMPDatabase {
+            synchronized(this) {
+                return INSTANCE ?: Room.databaseBuilder(
+                    context.applicationContext,
+                    RMPDatabase::class.java,
+                    "rmp_db"
+                ).addTypeConverter(DateTimeTypeConverters()).fallbackToDestructiveMigration()
+                    .build().also {
+                    INSTANCE = it
+                }
+            }
+        }
+    }
 }
