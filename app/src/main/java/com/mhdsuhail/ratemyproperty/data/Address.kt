@@ -2,10 +2,10 @@ package com.mhdsuhail.ratemyproperty.data
 
 
 data class Address(
-    val country: String,
-    val state: String,
-    val city: String,
-    val street: String,
-    val unitNum: String,
-    val postalCode: String,
+    var country: String,
+    var state: String,
+    var city: String,
+    var street: String,
+    var unitNum: String,
+    var postalCode: String,
 )

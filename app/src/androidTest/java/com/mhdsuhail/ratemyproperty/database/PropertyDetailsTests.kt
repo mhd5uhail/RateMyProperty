@@ -5,6 +5,7 @@ import android.content.Context
 import android.util.Log
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
+import com.mhdsuhail.ratemyproperty.data.AddressTypeConverter
 import com.mhdsuhail.ratemyproperty.data.DateTimeTypeConverters
 import com.mhdsuhail.ratemyproperty.data.preview.PropertySampleData
 import com.mhdsuhail.ratemyproperty.data.room.*
@@ -15,8 +16,8 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class PropertyDetailsTests : DatabaseTests(){
-
+class PropertyDetailsTests : DatabaseTests() {
+    private val TAG = "PropertyDetailsTests"
 
     @Before
     override fun setUpDb() {
@@ -47,7 +48,44 @@ class PropertyDetailsTests : DatabaseTests(){
         val result = propertyDetailsDao.getPropertyDetails(propertyDetails.uri)
         assertEquals(result!!.uri, propertyDetails.uri)
     }
+    // TODO : Insert duplicate property
 
+    @Test
+    fun delete_PropertyDetails() = runBlocking {
+        val propertyDetails = PropertySampleData().sample.propertyDetails
+
+        propertyDetailsDao.insert(propertyDetails)
+
+        var result = propertyDetailsDao.getPropertyDetails(propertyDetails.uri)
+        assertEquals(result!!.uri, propertyDetails.uri)
+
+        propertyDetailsDao.delete(result)
+        result = propertyDetailsDao.getPropertyDetails(propertyDetails.uri)
+        assertNull(result)
+    }
+
+    @Test
+    fun update_PropertyDetails() = runBlocking {
+        val propertyDetails = PropertySampleData().sample.propertyDetails
+
+        propertyDetailsDao.insert(propertyDetails)
+
+        var result = propertyDetailsDao.getPropertyDetails(propertyDetails.uri)
+        assertEquals(result!!.uri, propertyDetails.uri)
+        assertEquals(
+            AddressTypeConverter().toString(result.address),
+            AddressTypeConverter().toString(propertyDetails.address)
+        )
+        result.address.state = "Montreal"
+        propertyDetailsDao.update(result)
+
+        result = propertyDetailsDao.getPropertyDetails(propertyDetails.uri)
+
+        val newAddress = AddressTypeConverter().toString(result!!.address);
+        val oldAddress = AddressTypeConverter().toString(propertyDetails.address)
+        Log.i(TAG, "update_PropertyDetails: $newAddress || $oldAddress")
+        assertTrue(oldAddress != newAddress)
+    }
 
 
     @Test
@@ -56,8 +94,8 @@ class PropertyDetailsTests : DatabaseTests(){
         val features = PropertySampleData().sample.features
         val desc = PropertySampleData().sample.description
 
-        rmpDatabase.runInTransaction(Runnable{
-            runBlocking(){
+        rmpDatabase.runInTransaction(Runnable {
+            runBlocking {
                 propertyDetailsDao.insert(propertyDetails)
                 featureDao.insertAll(features)
                 descriptionDao.insert(desc)
