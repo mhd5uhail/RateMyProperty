@@ -135,7 +135,10 @@ class MainActivity : ComponentActivity() {
                             navBarState.value = true
                             topBarTextState.value = stringResource(id = R.string.contribute_nav)
                             ContributeScreen(onNavigate =
-                            { navController.navigate(it.route) }
+                            { navController.navigate(it.route) },
+                                onNavigateToNestedGraph = {
+                                    navBarState.value = false
+                                }
                             )
                         }
                         composable(route =

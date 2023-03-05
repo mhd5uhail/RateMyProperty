@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mhdsuhail.ratemyproperty.R
+import com.mhdsuhail.ratemyproperty.data.MileStone
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 import kotlin.math.min
 
@@ -25,17 +26,31 @@ import kotlin.math.min
 @Composable
 fun ProgressBarPreview() {
     RateMyPropertyTheme() {
-        MileStoneProgressBar(currentStep = 3, steps = 5)
+        val currentStep = remember {
+            mutableStateOf(3)
+        }
+        MileStoneProgressBar(
+            listOf("Address", "Features", "Picture", "Review"),
+            currentStep = currentStep
+        )
     }
 }
 
-
+/** MileStoneProgressBar
+ * @param mileStones list of titles containing the title for each milestone. ONLY 5 allowed at max
+ * @param currentStep indicates the currently active step. Changing this value will recompose
+ * the widget, every step before the current step is marked
+ * complete and steps after this are marked pending
+ *
+ * **NOTE:** The range for current step is (1 to mileStones.length)
+ * **/
 @Composable
-fun MileStoneProgressBar(steps: Int, currentStep: Int) {
+fun MileStoneProgressBar(mileStones: List<String>, currentStep: MutableState<Int>) {
     val maxSteps = 5
     Box(
         modifier = Modifier
             .fillMaxWidth()
+            .padding(10.dp)
     ) {
 
         //Generation code is to ensure there is a progress line connecting two checkboxes
@@ -48,11 +63,11 @@ fun MileStoneProgressBar(steps: Int, currentStep: Int) {
             verticalAlignment = Alignment.CenterVertically
         ) {
 
-            for (i in 1..min(steps, maxSteps)) {
+            for (i in 0 until min(mileStones.size, maxSteps)) {
                 val state = let {
-                    if (i < currentStep) {
+                    if (i < currentStep.value) {
                         MileStoneState.Complete
-                    } else if (i == currentStep) {
+                    } else if (i == currentStep.value) {
                         MileStoneState.Current
                     } else {
                         MileStoneState.Pending
@@ -61,7 +76,7 @@ fun MileStoneProgressBar(steps: Int, currentStep: Int) {
                 MileStone(
                     modifier = Modifier.weight(1f),
                     state = state,
-                    stepName = "Test $i"
+                    stepName = mileStones[i]
                 )
             }
         }
@@ -105,11 +120,16 @@ fun MileStone(
             val canvasSize = DpSize(width = 20.dp, height = 20.dp)
             when (state) {
                 MileStoneState.Pending -> {
-                    Canvas(modifier = Modifier.size(canvasSize).align(Alignment.Center).border(
-                        shape = CircleShape,
-                        width = 2.dp,
-                        color = stepColor
-                    )){
+                    Canvas(
+                        modifier = Modifier
+                            .size(canvasSize)
+                            .align(Alignment.Center)
+                            .border(
+                                shape = CircleShape,
+                                width = 2.dp,
+                                color = stepColor
+                            )
+                    ) {
                         drawCircle(Color.White)
                     }
                 }

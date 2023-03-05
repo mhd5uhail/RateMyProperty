@@ -31,7 +31,10 @@ import com.mhdsuhail.ratemyproperty.util.UiEvent
 fun PreviewContributeScreen() {
     RateMyPropertyTheme() {
         Surface {
-            ContributeScreen(onNavigate = {}, viewModel = ContributePageViewModel())
+            ContributeScreen(
+                onNavigate = {},
+                viewModel = ContributePageViewModel(),
+                onNavigateToNestedGraph = {})
         }
     }
 }
@@ -39,12 +42,15 @@ fun PreviewContributeScreen() {
 @Composable
 fun ContributeScreen(
     onNavigate: (UiEvent.Navigate) -> Unit,
+    onNavigateToNestedGraph: () -> Unit,
     viewModel: ContributePageViewModel = hiltViewModel()
 ) {
     Scaffold() { paddingValues ->
 
         Column(
-            modifier = Modifier.padding(paddingValues).fillMaxWidth(),
+            modifier = Modifier
+                .padding(paddingValues)
+                .fillMaxWidth(),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
