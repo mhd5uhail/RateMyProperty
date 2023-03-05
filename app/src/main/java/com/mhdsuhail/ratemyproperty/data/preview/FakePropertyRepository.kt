@@ -8,13 +8,14 @@ import kotlinx.coroutines.flow.flow
 
 class FakePropertyRepository() : PropertyRepository {
 
-    override suspend fun insertProperty(property: Property) {
-        TODO("Not yet implemented")
-
+    override suspend fun insertPropertyDetails(propertyDetails: PropertyDetails): Long {
+        //TODO("Not yet implemented")
+        return 1
     }
 
-    override suspend fun deleteProperty(property: Property) {
-        TODO("Not yet implemented")
+    override suspend fun deletePropertyDetails(propertyDetails: PropertyDetails) : Int{
+        //TODO("Not yet implemented")
+        return 1
     }
 
     override suspend fun getPropertyById(uri: String): Property? {
@@ -39,9 +40,6 @@ class FakePropertyRepository() : PropertyRepository {
         )
     }
 
-    override suspend fun updateProperty(property: Property) {
-        TODO("Not yet implemented")
-    }
 
     override suspend fun getPropertyDetailsById(uri: String): PropertyDetails? {
         TODO("Not yet implemented")

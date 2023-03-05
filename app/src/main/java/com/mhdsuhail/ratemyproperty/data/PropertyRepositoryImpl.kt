@@ -8,20 +8,18 @@ class PropertyRepositoryImpl(
     private val propertyDetailsDao: PropertyDetailsDao,
     private val propertyDao: PropertyDao
 ) : PropertyRepository {
-    override suspend fun insertProperty(property: Property) {
-        //propertyDao.insertProperty(property)
+
+    override suspend fun insertPropertyDetails(propertyDetails: PropertyDetails) : Long {
+        return propertyDetailsDao.insert(propertyDetails)
     }
 
-    override suspend fun deleteProperty(property: Property) {
-        //propertyDao.deleteProperty(property)
-    }
 
     override suspend fun getPropertyById(uri: String): Property? {
         return propertyDao.getPropertyById(uri)
     }
 
-    override suspend fun updateProperty(property: Property) {
-        //propertyDao.updateProperty(property)
+    override suspend fun deletePropertyDetails(propertyDetails: PropertyDetails) : Int {
+       return propertyDetailsDao.delete(propertyDetails)
     }
 
     override suspend fun getPropertyDetailsById(uri: String): PropertyDetails? {

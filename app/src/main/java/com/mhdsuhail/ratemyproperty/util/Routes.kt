@@ -6,4 +6,5 @@ object Routes {
     const val HOME_PAGE = "home_page"
     const val CONTRIBUTE_PAGE = "contribute_page"
     const val SEARCH_LIST = "search_list"
+    const val ADD_FORM = "add_form"
 }

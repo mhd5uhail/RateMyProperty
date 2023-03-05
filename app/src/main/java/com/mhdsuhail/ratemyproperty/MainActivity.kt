@@ -1,6 +1,7 @@
 package com.mhdsuhail.ratemyproperty
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.*
@@ -19,6 +20,7 @@ import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.mhdsuhail.ratemyproperty.ui.addpropertyscreen.AddPropertyScreen
 import com.mhdsuhail.ratemyproperty.ui.contributescreen.ContributeScreen
 import com.mhdsuhail.ratemyproperty.ui.globalui.BottomNavBar
 import com.mhdsuhail.ratemyproperty.ui.homescreen.HomeScreen
@@ -33,6 +35,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val tag = "MainActivity:"
+
     @OptIn(ExperimentalAnimationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -134,12 +138,8 @@ class MainActivity : ComponentActivity() {
                         ) {
                             navBarState.value = true
                             topBarTextState.value = stringResource(id = R.string.contribute_nav)
-                            ContributeScreen(onNavigate =
-                            { navController.navigate(it.route) },
-                                onNavigateToNestedGraph = {
-                                    navBarState.value = false
-                                }
-                            )
+                            ContributeScreen(onNavigate = { navController.navigate(it.route) })
+
                         }
                         composable(route =
                         Routes.PROP_VIEW_PAGE + "?prop_uri={prop_uri}",
@@ -173,6 +173,23 @@ class MainActivity : ComponentActivity() {
                                 onNavigate = {
                                     navController.navigate(it.route)
                                 }, onPopBackStack = { navController.popBackStack() })
+                        }
+
+                        composable(route = Routes.ADD_FORM,
+                            enterTransition = { fadeIn(animationSpec = tween(animDuration)) },
+                            exitTransition = { fadeOut(animationSpec = tween(animDuration)) },
+                            popEnterTransition = { fadeIn(animationSpec = tween(animDuration)) },
+                            popExitTransition = { fadeOut(animationSpec = tween(animDuration)) }
+                        ) {
+                            Log.i(tag, "onCreate: ADD form requesting")
+                            navBarState.value = false
+                            AddPropertyScreen(onBackToMainScreen = {
+                                navController.popBackStack()
+                            },
+                                onFormComplete = {
+                                    navController.navigate(it.route)
+                                }
+                            )
                         }
                     }
 

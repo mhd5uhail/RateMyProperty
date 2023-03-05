@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,6 +25,7 @@ import com.mhdsuhail.ratemyproperty.ui.theme.Blue200
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 import com.mhdsuhail.ratemyproperty.ui.theme.primaryTextColor
 import com.mhdsuhail.ratemyproperty.util.UiEvent
+import kotlinx.coroutines.flow.collect
 
 
 @Preview
@@ -33,8 +35,8 @@ fun PreviewContributeScreen() {
         Surface {
             ContributeScreen(
                 onNavigate = {},
-                viewModel = ContributePageViewModel(),
-                onNavigateToNestedGraph = {})
+                viewModel = ContributePageViewModel()
+            )
         }
     }
 }
@@ -42,9 +44,23 @@ fun PreviewContributeScreen() {
 @Composable
 fun ContributeScreen(
     onNavigate: (UiEvent.Navigate) -> Unit,
-    onNavigateToNestedGraph: () -> Unit,
     viewModel: ContributePageViewModel = hiltViewModel()
 ) {
+
+    LaunchedEffect(key1 = 1) {
+        viewModel.uiEvent.collect { event ->
+
+            when (event) {
+
+                is UiEvent.Navigate -> {
+                    onNavigate(event)
+                }
+                else -> {}
+            }
+
+        }
+    }
+
     Scaffold() { paddingValues ->
 
         Column(

@@ -3,6 +3,7 @@ package com.mhdsuhail.ratemyproperty.ui.contributescreen
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mhdsuhail.ratemyproperty.data.PropertyRepository
+import com.mhdsuhail.ratemyproperty.util.Routes
 import com.mhdsuhail.ratemyproperty.util.UiEvent
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -21,7 +22,7 @@ class ContributePageViewModel @Inject constructor() :
             when(events){
 
                 is ContributeScreenEvents.OnClickAddProperty -> {
-                    // TODO :Open the add form
+                    sendUiEvent(UiEvent.Navigate(Routes.ADD_FORM))
                 }
                 is ContributeScreenEvents.OnClickRequestChange -> {
                     // TODO :Open change request form
