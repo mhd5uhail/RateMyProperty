@@ -1,6 +1,8 @@
 package com.mhdsuhail.ratemyproperty.ui.addpropertyscreen
 
 import android.graphics.Picture
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mhdsuhail.ratemyproperty.data.*
@@ -19,12 +21,13 @@ class AddPropertyScreenViewModel @Inject constructor(private val propertyReposit
 
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    lateinit var addressFormState: Address
-    lateinit var posterContact: PosterContact
-    var price: Int = 0
-    lateinit var featuresList: List<Feature>
-    lateinit var pictureData: Picture
-    lateinit var description: PropertyDescription
+    var addressFormState: MutableState<FormStates.Address> = mutableStateOf(FormStates.Address())
+    var posterContact: MutableState<FormStates.PosterContact> = mutableStateOf(FormStates.PosterContact())
+    var price = mutableStateOf(0)
+    lateinit var featuresList: MutableState<List<Feature>>
+    lateinit var pictureData: MutableState<Picture>
+    var description: MutableState<FormStates.PropertyDescription> = mutableStateOf(FormStates.PropertyDescription())
+
 
     fun onEvent(event: AddPropertyScreenEvents) {
 
@@ -37,20 +40,34 @@ class AddPropertyScreenViewModel @Inject constructor(private val propertyReposit
             is AddPropertyScreenEvents.OnClickSubmitForm -> {
                 // todo: Send api call to server and then once successful store offline with received URI
                 viewModelScope.launch {
+                    val address = addressFormState.value
+                    val contact = posterContact.value
                     val res = propertyRepository.insertPropertyDetails(
                         PropertyDetails(
                             uri = "newProp",
-                            price = price,
+                            price = price.value,
                             currency = "$",
                             favourite = false,
                             recentlyViewed = false,
                             imageResourceId = null,
-                            address = addressFormState,
-                            posterContact = posterContact
+                            address = Address(
+                                country = address.country.value,
+                                state = address.state.value,
+                                city = address.city.value,
+                                street = address.street.value,
+                                unitNum = address.unitNum.value,
+                                postalCode = address.postalCode.value
+                            ),
+                            posterContact = PosterContact(
+                                name = contact.name.value,
+                                title = contact.title.value,
+                                imageResourceId = contact.imageResourceId.value,
+                                phoneNumber =  contact.phoneNumber.value
+                            )
                         )
                     )
-                    val message = let{
-                        if(res > 0)
+                    val message = let {
+                        if (res > 0)
                             "Property created :)"
                         else
                             "Failed to add x( "
@@ -61,7 +78,7 @@ class AddPropertyScreenViewModel @Inject constructor(private val propertyReposit
             }
 
             is AddPropertyScreenEvents.OnClickSubmitPage -> {
-                when(event.page.route){
+                when (event.page.route) {
 
                     AddFormPages.AddressForm.route -> {
                         // todo: Create and prepare the address object
