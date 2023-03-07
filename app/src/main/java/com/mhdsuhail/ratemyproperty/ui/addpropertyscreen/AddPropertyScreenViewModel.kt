@@ -2,6 +2,7 @@ package com.mhdsuhail.ratemyproperty.ui.addpropertyscreen
 
 import android.app.Application
 import android.graphics.Picture
+import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
@@ -91,16 +92,20 @@ class AddPropertyScreenViewModel @Inject constructor(
             }
 
             is AddPropertyScreenEvents.OnClickSubmitPage -> {
-                when (event.page.route) {
+                when (event.currentPageRoute) {
 
                     AddFormPages.AddressForm.route -> {
+                        // todo: Validate form
                         // todo: Create and prepare the address object
+                        Log.i(TAG, "onEvent: ${event.currentPageRoute}")
+                        sendUiEvent(UiEvent.Navigate(route = AddFormPages.AddressForm.route))
                     }
                     AddFormPages.AmenitiesForm.route -> {
+                        sendUiEvent(UiEvent.Navigate(route = AddFormPages.PictureDescForm.route))
 
                     }
                     AddFormPages.PictureDescForm.route -> {
-
+                        sendUiEvent(UiEvent.Navigate(route = AddFormPages.ReviewForm.route))
                     }
                     AddFormPages.ReviewForm.route -> {
                         // On submitting the final review page form is completed

@@ -17,4 +17,7 @@
     <string name="address">Address</string>
     <string name="realtor">Realtor</string>
     <string name="about_you">About you</string>
+    <string name="back_btn">Back</string>
+    <string name="submit_btn">Submit</string>
+    <string name="next_btn">Next</string>
 </resources>

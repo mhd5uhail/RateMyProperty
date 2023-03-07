@@ -188,7 +188,6 @@ fun AddressForm(
 
 
             AddressSection(address = address, listOfProvinceCity = viewModel.listOfProvince)
-            Divider(thickness = 2.dp)
             PosterSection(posterContact = posterContact)
 
         }
