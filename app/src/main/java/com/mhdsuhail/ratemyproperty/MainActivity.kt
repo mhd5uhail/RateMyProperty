@@ -181,7 +181,6 @@ class MainActivity : ComponentActivity() {
                             popEnterTransition = { fadeIn(animationSpec = tween(animDuration)) },
                             popExitTransition = { fadeOut(animationSpec = tween(animDuration)) }
                         ) {
-                            Log.i(tag, "onCreate: ADD form requesting")
                             navBarState.value = false
                             AddPropertyScreen(onBackToMainScreen = {
                                 navController.popBackStack()

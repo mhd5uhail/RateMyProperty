@@ -1,11 +1,14 @@
 package com.mhdsuhail.ratemyproperty.ui.addpropertyscreen
 
+import android.app.Application
 import android.graphics.Picture
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.mhdsuhail.ratemyproperty.data.*
+import com.mhdsuhail.ratemyproperty.data.json.CanadianProvinceParser
+import com.mhdsuhail.ratemyproperty.data.json.JsonParser
 import com.mhdsuhail.ratemyproperty.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -14,19 +17,29 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class AddPropertyScreenViewModel @Inject constructor(private val propertyRepository: PropertyRepository) :
-    ViewModel() {
+class AddPropertyScreenViewModel @Inject constructor(
+    private val propertyRepository: PropertyRepository,
+    private val canadianProvinceParser: JsonParser<CanadianProvince>,
+    application: Application
+) :
+    AndroidViewModel(application) {
+
+    private val TAG = "AddPropertyScreenViewModel"
 
     private val _uiEvent = Channel<UiEvent>()
 
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    var addressFormState: MutableState<FormStates.Address> = mutableStateOf(FormStates.Address())
-    var posterContact: MutableState<FormStates.PosterContact> = mutableStateOf(FormStates.PosterContact())
+    var listOfProvince = canadianProvinceParser.getData(application)
+    var addressFormState: MutableState<FormStates.Address> =
+        mutableStateOf(FormStates.Address())
+    var posterContact: MutableState<FormStates.PosterContact> =
+        mutableStateOf(FormStates.PosterContact())
     var price = mutableStateOf(0)
     lateinit var featuresList: MutableState<List<Feature>>
     lateinit var pictureData: MutableState<Picture>
-    var description: MutableState<FormStates.PropertyDescription> = mutableStateOf(FormStates.PropertyDescription())
+    var description: MutableState<FormStates.PropertyDescription> =
+        mutableStateOf(FormStates.PropertyDescription())
 
 
     fun onEvent(event: AddPropertyScreenEvents) {
@@ -51,7 +64,7 @@ class AddPropertyScreenViewModel @Inject constructor(private val propertyReposit
                             recentlyViewed = false,
                             imageResourceId = null,
                             address = Address(
-                                country = address.country.value,
+                                country = "CANADA",
                                 state = address.state.value,
                                 city = address.city.value,
                                 street = address.street.value,
@@ -62,7 +75,7 @@ class AddPropertyScreenViewModel @Inject constructor(private val propertyReposit
                                 name = contact.name.value,
                                 title = contact.title.value,
                                 imageResourceId = contact.imageResourceId.value,
-                                phoneNumber =  contact.phoneNumber.value
+                                phoneNumber = contact.phoneNumber.value
                             )
                         )
                     )

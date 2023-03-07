@@ -2,6 +2,8 @@ package com.mhdsuhail.ratemyproperty.di
 
 import android.app.Application
 import com.mhdsuhail.ratemyproperty.data.*
+import com.mhdsuhail.ratemyproperty.data.json.CanadianProvinceParser
+import com.mhdsuhail.ratemyproperty.data.json.JsonParser
 import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepository
 import com.mhdsuhail.ratemyproperty.data.room.RMPDatabase
 import dagger.Module
@@ -42,6 +44,12 @@ object AppModule {
     @Singleton
     fun providesPropertyDescriptionsRepository(db: RMPDatabase): PropertyDescriptionRepository {
         return PropertyDescriptionRepoImpl(db.descriptionsDao)
+    }
+
+    @Provides
+    @Singleton
+    fun providesCanadianProvinceParser() : JsonParser<CanadianProvince>{
+        return CanadianProvinceParser()
     }
 
 

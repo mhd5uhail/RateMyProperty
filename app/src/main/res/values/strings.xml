@@ -14,4 +14,7 @@
     <string name="report_mistake">Hey! something is wrong :(</string>
     <string name="add_property">I want to add a property</string>
     <string name="build_together">Lets build together !</string>
+    <string name="address">Address</string>
+    <string name="realtor">Realtor</string>
+    <string name="about_you">About you</string>
 </resources>

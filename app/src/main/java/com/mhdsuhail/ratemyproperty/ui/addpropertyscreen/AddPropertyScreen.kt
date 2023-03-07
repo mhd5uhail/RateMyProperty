@@ -1,6 +1,7 @@
 package com.mhdsuhail.ratemyproperty.ui.addpropertyscreen
 
 import MileStoneProgressBar
+import android.app.Application
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -12,7 +13,9 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.mhdsuhail.ratemyproperty.data.json.CanadianProvinceParser
 import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepository
+import com.mhdsuhail.ratemyproperty.data.preview.PreviewCanadianProvinceParser
 import com.mhdsuhail.ratemyproperty.ui.globalui.FormBottomNavBar
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 import com.mhdsuhail.ratemyproperty.util.UiEvent
@@ -25,8 +28,11 @@ fun PreviewAddPropertyScreen() {
         Surface {
             AddPropertyScreen(
                 {},
-                viewModel = AddPropertyScreenViewModel(propertyRepository = FakePropertyRepository())
-            , onFormComplete = {})
+                viewModel = AddPropertyScreenViewModel(
+                    propertyRepository = FakePropertyRepository(),
+                    canadianProvinceParser = PreviewCanadianProvinceParser(),
+                application = Application()
+                ), onFormComplete = {})
         }
     }
 }
@@ -36,7 +42,7 @@ fun PreviewAddPropertyScreen() {
 @Composable
 fun AddPropertyScreen(
     onBackToMainScreen: () -> Unit,
-    onFormComplete: (UiEvent.Navigate)-> Unit,
+    onFormComplete: (UiEvent.Navigate) -> Unit,
     viewModel: AddPropertyScreenViewModel = hiltViewModel()
 ) {
 
