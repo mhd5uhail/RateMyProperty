@@ -8,7 +8,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.mhdsuhail.ratemyproperty.data.*
-import com.mhdsuhail.ratemyproperty.data.json.CanadianProvinceParser
 import com.mhdsuhail.ratemyproperty.data.json.JsonParser
 import com.mhdsuhail.ratemyproperty.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,12 +19,20 @@ import javax.inject.Inject
 @HiltViewModel
 class AddPropertyScreenViewModel @Inject constructor(
     private val propertyRepository: PropertyRepository,
-    private val canadianProvinceParser: JsonParser<CanadianProvince>,
+    canadianProvinceParser: JsonParser<CanadianProvince>,
     application: Application
 ) :
     AndroidViewModel(application) {
 
     private val TAG = "AddPropertyScreenViewModel"
+
+
+    val forms = listOf(
+            AddFormPages.AddressForm,
+            AddFormPages.AmenitiesForm,
+            AddFormPages.PictureDescForm,
+            AddFormPages.ReviewForm)
+
 
     private val _uiEvent = Channel<UiEvent>()
 
@@ -37,8 +44,6 @@ class AddPropertyScreenViewModel @Inject constructor(
     var posterContact: MutableState<FormStates.PosterContact> =
         mutableStateOf(FormStates.PosterContact())
     var price = mutableStateOf(0)
-    lateinit var featuresList: MutableState<List<Feature>>
-    lateinit var pictureData: MutableState<Picture>
     var description: MutableState<FormStates.PropertyDescription> =
         mutableStateOf(FormStates.PropertyDescription())
 
@@ -47,7 +52,7 @@ class AddPropertyScreenViewModel @Inject constructor(
 
         when (event) {
 
-            is AddPropertyScreenEvents.OnClickBack -> {
+            is AddPropertyScreenEvents.OnBackPressed -> {
                 sendUiEvent(UiEvent.PopBackStack)
             }
 
@@ -98,14 +103,13 @@ class AddPropertyScreenViewModel @Inject constructor(
                         // todo: Validate form
                         // todo: Create and prepare the address object
                         Log.i(TAG, "onEvent: ${event.currentPageRoute}")
-                        sendUiEvent(UiEvent.Navigate(route = AddFormPages.AddressForm.route))
+                        sendUiEvent(UiEvent.Navigate(AddFormPages.AmenitiesForm.route))
                     }
                     AddFormPages.AmenitiesForm.route -> {
-                        sendUiEvent(UiEvent.Navigate(route = AddFormPages.PictureDescForm.route))
-
+                        sendUiEvent(UiEvent.Navigate(AddFormPages.PictureDescForm.route))
                     }
                     AddFormPages.PictureDescForm.route -> {
-                        sendUiEvent(UiEvent.Navigate(route = AddFormPages.ReviewForm.route))
+                        sendUiEvent(UiEvent.Navigate(AddFormPages.ReviewForm.route))
                     }
                     AddFormPages.ReviewForm.route -> {
                         // On submitting the final review page form is completed

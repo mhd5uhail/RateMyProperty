@@ -182,12 +182,10 @@ class MainActivity : ComponentActivity() {
                             popExitTransition = { fadeOut(animationSpec = tween(animDuration)) }
                         ) {
                             navBarState.value = false
-                            AddPropertyScreen(onBackToMainScreen = {
-                                navController.popBackStack()
-                            },
-                                onFormComplete = {
-                                    navController.navigate(it.route)
-                                }
+                            AddPropertyScreen(
+                                onBackToMainScreen = {
+                                    navController.popBackStack()
+                                },
                             )
                         }
                     }

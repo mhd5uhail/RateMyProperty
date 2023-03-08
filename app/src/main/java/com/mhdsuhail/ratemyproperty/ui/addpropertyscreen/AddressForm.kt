@@ -25,6 +25,7 @@ import com.mhdsuhail.ratemyproperty.data.json.CanadianProvinceParser
 import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepository
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 import com.mhdsuhail.ratemyproperty.ui.theme.primaryTextColor
+import com.mhdsuhail.ratemyproperty.util.UiEvent
 
 
 @Preview
@@ -35,8 +36,8 @@ fun PreviewAddressForm() {
             viewModel = AddPropertyScreenViewModel(
                 propertyRepository = FakePropertyRepository(),
                 canadianProvinceParser = CanadianProvinceParser(),
-                application = Application()
-            )
+                application = Application(),
+            ),
         )
     }
 }
@@ -176,7 +177,6 @@ fun AddressForm(
     val posterContact = remember {
         viewModel.posterContact.value
     }
-
 
     Scaffold(modifier = modifier, scaffoldState = scaffoldState) { paddingValues ->
         Column(

@@ -32,7 +32,7 @@ fun PreviewAddPropertyScreen() {
                     propertyRepository = FakePropertyRepository(),
                     canadianProvinceParser = PreviewCanadianProvinceParser(),
                     application = Application()
-                ), onFormComplete = {})
+                ))
         }
     }
 }
@@ -42,35 +42,24 @@ fun PreviewAddPropertyScreen() {
 @Composable
 fun AddPropertyScreen(
     onBackToMainScreen: () -> Unit,
-    onFormComplete: (UiEvent.Navigate) -> Unit,
     viewModel: AddPropertyScreenViewModel = hiltViewModel()
 ) {
-    val TAG =  "AddPropertyScreen"
+    val TAG = "AddPropertyScreen"
 
     val scaffoldState = rememberScaffoldState()
     val isLastPage = remember {
         mutableStateOf(false)
     }
 
-    val forms = remember {
-        listOf(
-            AddFormPages.AddressForm,
-            AddFormPages.AmenitiesForm,
-            AddFormPages.PictureDescForm,
-            AddFormPages.ReviewForm
-        )
-    }
     val navBarVisibility = remember {
         mutableStateOf(true)
     }
-
     val currentStep = remember {
-        mutableStateOf(0)
+        mutableStateOf(AddFormPages.AddressForm.step)
     }
     val animDuration = 700
     val navController = rememberAnimatedNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
-
 
     LaunchedEffect(key1 = true) {
 
@@ -79,7 +68,11 @@ fun AddPropertyScreen(
             when (event) {
 
                 is UiEvent.Navigate -> {
-                    navController.navigate(event.route)
+                    if(viewModel.forms.any{ it.route == event.route })
+                        navController.navigate(event.route)
+                    else
+                        onBackToMainScreen()
+                    // If route is invalid go back to main screen
                 }
 
                 is UiEvent.ShowSnackbar -> {
@@ -87,11 +80,10 @@ fun AddPropertyScreen(
                 }
 
                 is UiEvent.PopBackStack -> {
-                    if (navBackStackEntry?.destination?.route == AddFormPages.AddressForm.route) {
+                    if(navBackStackEntry?.destination?.route == AddFormPages.AddressForm.route)
                         onBackToMainScreen()
-                    } else {
+                    else
                         navController.popBackStack()
-                    }
                 }
 
             }
@@ -99,7 +91,6 @@ fun AddPropertyScreen(
         }
 
     }
-
 
     when (navBackStackEntry?.destination?.route) {
         AddFormPages.AddressForm.route -> {
@@ -119,7 +110,7 @@ fun AddPropertyScreen(
     Scaffold(scaffoldState = scaffoldState, topBar = {
         MileStoneProgressBar(mileStones = remember {
             val formTitleList = ArrayList<String>()
-            forms.map {
+            viewModel.forms.forEach {
                 formTitleList.add(it.title)
             }
             formTitleList
@@ -129,7 +120,14 @@ fun AddPropertyScreen(
             AnimatedFormBottomNavBar(
                 isVisible = navBarVisibility,
                 isLastPage = isLastPage,
-                navController = navController,
+                onBackPressed = {
+                    viewModel.onEvent(AddPropertyScreenEvents.OnBackPressed)
+                },
+                onNextPressed = {
+                    navBackStackEntry?.destination?.route.let {
+                        it?.let { viewModel.onEvent(AddPropertyScreenEvents.OnClickSubmitPage(it)) }
+                    }
+                }
             )
         }) { paddingValues ->
 

@@ -12,21 +12,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import com.mhdsuhail.ratemyproperty.R
-import com.mhdsuhail.ratemyproperty.ui.addpropertyscreen.AddFormPages
 import com.mhdsuhail.ratemyproperty.ui.theme.Blue200
-import java.nio.channels.NotYetConnectedException
 
 @Composable
 fun AnimatedFormBottomNavBar(
-    navController: NavController,
     isVisible: MutableState<Boolean>,
-    isLastPage: MutableState<Boolean>
+    isLastPage: MutableState<Boolean>,
+    onNextPressed: () -> Unit,
+    onBackPressed: () -> Unit
 ) {
-
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
 
     AnimatedVisibility(
         visible = isVisible.value,
@@ -46,7 +41,7 @@ fun AnimatedFormBottomNavBar(
                             .fillMaxSize()
                             .padding(5.dp)
                             .align(Alignment.Center), onClick = {
-                            navController.popBackStack()
+                            onBackPressed()
                         },
                         border = BorderStroke(width = 1.dp, color = Blue200)
                     ) {
@@ -58,24 +53,7 @@ fun AnimatedFormBottomNavBar(
                         .fillMaxSize()
                         .padding(5.dp)
                         .align(Alignment.Center), onClick = {
-
-                        when (navBackStackEntry?.destination?.route) {
-
-                            AddFormPages.AddressForm.route -> {
-                                navController.navigate(AddFormPages.AmenitiesForm.route)
-                            }
-                            AddFormPages.AmenitiesForm.route -> {
-                                navController.navigate(AddFormPages.PictureDescForm.route)
-                            }
-                            AddFormPages.PictureDescForm.route -> {
-                                navController.navigate(AddFormPages.ReviewForm.route)
-                            }
-                            AddFormPages.ReviewForm.route -> {
-                                // On submitting the final review page form is completed
-                                //TODO("Not Yet Implemented")
-                            }
-
-                        }
+                        onNextPressed()
                     }
                     ) {
                         Text(text = let {
