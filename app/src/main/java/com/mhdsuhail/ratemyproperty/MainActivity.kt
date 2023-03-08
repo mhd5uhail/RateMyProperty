@@ -20,6 +20,7 @@ import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
+import com.mhdsuhail.ratemyproperty.ui.addpropertyscreen.AddFormPages
 import com.mhdsuhail.ratemyproperty.ui.addpropertyscreen.AddPropertyScreen
 import com.mhdsuhail.ratemyproperty.ui.contributescreen.ContributeScreen
 import com.mhdsuhail.ratemyproperty.ui.globalui.BottomNavBar
@@ -184,7 +185,11 @@ class MainActivity : ComponentActivity() {
                             navBarState.value = false
                             AddPropertyScreen(
                                 onBackToMainScreen = {
-                                    navController.popBackStack()
+                                    navController.popBackStack(
+                                        route = Routes.CONTRIBUTE_PAGE,
+                                        inclusive = true
+                                    )
+                                    navController.navigate(it.route)
                                 },
                             )
                         }

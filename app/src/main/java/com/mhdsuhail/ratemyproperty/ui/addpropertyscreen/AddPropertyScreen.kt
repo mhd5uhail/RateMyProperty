@@ -10,6 +10,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
@@ -18,6 +19,7 @@ import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepository
 import com.mhdsuhail.ratemyproperty.data.preview.PreviewCanadianProvinceParser
 import com.mhdsuhail.ratemyproperty.ui.globalui.AnimatedFormBottomNavBar
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
+import com.mhdsuhail.ratemyproperty.util.Routes
 import com.mhdsuhail.ratemyproperty.util.UiEvent
 
 
@@ -32,16 +34,23 @@ fun PreviewAddPropertyScreen() {
                     propertyRepository = FakePropertyRepository(),
                     canadianProvinceParser = PreviewCanadianProvinceParser(),
                     application = Application()
-                ))
+                )
+            )
         }
     }
 }
 
+fun clearNavHistory(navController: NavController){
+    navController.popBackStack(
+        route = AddFormPages.AddressForm.route,
+        inclusive = true
+    )
+}
 
 @OptIn(ExperimentalAnimationApi::class)
 @Composable
 fun AddPropertyScreen(
-    onBackToMainScreen: () -> Unit,
+    onBackToMainScreen: (UiEvent.Navigate) -> Unit,
     viewModel: AddPropertyScreenViewModel = hiltViewModel()
 ) {
     val TAG = "AddPropertyScreen"
@@ -68,10 +77,12 @@ fun AddPropertyScreen(
             when (event) {
 
                 is UiEvent.Navigate -> {
-                    if(viewModel.forms.any{ it.route == event.route })
+                    if (viewModel.forms.any { it.route == event.route })
                         navController.navigate(event.route)
-                    else
-                        onBackToMainScreen()
+                    else {
+                        clearNavHistory(navController)
+                        onBackToMainScreen(event)
+                    }
                     // If route is invalid go back to main screen
                 }
 
@@ -80,8 +91,10 @@ fun AddPropertyScreen(
                 }
 
                 is UiEvent.PopBackStack -> {
-                    if(navBackStackEntry?.destination?.route == AddFormPages.AddressForm.route)
-                        onBackToMainScreen()
+                    if (navBackStackEntry?.destination?.route == AddFormPages.AddressForm.route) {
+                        clearNavHistory(navController)
+                        onBackToMainScreen(UiEvent.Navigate(Routes.CONTRIBUTE_PAGE))
+                    }
                     else
                         navController.popBackStack()
                 }

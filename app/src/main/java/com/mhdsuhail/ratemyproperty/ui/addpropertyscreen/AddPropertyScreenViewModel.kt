@@ -9,6 +9,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.mhdsuhail.ratemyproperty.data.*
 import com.mhdsuhail.ratemyproperty.data.json.JsonParser
+import com.mhdsuhail.ratemyproperty.util.Routes
 import com.mhdsuhail.ratemyproperty.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -59,32 +60,33 @@ class AddPropertyScreenViewModel @Inject constructor(
             is AddPropertyScreenEvents.OnClickSubmitForm -> {
                 // todo: Send api call to server and then once successful store offline with received URI
                 viewModelScope.launch {
-                    val address = addressFormState.value
-                    val contact = posterContact.value
-                    val res = propertyRepository.insertPropertyDetails(
-                        PropertyDetails(
-                            uri = "newProp",
-                            price = price.value,
-                            currency = "$",
-                            favourite = false,
-                            recentlyViewed = false,
-                            imageResourceId = null,
-                            address = Address(
-                                country = "CANADA",
-                                state = address.state.value,
-                                city = address.city.value,
-                                street = address.street.value,
-                                unitNum = address.unitNum.value,
-                                postalCode = address.postalCode.value
-                            ),
-                            posterContact = PosterContact(
-                                name = contact.name.value,
-                                title = contact.title.value,
-                                imageResourceId = contact.imageResourceId.value,
-                                phoneNumber = contact.phoneNumber.value
-                            )
-                        )
-                    )
+//                    val address = addressFormState.value
+//                    val contact = posterContact.value
+//                    val res = propertyRepository.insertPropertyDetails(
+//                        PropertyDetails(
+//                            uri = "newProp",
+//                            price = price.value,
+//                            currency = "$",
+//                            favourite = false,
+//                            recentlyViewed = false,
+//                            imageResourceId = null,
+//                            address = Address(
+//                                country = "CANADA",
+//                                state = address.state.value,
+//                                city = address.city.value,
+//                                street = address.street.value,
+//                                unitNum = address.unitNum.value,
+//                                postalCode = address.postalCode.value
+//                            ),
+//                            posterContact = PosterContact(
+//                                name = contact.name.value,
+//                                title = contact.title.value,
+//                                imageResourceId = contact.imageResourceId.value,
+//                                phoneNumber = contact.phoneNumber.value
+//                            )
+//                        )
+//                    )
+                    val res = 1
                     val message = let {
                         if (res > 0)
                             "Property created :)"
@@ -93,6 +95,7 @@ class AddPropertyScreenViewModel @Inject constructor(
 
                     }
                     sendUiEvent(UiEvent.ShowSnackbar(message))
+                    sendUiEvent(UiEvent.Navigate(Routes.HOME_PAGE))
                 }
             }
 
