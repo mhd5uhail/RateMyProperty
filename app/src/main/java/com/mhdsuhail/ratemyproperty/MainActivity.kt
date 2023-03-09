@@ -1,7 +1,6 @@
 package com.mhdsuhail.ratemyproperty
 
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.animation.*
@@ -20,7 +19,6 @@ import androidx.navigation.navArgument
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.mhdsuhail.ratemyproperty.ui.addpropertyscreen.AddFormPages
 import com.mhdsuhail.ratemyproperty.ui.addpropertyscreen.AddPropertyScreen
 import com.mhdsuhail.ratemyproperty.ui.contributescreen.ContributeScreen
 import com.mhdsuhail.ratemyproperty.ui.globalui.BottomNavBar

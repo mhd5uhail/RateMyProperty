@@ -2,10 +2,7 @@ package com.mhdsuhail.ratemyproperty.ui.addpropertyscreen
 
 import android.app.Application
 import android.location.Address
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -21,11 +18,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mhdsuhail.ratemyproperty.R
 import com.mhdsuhail.ratemyproperty.data.CanadianProvince
-import com.mhdsuhail.ratemyproperty.data.json.CanadianProvinceParser
 import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepository
+import com.mhdsuhail.ratemyproperty.data.preview.PreviewCanadianProvinceParser
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 import com.mhdsuhail.ratemyproperty.ui.theme.primaryTextColor
-import com.mhdsuhail.ratemyproperty.util.UiEvent
 
 
 @Preview
@@ -35,7 +31,7 @@ fun PreviewAddressForm() {
         AddressForm(
             viewModel = AddPropertyScreenViewModel(
                 propertyRepository = FakePropertyRepository(),
-                canadianProvinceParser = CanadianProvinceParser(),
+                canadianProvinceParser = PreviewCanadianProvinceParser(),
                 application = Application(),
             ),
         )
@@ -151,6 +147,8 @@ fun AddressSection(
 
 @Composable
 fun PosterSection(modifier: Modifier = Modifier, posterContact: FormStates.PosterContact) {
+    val phoneNumberLength = 10
+
     Column(modifier = modifier) {
         Text(
             modifier = Modifier
@@ -161,6 +159,46 @@ fun PosterSection(modifier: Modifier = Modifier, posterContact: FormStates.Poste
             fontWeight = FontWeight.SemiBold,
             color = primaryTextColor
         )
+
+        OutlinedTextField(
+            modifier = Modifier
+                .padding(10.dp)
+                .fillMaxWidth(),
+            label = { Text(text = "Name") },
+            value = posterContact.name.value,
+            onValueChange = {
+                posterContact.name.value = it
+            },
+            singleLine = true
+        )
+
+        OutlinedTextField(
+            modifier = Modifier
+                .padding(10.dp)
+                .fillMaxWidth(),
+            label = { Text(text = "Title") },
+            value = posterContact.title.value,
+            onValueChange = {
+                posterContact.title.value = it
+            },
+            singleLine = true
+        )
+
+        OutlinedTextField(
+            modifier = Modifier
+                .padding(10.dp)
+                .fillMaxWidth(),
+            label = { Text(text = "Mobile") },
+            value = posterContact.phoneNumber.value,
+            onValueChange = {
+                if(it.length<=phoneNumberLength)
+                    posterContact.phoneNumber.value = it
+            },
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            singleLine = true
+        )
+
+
     }
 }
 

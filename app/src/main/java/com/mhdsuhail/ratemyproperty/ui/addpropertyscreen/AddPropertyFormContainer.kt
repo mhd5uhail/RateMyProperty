@@ -2,7 +2,6 @@ package com.mhdsuhail.ratemyproperty.ui.addpropertyscreen
 
 import MileStoneProgressBar
 import android.app.Application
-import android.util.Log
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -40,7 +39,7 @@ fun PreviewAddPropertyScreen() {
     }
 }
 
-fun clearNavHistory(navController: NavController){
+fun clearNavHistory(navController: NavController) {
     navController.popBackStack(
         route = AddFormPages.AddressForm.route,
         inclusive = true
@@ -77,13 +76,12 @@ fun AddPropertyScreen(
             when (event) {
 
                 is UiEvent.Navigate -> {
-                    if (viewModel.forms.any { it.route == event.route })
+                    try {
                         navController.navigate(event.route)
-                    else {
+                    } catch (e: IllegalArgumentException) {
                         clearNavHistory(navController)
                         onBackToMainScreen(event)
                     }
-                    // If route is invalid go back to main screen
                 }
 
                 is UiEvent.ShowSnackbar -> {
@@ -94,8 +92,7 @@ fun AddPropertyScreen(
                     if (navBackStackEntry?.destination?.route == AddFormPages.AddressForm.route) {
                         clearNavHistory(navController)
                         onBackToMainScreen(UiEvent.Navigate(Routes.CONTRIBUTE_PAGE))
-                    }
-                    else
+                    } else
                         navController.popBackStack()
                 }
 
