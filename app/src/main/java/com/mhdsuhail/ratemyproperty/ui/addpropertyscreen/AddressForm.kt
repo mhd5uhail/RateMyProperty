@@ -10,18 +10,16 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mhdsuhail.ratemyproperty.R
 import com.mhdsuhail.ratemyproperty.data.CanadianProvince
 import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepository
 import com.mhdsuhail.ratemyproperty.data.preview.PreviewCanadianProvinceParser
+import com.mhdsuhail.ratemyproperty.ui.globalui.TitleText
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
-import com.mhdsuhail.ratemyproperty.ui.theme.primaryTextColor
 
 
 @Preview
@@ -50,15 +48,8 @@ fun AddressSection(
     }
 
     Column(modifier = modifier) {
-        Text(
-            modifier = Modifier
-                .padding(10.dp)
-                .fillMaxWidth(),
-            text = stringResource(id = R.string.address),
-            fontSize = 25.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = primaryTextColor
-        )
+        TitleText(text = stringResource(id = R.string.about_you))
+
 
         OutlinedTextField(
             modifier = Modifier
@@ -150,15 +141,7 @@ fun PosterSection(modifier: Modifier = Modifier, posterContact: FormStates.Poste
     val phoneNumberLength = 10
 
     Column(modifier = modifier) {
-        Text(
-            modifier = Modifier
-                .padding(10.dp)
-                .fillMaxWidth(),
-            text = stringResource(id = R.string.about_you),
-            fontSize = 25.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = primaryTextColor
-        )
+        TitleText(text = stringResource(id = R.string.about_you))
 
         OutlinedTextField(
             modifier = Modifier

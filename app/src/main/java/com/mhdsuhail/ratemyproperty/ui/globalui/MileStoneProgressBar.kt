@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.drawscope.clipRect
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -76,9 +77,12 @@ fun MileStoneProgressBar(mileStones: List<String>, currentStep: MutableState<Int
                 MileStone(
                     modifier = Modifier.weight(1f),
                     state = state,
-                    stepName = mileStones[i]
+                    stepName = mileStones[i],
+                    isFirst = i==0,
+                    isLast = i == min(mileStones.size, maxSteps)-1
                 )
             }
+
         }
 
     }
@@ -96,6 +100,8 @@ fun MileStone(
     modifier: Modifier = Modifier,
     state: MileStoneState,
     stepName: String,
+    isLast: Boolean,
+    isFirst: Boolean
 ) {
     val robotBolt = FontFamily(
         Font(R.font.robotobold)
@@ -111,13 +117,44 @@ fun MileStone(
             modifier = Modifier
                 .wrapContentSize()
         ) {
-
-            Divider(
-                modifier = Modifier.align(Alignment.CenterStart),
-                color = Color.LightGray,
-                thickness = 2.dp
-            )
             val canvasSize = DpSize(width = 20.dp, height = 20.dp)
+
+            Canvas(
+                modifier = Modifier
+                    .height(canvasSize.height)
+                    .fillMaxWidth()
+            ) {
+                val nextLink = Path().let {
+                    it.moveTo(this.size.width / 2, this.size.height / 2)
+                    it.lineTo(this.size.width, this.size.height / 2)
+                    it.close()
+                    it
+                }
+
+                val prevLink = Path().let {
+                    it.moveTo(this.size.width / 2, this.size.height / 2)
+                    it.lineTo(0f, this.size.height / 2)
+                    it.close()
+                    it
+                }
+
+                if (!isLast) {
+                    drawPath(
+                        nextLink,
+                        color = stepColor,
+                        style = Stroke(width = 2.dp.toPx(), cap = StrokeCap.Round)
+                    )
+
+                }
+                if (!isFirst) {
+                    drawPath(
+                        prevLink,
+                        color = stepColor,
+                        style = Stroke(width = 2.dp.toPx(), cap = StrokeCap.Round)
+                    )
+                }
+            }
+
             when (state) {
                 MileStoneState.Pending -> {
                     Canvas(

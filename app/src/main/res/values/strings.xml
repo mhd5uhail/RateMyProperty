@@ -20,4 +20,5 @@
     <string name="back_btn">Back</string>
     <string name="submit_btn">Submit</string>
     <string name="next_btn">Next</string>
+    <string name="amenities">Amenities</string>
 </resources>
