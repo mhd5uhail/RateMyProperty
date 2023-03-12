@@ -41,6 +41,62 @@ fun PreviewOutlinedDropDown() {
 
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
+fun OutlinedDropDownWFilter(
+    modifier: Modifier = Modifier,
+    expanded: MutableState<Boolean>,
+    label: String?,
+    dropDownList: List<String>?,
+    text: MutableState<String>,
+    onSelectItem: (String) -> Unit = {}// To control any other event that may happen
+) {
+
+    Box(modifier = modifier.wrapContentSize()) {
+        ExposedDropdownMenuBox(expanded = expanded.value, onExpandedChange = {
+            expanded.value = !expanded.value
+        }) {
+            OutlinedTextField(
+                isError = dropDownList?.any{ text.value == it } == false ,
+                modifier = Modifier
+                    .padding(10.dp)
+                    .fillMaxWidth(),
+                label = {
+                    label?.let { Text(text = label) }
+                },
+                value = text.value,
+                onValueChange = {
+                    text.value = it
+                },
+                singleLine = true,
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded.value) }
+            )
+            dropDownList?.let {
+                ExposedDropdownMenu(
+                    expanded = expanded.value,
+                    onDismissRequest = {
+//                        expanded.value = false
+                    }) {
+
+                    val filteredList =
+                        dropDownList.filter { it.contains(text.value, ignoreCase = true) }
+
+                    filteredList.forEach {
+                        DropdownMenuItem(onClick = {
+                            text.value = it
+                            expanded.value = false
+                            onSelectItem(it)
+                        }) {
+                            Text(text = it)
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
 fun OutlinedDropDown(
     modifier: Modifier = Modifier,
     expanded: MutableState<Boolean>,

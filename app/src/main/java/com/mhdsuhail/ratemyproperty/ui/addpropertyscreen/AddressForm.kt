@@ -17,6 +17,7 @@ import com.mhdsuhail.ratemyproperty.R
 import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepository
 import com.mhdsuhail.ratemyproperty.data.preview.PreviewCanadianProvinceParser
 import com.mhdsuhail.ratemyproperty.ui.globalui.OutlinedDropDown
+import com.mhdsuhail.ratemyproperty.ui.globalui.OutlinedDropDownWFilter
 import com.mhdsuhail.ratemyproperty.ui.globalui.TitleText
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 
@@ -87,7 +88,7 @@ fun AddressSection(
             }
         )
 
-        OutlinedDropDown(
+        OutlinedDropDownWFilter(
             expanded = cityDropDownExpanded,
             label = "City",
             dropDownList = mapOfCities[address.province.value],
