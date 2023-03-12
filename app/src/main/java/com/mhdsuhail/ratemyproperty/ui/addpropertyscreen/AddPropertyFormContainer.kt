@@ -124,7 +124,7 @@ fun AddPropertyScreen(
                 formTitleList.add(it.title)
             }
             formTitleList
-        }, currentStep = currentStep)
+        }, currentStep = currentStep.value)
     },
         bottomBar = {
             AnimatedFormBottomNavBar(
@@ -164,7 +164,7 @@ fun AddPropertyScreen(
                 isLastPage.value = false
                 currentStep.value = AddFormPages.AmenitiesForm.step
                 Column(modifier = Modifier.fillMaxSize()) {
-                    Text(text = "Amenities")
+                    AmenitiesForm()
                 }
             }
 
@@ -175,7 +175,7 @@ fun AddPropertyScreen(
             ) {
                 isLastPage.value = false
                 currentStep.value = AddFormPages.PictureDescForm.step
-                Text(text = "Picture")
+                PictureDescriptionForm()
             }
 
             composable(
@@ -185,7 +185,7 @@ fun AddPropertyScreen(
             ) {
                 isLastPage.value = true
                 currentStep.value = AddFormPages.ReviewForm.step
-                Text("Review")
+                ReviewForm()
             }
 
         }

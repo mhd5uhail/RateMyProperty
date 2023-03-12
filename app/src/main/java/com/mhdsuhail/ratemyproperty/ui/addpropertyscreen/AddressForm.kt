@@ -1,7 +1,7 @@
 package com.mhdsuhail.ratemyproperty.ui.addpropertyscreen
 
 import android.app.Application
-import android.location.Address
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -14,10 +14,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.mhdsuhail.ratemyproperty.MainActivity
 import com.mhdsuhail.ratemyproperty.R
-import com.mhdsuhail.ratemyproperty.data.CanadianProvince
 import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepository
 import com.mhdsuhail.ratemyproperty.data.preview.PreviewCanadianProvinceParser
+import com.mhdsuhail.ratemyproperty.ui.globalui.OutlinedDropDown
 import com.mhdsuhail.ratemyproperty.ui.globalui.TitleText
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 
@@ -36,14 +37,17 @@ fun PreviewAddressForm() {
     }
 }
 
-@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun AddressSection(
     modifier: Modifier = Modifier,
     address: FormStates.Address,
-    listOfProvinceCity: List<CanadianProvince>
+    listOfProvinces: List<String>,
+    mapOfCities: HashMap<String, List<String>>
 ) {
-    var countryDropDownExpanded by remember {
+    val countryDropDownExpanded = remember {
+        mutableStateOf(false)
+    }
+    val cityDropDownExpanded = remember {
         mutableStateOf(false)
     }
 
@@ -75,53 +79,22 @@ fun AddressSection(
             singleLine = true
         )
 
-        OutlinedTextField(
-            modifier = Modifier
-                .padding(10.dp)
-                .fillMaxWidth(),
-            label = { Text(text = "City") },
-            value = address.city.value,
-            onValueChange = {
-                address.city.value = it
-            },
-            singleLine = true
+        OutlinedDropDown(
+            expanded = countryDropDownExpanded,
+            label = "Province",
+            dropDownList = listOfProvinces,
+            text = address.province,
+            onSelectItem = {
+                address.city.value = ""
+            }
         )
 
-        ExposedDropdownMenuBox(
-            expanded = countryDropDownExpanded,
-            onExpandedChange = { countryDropDownExpanded = !countryDropDownExpanded }) {
-
-            OutlinedTextField(
-                modifier = Modifier
-                    .padding(10.dp)
-                    .fillMaxWidth(),
-                label = { Text(text = "Province") },
-                value = address.state.value,
-                onValueChange = {
-                    address.state.value = it
-                },
-                singleLine = true,
-                readOnly = true,
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = countryDropDownExpanded) }
-            )
-
-            ExposedDropdownMenu(
-                expanded = countryDropDownExpanded,
-                onDismissRequest = { countryDropDownExpanded = false }) {
-                listOfProvinceCity.forEach { province ->
-
-                    DropdownMenuItem(onClick = {
-                        address.state.value = province.name.toString()
-                        countryDropDownExpanded = false
-                    }) {
-                        Text(text = province.name.toString(), maxLines = 1)
-                    }
-                }
-
-
-            }
-        }
-
+        OutlinedDropDown(
+            expanded = cityDropDownExpanded,
+            label = "City",
+            dropDownList = mapOfCities[address.province.value],
+            text = address.city
+        )
 
         OutlinedTextField(
             modifier = Modifier
@@ -174,7 +147,7 @@ fun PosterSection(modifier: Modifier = Modifier, posterContact: FormStates.Poste
             label = { Text(text = "Mobile") },
             value = posterContact.phoneNumber.value,
             onValueChange = {
-                if(it.length<=phoneNumberLength)
+                if (it.length <= phoneNumberLength)
                     posterContact.phoneNumber.value = it
             },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
@@ -208,7 +181,11 @@ fun AddressForm(
         ) {
 
 
-            AddressSection(address = address, listOfProvinceCity = viewModel.listOfProvince)
+            AddressSection(
+                address = address,
+                listOfProvinces = viewModel.listOfProvince,
+                mapOfCities = viewModel.mapOfCities
+            )
             PosterSection(posterContact = posterContact)
 
         }

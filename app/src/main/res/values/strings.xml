@@ -21,4 +21,8 @@
     <string name="submit_btn">Submit</string>
     <string name="next_btn">Next</string>
     <string name="amenities">Amenities</string>
+    <string name="review">Review</string>
+    <string name="description">Description</string>
+    <string name="cancel">Cancel</string>
+    <string name="addFeature">Add Feature</string>
 </resources>

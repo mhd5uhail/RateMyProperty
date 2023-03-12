@@ -6,7 +6,7 @@ import androidx.compose.runtime.mutableStateOf
 sealed class FormStates {
     data class Address(
         var country: MutableState<String> = mutableStateOf(""),
-        var state: MutableState<String> = mutableStateOf(""),
+        var province: MutableState<String> = mutableStateOf(""),
         var city: MutableState<String> = mutableStateOf(""),
         var street: MutableState<String> = mutableStateOf(""),
         var unitNum: MutableState<String> = mutableStateOf(""),

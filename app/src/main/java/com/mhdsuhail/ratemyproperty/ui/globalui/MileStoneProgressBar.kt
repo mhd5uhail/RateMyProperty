@@ -27,9 +27,7 @@ import kotlin.math.min
 @Composable
 fun ProgressBarPreview() {
     RateMyPropertyTheme() {
-        val currentStep = remember {
-            mutableStateOf(3)
-        }
+        val currentStep = 3
         MileStoneProgressBar(
             listOf("Address", "Features", "Picture", "Review"),
             currentStep = currentStep
@@ -46,7 +44,7 @@ fun ProgressBarPreview() {
  * **NOTE:** The range for current step is (1 to mileStones.length)
  * **/
 @Composable
-fun MileStoneProgressBar(mileStones: List<String>, currentStep: MutableState<Int>) {
+fun MileStoneProgressBar(mileStones: List<String>, currentStep: Int) {
     val maxSteps = 5
     Box(
         modifier = Modifier
@@ -66,9 +64,9 @@ fun MileStoneProgressBar(mileStones: List<String>, currentStep: MutableState<Int
 
             for (i in 0 until min(mileStones.size, maxSteps)) {
                 val state = let {
-                    if (i < currentStep.value) {
+                    if (i < currentStep) {
                         MileStoneState.Complete
-                    } else if (i == currentStep.value) {
+                    } else if (i == currentStep) {
                         MileStoneState.Current
                     } else {
                         MileStoneState.Pending

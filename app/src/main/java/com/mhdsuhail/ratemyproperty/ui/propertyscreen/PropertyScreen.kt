@@ -25,6 +25,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -400,16 +401,16 @@ fun FeaturesList(features: List<Feature>) {
         }
     }
 }
-//
-//@Preview
-//@Composable
-//fun FeatureItemPreviews(@PreviewParameter(FeaturePreviewProvider::class) feature: Feature) {
-//    RateMyPropertyTheme() {
-//        Surface() {
-//            FeatureItem(feature)
-//        }
-//    }
-//}
+
+@Preview
+@Composable
+fun FeatureItemPreviews(@PreviewParameter(FeaturePreviewProvider::class) feature: Feature) {
+    RateMyPropertyTheme() {
+        Surface() {
+            FeatureItem(feature)
+        }
+    }
+}
 
 @Composable
 fun FeatureItem(feature: Feature) {

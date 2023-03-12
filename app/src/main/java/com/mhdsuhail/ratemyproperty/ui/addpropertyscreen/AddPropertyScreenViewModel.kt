@@ -29,17 +29,31 @@ class AddPropertyScreenViewModel @Inject constructor(
 
 
     val forms = listOf(
-            AddFormPages.AddressForm,
-            AddFormPages.AmenitiesForm,
-            AddFormPages.PictureDescForm,
-            AddFormPages.ReviewForm)
+        AddFormPages.AddressForm,
+        AddFormPages.AmenitiesForm,
+        AddFormPages.PictureDescForm,
+        AddFormPages.ReviewForm
+    )
 
 
     private val _uiEvent = Channel<UiEvent>()
 
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    var listOfProvince = canadianProvinceParser.getData(application)
+    private val listOfProvinceAndCity = canadianProvinceParser.getData(application)
+
+    val listOfProvince = ArrayList<String>()
+    val mapOfCities = HashMap<String, List<String>>()
+
+    init {
+        listOfProvinceAndCity.forEach { province ->
+            listOfProvince.add(province.name!!)
+            if (!mapOfCities.containsKey(province.name!!))
+                mapOfCities[province.name!!] = province.cities + province.towns
+        }
+
+    }
+
     var addressFormState: MutableState<FormStates.Address> =
         mutableStateOf(FormStates.Address())
     var posterContact: MutableState<FormStates.PosterContact> =
@@ -122,7 +136,6 @@ class AddPropertyScreenViewModel @Inject constructor(
                 }
             }
 
-            else -> {}
         }
 
     }
