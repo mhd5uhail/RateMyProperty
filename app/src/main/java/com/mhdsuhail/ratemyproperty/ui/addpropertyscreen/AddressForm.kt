@@ -1,7 +1,6 @@
 package com.mhdsuhail.ratemyproperty.ui.addpropertyscreen
 
 import android.app.Application
-import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -14,7 +13,6 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.mhdsuhail.ratemyproperty.MainActivity
 import com.mhdsuhail.ratemyproperty.R
 import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepository
 import com.mhdsuhail.ratemyproperty.data.preview.PreviewCanadianProvinceParser
@@ -183,8 +181,8 @@ fun AddressForm(
 
             AddressSection(
                 address = address,
-                listOfProvinces = viewModel.listOfProvince,
-                mapOfCities = viewModel.mapOfCities
+                listOfProvinces = viewModel.province2City.keys.toList(),
+                mapOfCities = viewModel.province2City
             )
             PosterSection(posterContact = posterContact)
 

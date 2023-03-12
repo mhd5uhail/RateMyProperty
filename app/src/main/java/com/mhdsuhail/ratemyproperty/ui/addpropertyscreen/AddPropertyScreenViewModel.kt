@@ -1,7 +1,6 @@
 package com.mhdsuhail.ratemyproperty.ui.addpropertyscreen
 
 import android.app.Application
-import android.graphics.Picture
 import android.util.Log
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -42,14 +41,12 @@ class AddPropertyScreenViewModel @Inject constructor(
 
     private val listOfProvinceAndCity = canadianProvinceParser.getData(application)
 
-    val listOfProvince = ArrayList<String>()
-    val mapOfCities = HashMap<String, List<String>>()
+    val province2City = HashMap<String, List<String>>()
 
     init {
         listOfProvinceAndCity.forEach { province ->
-            listOfProvince.add(province.name!!)
-            if (!mapOfCities.containsKey(province.name!!))
-                mapOfCities[province.name!!] = province.cities + province.towns
+            if (!province2City.containsKey(province.name!!))
+                province2City[province.name!!] = province.cities + province.towns
         }
 
     }
