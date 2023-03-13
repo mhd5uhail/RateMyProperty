@@ -15,16 +15,26 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import com.mhdsuhail.ratemyproperty.data.UnitType
+import kotlin.reflect.typeOf
 
 @HiltViewModel
 class AddPropertyScreenViewModel @Inject constructor(
     private val propertyRepository: PropertyRepository,
     canadianProvinceParser: JsonParser<CanadianProvince>,
+    featureDataParser: JsonParser<FeatureData>,
+    unitDataParser: JsonParser<UnitType>,
     application: Application
 ) :
     AndroidViewModel(application) {
 
-    private val TAG = "AddPropertyScreenViewModel"
+    companion object {
+        private const val TAG = "AddPropertyScreenViewModel"
+        private const val GEO_DATA_FILE = "geodata/canada_states_cities.json"
+        private const val FEATURE_DATA_FILE = "features/property_features.json"
+        private const val UNIT_TYPES_FILE = "features/unit_types.json"
+
+    }
 
 
     val forms = listOf(
@@ -39,16 +49,45 @@ class AddPropertyScreenViewModel @Inject constructor(
 
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    private val listOfProvinceAndCity = canadianProvinceParser.getData(application)
+    private val listOfProvinceAndCity : List<CanadianProvince> = canadianProvinceParser.getDataAsList(
+        application,
+        GEO_DATA_FILE
+    )
+
+
+    private val listOfFeatureUnitData : List<FeatureData> = featureDataParser.getDataAsList(
+        application,
+        FEATURE_DATA_FILE
+    )
+    private val listOfUnits : List<UnitType> = unitDataParser.getDataAsList(
+        application,
+        UNIT_TYPES_FILE
+    )
 
     val province2City = HashMap<String, List<String>>()
+    val unitsOfFeature = HashMap<String, List<String>>()
 
     init {
+        Log.i(TAG, "${ listOfProvinceAndCity[0] is CanadianProvince }: ")
+        Log.i(TAG, "${ listOfProvinceAndCity[0].name}: ")
         listOfProvinceAndCity.forEach { province ->
-            if (!province2City.containsKey(province.name!!))
-                province2City[province.name!!] = province.cities + province.towns
+            province2City[province.name!!] = province.cities + province.towns
         }
 
+        val unitMap = HashMap<Int, UnitType>()
+        listOfUnits.forEach { unit ->
+            unitMap[unit.id] = unit
+        }
+
+        listOfFeatureUnitData.forEach { featureUnitData ->
+            unitsOfFeature[featureUnitData.name] = let {
+                val units = ArrayList<String>()
+                featureUnitData.unitTypes.forEach { unit ->
+                    unitMap[unit]?.let { it -> units.add(it.unit) }
+                }
+                units
+            }
+        }
     }
 
     var addressFormState: MutableState<FormStates.Address> =

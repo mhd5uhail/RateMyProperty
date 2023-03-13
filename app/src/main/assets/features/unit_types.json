@@ -1,0 +1,41 @@
+[{
+  "id": 1,
+  "unit": "sq ft",
+  "type": "Number"
+},
+  {
+    "id": 2,
+    "unit": "m2",
+    "type": "Number"
+  },
+  {
+    "id": 3,
+    "unit": "Acres",
+    "type": "Number"
+  },
+  {
+    "id": 4,
+    "unit": "Yes/No",
+    "type": "Boolean"
+  },
+  {
+    "id": 5,
+    "unit": "Yes/No",
+    "type": "Boolean"
+  },
+  {
+    "id": 6,
+    "unit": "Bathrooms",
+    "type": "Number"
+  },
+  {
+    "id": 7,
+    "unit": "Bedrooms",
+    "type": "Number"
+  },
+  {
+    "id": 8,
+    "unit": "Spots",
+    "type": "Number"
+  }
+]

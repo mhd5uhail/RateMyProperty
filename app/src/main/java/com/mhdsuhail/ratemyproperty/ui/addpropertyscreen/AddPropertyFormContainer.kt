@@ -14,8 +14,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepository
-import com.mhdsuhail.ratemyproperty.data.preview.PreviewCanadianProvinceParser
+import com.mhdsuhail.ratemyproperty.data.preview.*
 import com.mhdsuhail.ratemyproperty.ui.globalui.AnimatedFormBottomNavBar
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 import com.mhdsuhail.ratemyproperty.util.Routes
@@ -32,7 +31,9 @@ fun PreviewAddPropertyScreen() {
                 viewModel = AddPropertyScreenViewModel(
                     propertyRepository = FakePropertyRepository(),
                     canadianProvinceParser = PreviewCanadianProvinceParser(),
-                    application = Application()
+                    application = Application(),
+                    featureDataParser = PreviewFeatureDataParser(),
+                    unitDataParser = PreviewUnitTypeParser()
                 )
             )
         }
@@ -164,7 +165,7 @@ fun AddPropertyScreen(
                 isLastPage.value = false
                 currentStep.value = AddFormPages.AmenitiesForm.step
                 Column(modifier = Modifier.fillMaxSize()) {
-                    AmenitiesForm()
+                    AmenitiesForm(unitsOfFeature = viewModel.unitsOfFeature )
                 }
             }
 

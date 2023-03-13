@@ -4,5 +4,5 @@ import android.content.Context
 import com.mhdsuhail.ratemyproperty.data.CanadianProvince
 
 interface JsonParser<T> {
-    fun getData(context: Context): List<T>
+    fun getDataAsList(context: Context,filePath: String): List<T>
 }

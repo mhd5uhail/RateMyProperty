@@ -16,6 +16,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.mhdsuhail.ratemyproperty.R
 import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepository
 import com.mhdsuhail.ratemyproperty.data.preview.PreviewCanadianProvinceParser
+import com.mhdsuhail.ratemyproperty.data.preview.PreviewFeatureDataParser
+import com.mhdsuhail.ratemyproperty.data.preview.PreviewUnitTypeParser
 import com.mhdsuhail.ratemyproperty.ui.globalui.OutlinedDropDown
 import com.mhdsuhail.ratemyproperty.ui.globalui.OutlinedDropDownWFilter
 import com.mhdsuhail.ratemyproperty.ui.globalui.TitleText
@@ -31,6 +33,8 @@ fun PreviewAddressForm() {
                 propertyRepository = FakePropertyRepository(),
                 canadianProvinceParser = PreviewCanadianProvinceParser(),
                 application = Application(),
+                unitDataParser = PreviewUnitTypeParser(),
+                featureDataParser = PreviewFeatureDataParser()
             ),
         )
     }

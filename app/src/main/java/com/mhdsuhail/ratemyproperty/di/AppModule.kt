@@ -2,8 +2,7 @@ package com.mhdsuhail.ratemyproperty.di
 
 import android.app.Application
 import com.mhdsuhail.ratemyproperty.data.*
-import com.mhdsuhail.ratemyproperty.data.json.CanadianProvinceParser
-import com.mhdsuhail.ratemyproperty.data.json.JsonParser
+import com.mhdsuhail.ratemyproperty.data.json.*
 import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepository
 import com.mhdsuhail.ratemyproperty.data.room.RMPDatabase
 import dagger.Module
@@ -52,5 +51,16 @@ object AppModule {
         return CanadianProvinceParser()
     }
 
+    @Provides
+    @Singleton
+    fun providesFeatureDataParser() : JsonParser<FeatureData>{
+        return FeatureDataParser()
+    }
+    @Provides
+
+    @Singleton
+    fun providesUnitTypeDataParser() : JsonParser<UnitType>{
+        return UnitTypeDataParser()
+    }
 
 }

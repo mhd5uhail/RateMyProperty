@@ -8,7 +8,7 @@ import javax.inject.Singleton
 
 @Singleton
 class PreviewCanadianProvinceParser @Inject constructor(): JsonParser<CanadianProvince> {
-    override fun getData(context: Context): List<CanadianProvince> {
+    override fun getDataAsList(context: Context, filePath: String): List<CanadianProvince> {
         return listOf(
             CanadianProvince(
                 name = "Ontario",

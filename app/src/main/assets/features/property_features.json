@@ -1,0 +1,61 @@
+[
+  {
+    "id": 1,
+    "name": "Area",
+    "description": "",
+    "unitTypes": [
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Swimming Pool",
+    "description": "",
+    "unitTypes": [
+      4
+    ]
+  },
+  {
+    "id": 3,
+    "name": "A/C",
+    "description": "",
+    "unitTypes": [
+      5
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Bathrooms",
+    "description": "",
+    "unitTypes": [
+      6
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Bedrooms",
+    "description": "",
+    "unitTypes": [
+      7
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Parking Lot",
+    "description": "",
+    "unitTypes": [
+      5,
+      8
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Swimming Pool",
+    "description": "",
+    "unitTypes": [
+      6
+    ]
+  }
+]

@@ -22,18 +22,20 @@ import com.mhdsuhail.ratemyproperty.ui.globalui.OutlinedDropDown
 import com.mhdsuhail.ratemyproperty.ui.globalui.TitleText
 import com.mhdsuhail.ratemyproperty.ui.theme.Blue200
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
+import com.mhdsuhail.ratemyproperty.data.UnitType
 
 @Preview
 @Composable
 fun PreviewAmenityAddDialog() {
     RateMyPropertyTheme {
-        AmenityAddDialog(onAddFeature = {}, onCancel = {})
+        AmenityAddDialog(onAddFeature = {}, onCancel = {}, unitsOfFeature = emptyMap())
     }
 }
 
 @Composable
 fun AmenityAddDialog(
     modifier: Modifier = Modifier,
+    unitsOfFeature: Map<String, List<String>>,
     onAddFeature: () -> Unit,
     onCancel: () -> Unit
 ) {
@@ -53,16 +55,14 @@ fun AmenityAddDialog(
         mutableStateOf("")
     }
 
-    val listOfFeatures = listOf("Area", "Swimming Pool", "Parking", "Bedrooms", "Patio")
-    val listOfUnits = listOf("Present/Absent", "Sqft", "m2", "Count")
 
     Surface(
         modifier = modifier
             .wrapContentSize()
             .clip(
-                shape = RoundedCornerShape(20.dp)
+                shape = RoundedCornerShape(10.dp)
             )
-            .border(width = 2.dp, color = Blue200, shape = RoundedCornerShape(20.dp)),
+            .border(width = 2.dp, color = Blue200, shape = RoundedCornerShape(10.dp)),
     ) {
         Column(
             modifier = Modifier
@@ -77,13 +77,13 @@ fun AmenityAddDialog(
                 text = featureText,
                 expanded = expandedFeatureMenu,
                 label = "Select Feature",
-                dropDownList = listOfFeatures,
+                dropDownList = unitsOfFeature.keys.toList(),
             )
             OutlinedDropDown(
                 text = unitText,
                 expanded = expandedUnitMenu,
                 label = "Select Unit",
-                dropDownList = listOfUnits
+                dropDownList = unitsOfFeature[featureText.value]
             )
 
             OutlinedTextField(
@@ -138,7 +138,10 @@ fun AmenityAddDialog(
 }
 
 @Composable
-fun AmenitiesForm(modifier: Modifier = Modifier) {
+fun AmenitiesForm(
+    modifier: Modifier = Modifier,
+    unitsOfFeature: Map<String,List<String>>
+) {
     val scaffoldState = rememberScaffoldState()
     val dialogState: MutableState<Boolean> = remember {
         mutableStateOf(false)
@@ -153,7 +156,9 @@ fun AmenitiesForm(modifier: Modifier = Modifier) {
                     dialogState.value = false
                 }, onCancel = {
                     dialogState.value = false
-                })
+                },
+                    unitsOfFeature = unitsOfFeature
+                )
             }
         }
 
@@ -189,7 +194,7 @@ fun AmenitiesForm(modifier: Modifier = Modifier) {
 @Composable
 fun PreviewAmenitiesForm() {
     RateMyPropertyTheme {
-        AmenitiesForm()
+        AmenitiesForm(unitsOfFeature = emptyMap())
 
     }
 }
