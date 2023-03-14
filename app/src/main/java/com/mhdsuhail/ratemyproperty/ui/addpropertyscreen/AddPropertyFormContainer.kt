@@ -154,7 +154,7 @@ fun AddPropertyScreen(
             ) {
                 isLastPage.value = false
                 currentStep.value = AddFormPages.AddressForm.step
-                AddressForm()
+                AddressForm(viewModel = viewModel)
             }
 
             composable(
@@ -165,7 +165,7 @@ fun AddPropertyScreen(
                 isLastPage.value = false
                 currentStep.value = AddFormPages.AmenitiesForm.step
                 Column(modifier = Modifier.fillMaxSize()) {
-                    AmenitiesForm(unitsOfFeature = viewModel.unitsOfFeature )
+                    AmenitiesForm(viewModel = viewModel)
                 }
             }
 

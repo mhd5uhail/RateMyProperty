@@ -72,7 +72,9 @@ fun OutlinedDropDownWFilter(
             dropDownList?.let {
                 ExposedDropdownMenu(
                     expanded = expanded.value,
-                    onDismissRequest = {}) {
+                    onDismissRequest = {
+//                        expanded.value = false
+                    }) {
 
                     val filteredList =
                         dropDownList.filter { it.contains(text.value, ignoreCase = true) }

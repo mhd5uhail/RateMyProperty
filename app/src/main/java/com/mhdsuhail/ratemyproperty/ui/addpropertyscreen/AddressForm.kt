@@ -55,7 +55,7 @@ fun AddressSection(
     }
 
     Column(modifier = modifier) {
-        TitleText(text = stringResource(id = R.string.about_you))
+        TitleText(text = stringResource(id = R.string.address))
 
 
         OutlinedTextField(
@@ -164,7 +164,7 @@ fun PosterSection(modifier: Modifier = Modifier, posterContact: FormStates.Poste
 @Composable
 fun AddressForm(
     modifier: Modifier = Modifier,
-    viewModel: AddPropertyScreenViewModel = hiltViewModel()
+    viewModel: AddPropertyScreenViewModel
 ) {
     val scaffoldState = rememberScaffoldState()
 

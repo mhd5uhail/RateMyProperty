@@ -3,6 +3,7 @@ package com.mhdsuhail.ratemyproperty.ui.addpropertyscreen
 import android.app.Application
 import android.util.Log
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,7 +17,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.mhdsuhail.ratemyproperty.data.UnitType
-import kotlin.reflect.typeOf
 
 @HiltViewModel
 class AddPropertyScreenViewModel @Inject constructor(
@@ -49,17 +49,18 @@ class AddPropertyScreenViewModel @Inject constructor(
 
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    private val listOfProvinceAndCity : List<CanadianProvince> = canadianProvinceParser.getDataAsList(
-        application,
-        GEO_DATA_FILE
-    )
+    private val listOfProvinceAndCity: List<CanadianProvince> =
+        canadianProvinceParser.getDataAsList(
+            application,
+            GEO_DATA_FILE
+        )
 
 
-    private val listOfFeatureUnitData : List<FeatureData> = featureDataParser.getDataAsList(
+    private val listOfFeatureUnitData: List<FeatureData> = featureDataParser.getDataAsList(
         application,
         FEATURE_DATA_FILE
     )
-    private val listOfUnits : List<UnitType> = unitDataParser.getDataAsList(
+    private val listOfUnits: List<UnitType> = unitDataParser.getDataAsList(
         application,
         UNIT_TYPES_FILE
     )
@@ -68,8 +69,6 @@ class AddPropertyScreenViewModel @Inject constructor(
     val unitsOfFeature = HashMap<String, List<String>>()
 
     init {
-        Log.i(TAG, "${ listOfProvinceAndCity[0] is CanadianProvince }: ")
-        Log.i(TAG, "${ listOfProvinceAndCity[0].name}: ")
         listOfProvinceAndCity.forEach { province ->
             province2City[province.name!!] = province.cities + province.towns
         }
@@ -92,6 +91,7 @@ class AddPropertyScreenViewModel @Inject constructor(
 
     var addressFormState: MutableState<FormStates.Address> =
         mutableStateOf(FormStates.Address())
+    var featuresListState = mutableStateListOf<Feature>()
     var posterContact: MutableState<FormStates.PosterContact> =
         mutableStateOf(FormStates.PosterContact())
     var price = mutableStateOf(0)
@@ -102,6 +102,13 @@ class AddPropertyScreenViewModel @Inject constructor(
     fun onEvent(event: AddPropertyScreenEvents) {
 
         when (event) {
+            is AddPropertyScreenEvents.FeatureDismissed -> {
+                featuresListState.remove(event.feature)
+            }
+
+            is AddPropertyScreenEvents.OnClickSubmitFeatureCreateDialog -> {
+                featuresListState.add(event.feature)
+            }
 
             is AddPropertyScreenEvents.OnBackPressed -> {
                 sendUiEvent(UiEvent.PopBackStack)
