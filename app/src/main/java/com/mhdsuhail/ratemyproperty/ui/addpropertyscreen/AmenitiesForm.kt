@@ -27,18 +27,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.mhdsuhail.ratemyproperty.R
 import com.mhdsuhail.ratemyproperty.data.Feature
+import com.mhdsuhail.ratemyproperty.data.json.AssetJsonParser
 import com.mhdsuhail.ratemyproperty.ui.globalui.OutlinedDropDown
 import com.mhdsuhail.ratemyproperty.ui.globalui.TitleText
 import com.mhdsuhail.ratemyproperty.ui.theme.Blue200
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
-import com.mhdsuhail.ratemyproperty.data.UnitType
 import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepository
-import com.mhdsuhail.ratemyproperty.data.preview.PreviewCanadianProvinceParser
-import com.mhdsuhail.ratemyproperty.data.preview.PreviewFeatureDataParser
-import com.mhdsuhail.ratemyproperty.data.preview.PreviewUnitTypeParser
 import com.mhdsuhail.ratemyproperty.ui.propertyscreen.FeatureItem
 import com.mhdsuhail.ratemyproperty.ui.theme.primaryTextColor
 
@@ -199,11 +195,18 @@ fun AmenitiesForm(
                 dialogState.value = true
             }) {
             Row(
-                modifier = Modifier.wrapContentSize().padding(15.dp),
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(15.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Text(modifier = Modifier.alignByBaseline(),text = "ADD", color = Color.White, fontWeight = FontWeight.Bold)
+                Text(
+                    modifier = Modifier.alignByBaseline(),
+                    text = "ADD",
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold
+                )
                 Icon(
                     imageVector = Icons.Default.Add,
                     tint = Color.White,
@@ -261,22 +264,7 @@ fun AmenitiesForm(
                             state = dismissState,
                             directions = setOf(DismissDirection.EndToStart),
                             background = {
-                                val scale by animateFloatAsState(
-                                    if (dismissState.targetValue == DismissValue.Default) 0.75f else 1f
-                                )
-                                Box(
-                                    Modifier
-                                        .fillMaxSize()
-                                        .background(Color.Red)
-                                        .padding(horizontal = 20.dp),
-                                    contentAlignment = Alignment.CenterEnd
-                                ) {
-                                    Icon(
-                                        imageVector = Icons.Default.Delete,
-                                        contentDescription = "Delete feature",
-                                        modifier = Modifier.scale(scale)
-                                    )
-                                }
+                                SwipeBackGround(dismissState = dismissState)
                             },
                             dismissThresholds = { FractionalThreshold(0.5f) },
                             dismissContent = {
@@ -294,16 +282,37 @@ fun AmenitiesForm(
 
 }
 
+@OptIn(ExperimentalMaterialApi::class)
+@Composable
+fun SwipeBackGround(dismissState: DismissState) {
+    val scale by animateFloatAsState(
+        if (dismissState.targetValue == DismissValue.Default) 0.75f else 1f
+    )
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(Color.Red)
+            .padding(horizontal = 20.dp),
+        contentAlignment = Alignment.CenterEnd
+    ) {
+        Icon(
+            imageVector = Icons.Default.Delete,
+            contentDescription = "Delete feature",
+            modifier = Modifier.scale(scale)
+        )
+    }
+}
+
 @Preview
 @Composable
 fun PreviewAmenitiesForm() {
     RateMyPropertyTheme {
-        AmenitiesForm(viewModel = AddPropertyScreenViewModel(
-            propertyRepository = FakePropertyRepository(),
-            canadianProvinceParser = PreviewCanadianProvinceParser(),
-            application = Application(),
-            unitDataParser = PreviewUnitTypeParser(),
-            featureDataParser = PreviewFeatureDataParser()
-        ))
+        AmenitiesForm(
+            viewModel = AddPropertyScreenViewModel(
+                propertyRepository = FakePropertyRepository(),
+                application = Application(),
+                assetJsonParser = AssetJsonParser()
+            )
+        )
     }
 }

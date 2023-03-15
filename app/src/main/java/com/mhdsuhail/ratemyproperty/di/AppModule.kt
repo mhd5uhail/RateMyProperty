@@ -45,22 +45,5 @@ object AppModule {
         return PropertyDescriptionRepoImpl(db.descriptionsDao)
     }
 
-    @Provides
-    @Singleton
-    fun providesCanadianProvinceParser() : JsonParser<CanadianProvince>{
-        return CanadianProvinceParser()
-    }
-
-    @Provides
-    @Singleton
-    fun providesFeatureDataParser() : JsonParser<FeatureData>{
-        return FeatureDataParser()
-    }
-    @Provides
-
-    @Singleton
-    fun providesUnitTypeDataParser() : JsonParser<UnitType>{
-        return UnitTypeDataParser()
-    }
 
 }

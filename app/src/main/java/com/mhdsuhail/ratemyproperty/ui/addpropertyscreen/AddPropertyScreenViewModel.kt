@@ -8,7 +8,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.mhdsuhail.ratemyproperty.data.*
-import com.mhdsuhail.ratemyproperty.data.json.JsonParser
 import com.mhdsuhail.ratemyproperty.util.Routes
 import com.mhdsuhail.ratemyproperty.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,13 +16,12 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.mhdsuhail.ratemyproperty.data.UnitType
+import com.mhdsuhail.ratemyproperty.data.json.AssetJsonParser
 
 @HiltViewModel
 class AddPropertyScreenViewModel @Inject constructor(
     private val propertyRepository: PropertyRepository,
-    canadianProvinceParser: JsonParser<CanadianProvince>,
-    featureDataParser: JsonParser<FeatureData>,
-    unitDataParser: JsonParser<UnitType>,
+    assetJsonParser: AssetJsonParser,
     application: Application
 ) :
     AndroidViewModel(application) {
@@ -50,17 +48,17 @@ class AddPropertyScreenViewModel @Inject constructor(
     val uiEvent = _uiEvent.receiveAsFlow()
 
     private val listOfProvinceAndCity: List<CanadianProvince> =
-        canadianProvinceParser.getDataAsList(
+        assetJsonParser.getDataAsList(
             application,
             GEO_DATA_FILE
         )
 
 
-    private val listOfFeatureUnitData: List<FeatureData> = featureDataParser.getDataAsList(
+    private val listOfFeatureUnitData: List<FeatureData> = assetJsonParser.getDataAsList(
         application,
         FEATURE_DATA_FILE
     )
-    private val listOfUnits: List<UnitType> = unitDataParser.getDataAsList(
+    private val listOfUnits: List<UnitType> = assetJsonParser.getDataAsList(
         application,
         UNIT_TYPES_FILE
     )

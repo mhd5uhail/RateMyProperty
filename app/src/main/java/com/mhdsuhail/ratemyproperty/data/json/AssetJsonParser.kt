@@ -9,11 +9,10 @@ import javax.inject.Inject
 
 //TODO: Looking for updates on Issue: Gson deserializes wildcards to LinkedHashMap #1107:
 // https://github.com/google/gson/issues/1107
-class AssetJsonParser<T> @Inject constructor() : JsonParser<T> {
-    companion object{
-        private const val TAG = "AssetJsonParser"
-    }
-    override fun getDataAsList(context: Context, filePath : String): List<T> {
+class AssetJsonParser @Inject constructor() {
+    val TAG = "AssetJsonParser"
+
+    inline fun <reified T> getDataAsList(context: Context, filePath : String): List<T> {
         lateinit var jsonString : String
         try {
             jsonString = context.assets.open(filePath).bufferedReader().use {

@@ -12,12 +12,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.mhdsuhail.ratemyproperty.R
+import com.mhdsuhail.ratemyproperty.data.json.AssetJsonParser
 import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepository
-import com.mhdsuhail.ratemyproperty.data.preview.PreviewCanadianProvinceParser
-import com.mhdsuhail.ratemyproperty.data.preview.PreviewFeatureDataParser
-import com.mhdsuhail.ratemyproperty.data.preview.PreviewUnitTypeParser
 import com.mhdsuhail.ratemyproperty.ui.globalui.OutlinedDropDown
 import com.mhdsuhail.ratemyproperty.ui.globalui.OutlinedDropDownWFilter
 import com.mhdsuhail.ratemyproperty.ui.globalui.TitleText
@@ -31,10 +28,8 @@ fun PreviewAddressForm() {
         AddressForm(
             viewModel = AddPropertyScreenViewModel(
                 propertyRepository = FakePropertyRepository(),
-                canadianProvinceParser = PreviewCanadianProvinceParser(),
                 application = Application(),
-                unitDataParser = PreviewUnitTypeParser(),
-                featureDataParser = PreviewFeatureDataParser()
+                assetJsonParser = AssetJsonParser()
             ),
         )
     }
