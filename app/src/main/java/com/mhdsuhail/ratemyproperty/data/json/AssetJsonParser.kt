@@ -7,7 +7,6 @@ import com.google.gson.reflect.TypeToken
 import java.io.IOException
 import javax.inject.Inject
 
-//TODO: Looking for updates on Issue: Gson deserializes wildcards to LinkedHashMap #1107:
 // https://github.com/google/gson/issues/1107
 class AssetJsonParser @Inject constructor() {
     val TAG = "AssetJsonParser"

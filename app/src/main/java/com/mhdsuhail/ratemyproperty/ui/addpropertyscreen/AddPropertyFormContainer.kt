@@ -52,7 +52,6 @@ fun AddPropertyScreen(
     onBackToMainScreen: (UiEvent.Navigate) -> Unit,
     viewModel: AddPropertyScreenViewModel = hiltViewModel()
 ) {
-    val TAG = "AddPropertyScreen"
 
     val scaffoldState = rememberScaffoldState()
     val isLastPage = remember {
@@ -65,7 +64,6 @@ fun AddPropertyScreen(
     val currentStep = remember {
         mutableStateOf(AddFormPages.AddressForm.step)
     }
-    val animDuration = 700
     val navController = rememberAnimatedNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
 
