@@ -105,7 +105,11 @@ class AddPropertyScreenViewModel @Inject constructor(
             }
 
             is AddPropertyScreenEvents.OnClickSubmitFeatureCreateDialog -> {
-                featuresListState.add(event.feature)
+               if(featuresListState.any { it.name == event.feature.name }){
+                   sendUiEvent(UiEvent.ShowSnackbar("Cannot create duplicate feature !"))
+               }else{
+                   featuresListState.add(event.feature)
+               }
             }
 
             is AddPropertyScreenEvents.OnBackPressed -> {

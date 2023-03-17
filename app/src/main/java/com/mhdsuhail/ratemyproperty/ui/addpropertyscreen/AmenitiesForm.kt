@@ -92,12 +92,15 @@ fun AmenityAddDialog(
                 expanded = expandedFeatureMenu,
                 label = "Select Feature",
                 dropDownList = unitsOfFeature.keys.toList(),
+                onSelectItem = {
+                    unitText.value = ""
+                }
             )
             OutlinedDropDown(
                 text = unitText,
                 expanded = expandedUnitMenu,
                 label = "Select Unit",
-                dropDownList = unitsOfFeature[featureText.value]
+                dropDownList = unitsOfFeature[featureText.value],
             )
 
             OutlinedTextField(
