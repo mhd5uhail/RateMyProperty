@@ -1,7 +1,10 @@
 package com.mhdsuhail.ratemyproperty.ui.addpropertyscreen
 
 import android.app.Application
+import android.net.Uri
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
@@ -51,6 +54,11 @@ class AddPropertyScreenViewModel @Inject constructor(
     val province2City = HashMap<String, List<String>>()
     val unitsOfFeature = HashMap<String, List<String>>()
 
+
+    val selectedImageUri = mutableStateOf<Uri?>(null)
+
+
+    // TODO: Move data organization logic to asset repository
     init {
         listOfProvinceAndCity.forEach { province ->
             province2City[province.name!!] = province.cities + province.towns
@@ -79,10 +87,13 @@ class AddPropertyScreenViewModel @Inject constructor(
     var price = mutableStateOf(0)
     var descriptionFormState = FormStates.PropertyDescription()
 
-
     fun onEvent(event: AddPropertyScreenEvents) {
 
         when (event) {
+
+            is AddPropertyScreenEvents.ClickAddNewImage -> {
+                selectedImageUri.value = event.uri
+            }
             is AddPropertyScreenEvents.FeatureDismissed -> {
                 featuresListState.remove(event.feature)
             }

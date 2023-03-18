@@ -173,7 +173,7 @@ fun AddPropertyScreen(
             ) {
                 isLastPage.value = false
                 currentStep.value = AddFormPages.PictureDescForm.step
-                PictureDescriptionForm()
+                PictureDescForm(viewModel = viewModel)
             }
 
             composable(
