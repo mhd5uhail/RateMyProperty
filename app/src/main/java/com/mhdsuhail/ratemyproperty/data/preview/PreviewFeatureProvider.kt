@@ -4,7 +4,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.mhdsuhail.ratemyproperty.R
 import com.mhdsuhail.ratemyproperty.data.Feature
 
-class FeaturePreviewProvider : PreviewParameterProvider<Feature> {
+class PreviewFeatureProvider : PreviewParameterProvider<Feature> {
     override val values = sequenceOf(
         Feature(1,"59ac0c32-cc0e-49f9-a881-c0bd073f11cd","Area",R.drawable.square_foot,"sqft","580","Carpet Area"),
         Feature(2,"59ac0c32-cc0e-49f9-a881-c0bd073f11cd","Bedrooms",R.drawable.bedroom,"bedrooms","4","Number of Bedrooms"),

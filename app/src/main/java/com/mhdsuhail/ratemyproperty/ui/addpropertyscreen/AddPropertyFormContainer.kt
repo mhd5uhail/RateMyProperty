@@ -14,7 +14,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.mhdsuhail.ratemyproperty.data.json.AssetJsonParser
+import com.mhdsuhail.ratemyproperty.data.json.AssetJsonParserImpl
 import com.mhdsuhail.ratemyproperty.data.preview.*
 import com.mhdsuhail.ratemyproperty.ui.globalui.AnimatedFormBottomNavBar
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
@@ -30,9 +30,9 @@ fun PreviewAddPropertyScreen() {
             AddPropertyScreen(
                 {},
                 viewModel = AddPropertyScreenViewModel(
-                    propertyRepository = FakePropertyRepository(),
+                    propertyRepository = PreviewPropertyRepository(),
                     application = Application(),
-                    assetJsonParser = AssetJsonParser(),
+                    assetRepository = PreviewAssetRepository(),
                 )
             )
         }

@@ -4,7 +4,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.mhdsuhail.ratemyproperty.R
 import com.mhdsuhail.ratemyproperty.data.NavBarItem
 
-class NavItemsPreviewProvider : PreviewParameterProvider<List<NavBarItem>> {
+class PreviewNavItemsProvider : PreviewParameterProvider<List<NavBarItem>> {
     override val values = sequenceOf(
         listOf(
             NavBarItem(R.drawable.home, "Home", "Home Page"),

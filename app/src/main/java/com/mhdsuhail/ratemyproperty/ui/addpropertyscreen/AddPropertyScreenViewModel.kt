@@ -16,24 +16,19 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.mhdsuhail.ratemyproperty.data.UnitType
-import com.mhdsuhail.ratemyproperty.data.json.AssetJsonParser
+import com.mhdsuhail.ratemyproperty.data.json.AssetJsonParserImpl
 
 @HiltViewModel
 class AddPropertyScreenViewModel @Inject constructor(
     private val propertyRepository: PropertyRepository,
-    assetJsonParser: AssetJsonParser,
+    private val assetRepository: AssetRepository,
     application: Application
 ) :
     AndroidViewModel(application) {
 
     companion object {
         private const val TAG = "AddPropertyScreenViewModel"
-        private const val GEO_DATA_FILE = "geodata/canada_states_cities.json"
-        private const val FEATURE_DATA_FILE = "features/property_features.json"
-        private const val UNIT_TYPES_FILE = "features/unit_types.json"
-
     }
-
 
     val forms = listOf(
         AddFormPages.AddressForm,
@@ -47,21 +42,11 @@ class AddPropertyScreenViewModel @Inject constructor(
 
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    private val listOfProvinceAndCity: List<CanadianProvince> =
-        assetJsonParser.getDataAsList(
-            application,
-            GEO_DATA_FILE
-        )
+    private val listOfProvinceAndCity: List<CanadianProvince> = assetRepository.getCanadianProvinceAndCity()
 
+    private val listOfFeatureUnitData: List<FeatureData> = assetRepository.getStandardFeatures()
 
-    private val listOfFeatureUnitData: List<FeatureData> = assetJsonParser.getDataAsList(
-        application,
-        FEATURE_DATA_FILE
-    )
-    private val listOfUnits: List<UnitType> = assetJsonParser.getDataAsList(
-        application,
-        UNIT_TYPES_FILE
-    )
+    private val listOfUnits: List<UnitType> = assetRepository.getStandardFeatureUnits()
 
     val province2City = HashMap<String, List<String>>()
     val unitsOfFeature = HashMap<String, List<String>>()
@@ -87,14 +72,12 @@ class AddPropertyScreenViewModel @Inject constructor(
         }
     }
 
-    var addressFormState: MutableState<FormStates.Address> =
-        mutableStateOf(FormStates.Address())
+    var addressFormState = FormStates.Address()
     var featuresListState = mutableStateListOf<Feature>()
     var posterContact: MutableState<FormStates.PosterContact> =
         mutableStateOf(FormStates.PosterContact())
     var price = mutableStateOf(0)
-    var description: MutableState<FormStates.PropertyDescription> =
-        mutableStateOf(FormStates.PropertyDescription())
+    var descriptionFormState = FormStates.PropertyDescription()
 
 
     fun onEvent(event: AddPropertyScreenEvents) {

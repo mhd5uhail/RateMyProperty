@@ -5,7 +5,7 @@ import com.mhdsuhail.ratemyproperty.data.PropertyDetails
 import com.mhdsuhail.ratemyproperty.data.Address
 
 class PropertyPreviewParameterProvider : PreviewParameterProvider<PropertyDetails> {
-    private val adPosters = PosterContactPreviewProvider().values
+    private val adPosters = PreviewPosterContactProvider().values
     override val values = sequenceOf(
         PropertyDetails(
             uri = "59ac0c32-cc0e-49f9-a881-c0bd073f11cd",

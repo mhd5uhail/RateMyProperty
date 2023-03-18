@@ -44,7 +44,7 @@ fun PropertyScreenPreviews() {
     RateMyPropertyTheme() {
         val viewModel = PropertyScreenViewModel(
             savedStateHandle = SavedStateHandle(),
-            repository = FakePropertyRepository()
+            repository = PreviewPropertyRepository()
         )
         PropertyScreen(
             onNavigate = {},
@@ -404,7 +404,7 @@ fun FeaturesList(features: List<Feature>) {
 
 @Preview
 @Composable
-fun FeatureItemPreviews(@PreviewParameter(FeaturePreviewProvider::class) feature: Feature) {
+fun FeatureItemPreviews(@PreviewParameter(PreviewFeatureProvider::class) feature: Feature) {
     RateMyPropertyTheme() {
         Surface() {
             FeatureItem(feature)

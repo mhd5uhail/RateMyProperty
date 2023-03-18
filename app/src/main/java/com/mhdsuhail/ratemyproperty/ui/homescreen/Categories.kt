@@ -21,7 +21,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mhdsuhail.ratemyproperty.data.CategoryItem
-import com.mhdsuhail.ratemyproperty.data.preview.CategoryItemPreviewProvider
+import com.mhdsuhail.ratemyproperty.data.preview.PreviewCategoryItemProvider
 import com.mhdsuhail.ratemyproperty.ui.theme.*
 import kotlin.math.ceil
 
@@ -29,7 +29,7 @@ import kotlin.math.ceil
 @Preview
 @Composable
 fun CategoriesPreview() {
-    CategoryMatrix(items = CategoryItemPreviewProvider().values.toList(), 2)
+    CategoryMatrix(items = PreviewCategoryItemProvider().values.toList(), 2)
 }
 
 
@@ -81,7 +81,7 @@ fun CategoryMatrix(items: List<CategoryItem>, itemsPerRow: Int) {
 
 @Preview
 @Composable
-fun CategoryCardPreview(@PreviewParameter(CategoryItemPreviewProvider::class) category: CategoryItem) {
+fun CategoryCardPreview(@PreviewParameter(PreviewCategoryItemProvider::class) category: CategoryItem) {
     RateMyPropertyTheme() {
         CategoryItemCard(item = category)
     }

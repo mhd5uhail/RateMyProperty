@@ -6,7 +6,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class FakePropertyRepository() : PropertyRepository {
+class PreviewPropertyRepository() : PropertyRepository {
 
     override suspend fun insertPropertyDetails(propertyDetails: PropertyDetails): Long {
         //TODO("Not yet implemented")
@@ -35,7 +35,7 @@ class FakePropertyRepository() : PropertyRepository {
                     "523-349-233"
                 ),
             ),
-            features = FeaturePreviewProvider().values.toList(),
+            features = PreviewFeatureProvider().values.toList(),
             description = PropertyDescription(prop_uri = "90741389-caa6-4d22-9f4f-1a4201db3be1",text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis finibus sem. Duis nec dolor et tortor malesuada pellentesque. Suspendisse porttitor tempus lectus, non commodo orci rhoncus et. Praesent odio est, ultricies sed augue ut, laoreet congue magna. Duis semper suscipit bibendum. Maecenas semper dolor vel nulla congue dignissim. Ut pretium lobortis felis a tristique\n")
         )
     }

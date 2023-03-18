@@ -28,7 +28,7 @@ import com.mhdsuhail.ratemyproperty.ui.property.PropertyInfoCard
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 import com.mhdsuhail.ratemyproperty.ui.theme.primaryTextColor
 import com.mhdsuhail.ratemyproperty.R
-import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepository
+import com.mhdsuhail.ratemyproperty.data.preview.PreviewPropertyRepository
 import com.mhdsuhail.ratemyproperty.util.UiEvent
 import java.time.LocalDateTime
 
@@ -37,7 +37,7 @@ import java.time.LocalDateTime
 fun HomeScreenPreview() {
     RateMyPropertyTheme {
         Surface() {
-            HomeScreen(viewModel = HomeScreeViewModel(propertyRepository = FakePropertyRepository()),
+            HomeScreen(viewModel = HomeScreeViewModel(propertyRepository = PreviewPropertyRepository()),
                 {})
         }
     }

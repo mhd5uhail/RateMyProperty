@@ -29,12 +29,13 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.mhdsuhail.ratemyproperty.R
 import com.mhdsuhail.ratemyproperty.data.Feature
-import com.mhdsuhail.ratemyproperty.data.json.AssetJsonParser
+import com.mhdsuhail.ratemyproperty.data.json.AssetJsonParserImpl
+import com.mhdsuhail.ratemyproperty.data.preview.PreviewAssetRepository
 import com.mhdsuhail.ratemyproperty.ui.globalui.OutlinedDropDown
 import com.mhdsuhail.ratemyproperty.ui.globalui.TitleText
 import com.mhdsuhail.ratemyproperty.ui.theme.Blue200
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
-import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepository
+import com.mhdsuhail.ratemyproperty.data.preview.PreviewPropertyRepository
 import com.mhdsuhail.ratemyproperty.ui.propertyscreen.FeatureItem
 import com.mhdsuhail.ratemyproperty.ui.theme.primaryTextColor
 
@@ -312,9 +313,9 @@ fun PreviewAmenitiesForm() {
     RateMyPropertyTheme {
         AmenitiesForm(
             viewModel = AddPropertyScreenViewModel(
-                propertyRepository = FakePropertyRepository(),
+                propertyRepository = PreviewPropertyRepository(),
                 application = Application(),
-                assetJsonParser = AssetJsonParser()
+                assetRepository = PreviewAssetRepository()
             )
         )
     }

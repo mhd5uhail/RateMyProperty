@@ -13,8 +13,9 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mhdsuhail.ratemyproperty.R
-import com.mhdsuhail.ratemyproperty.data.json.AssetJsonParser
-import com.mhdsuhail.ratemyproperty.data.preview.FakePropertyRepository
+import com.mhdsuhail.ratemyproperty.data.json.AssetJsonParserImpl
+import com.mhdsuhail.ratemyproperty.data.preview.PreviewAssetRepository
+import com.mhdsuhail.ratemyproperty.data.preview.PreviewPropertyRepository
 import com.mhdsuhail.ratemyproperty.ui.globalui.OutlinedDropDown
 import com.mhdsuhail.ratemyproperty.ui.globalui.OutlinedDropDownWFilter
 import com.mhdsuhail.ratemyproperty.ui.globalui.TitleText
@@ -27,9 +28,9 @@ fun PreviewAddressForm() {
     RateMyPropertyTheme {
         AddressForm(
             viewModel = AddPropertyScreenViewModel(
-                propertyRepository = FakePropertyRepository(),
+                propertyRepository = PreviewPropertyRepository(),
                 application = Application(),
-                assetJsonParser = AssetJsonParser()
+                assetRepository = PreviewAssetRepository()
             ),
         )
     }
@@ -164,7 +165,7 @@ fun AddressForm(
     val scaffoldState = rememberScaffoldState()
 
     val address = remember {
-        viewModel.addressFormState.value
+        viewModel.addressFormState
     }
     val posterContact = remember {
         viewModel.posterContact.value

@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import java.time.LocalDateTime
 
-class FakeSearchRepository : SearchHistoryRepository {
+class PreviewSearchRepository : SearchHistoryRepository {
     override suspend fun insertSearchQuery(searchQuery: SearchQuery) {
         //TODO("Not yet implemented")
     }
