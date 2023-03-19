@@ -20,6 +20,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.mhdsuhail.ratemyproperty.R
+import com.mhdsuhail.ratemyproperty.data.PropertyDescription
 import com.mhdsuhail.ratemyproperty.data.preview.PreviewPropertyRepository
 import com.mhdsuhail.ratemyproperty.data.preview.PreviewAssetRepository
 import com.mhdsuhail.ratemyproperty.ui.globalui.TitleText
@@ -70,56 +71,81 @@ fun PictureDescForm(modifier: Modifier = Modifier, viewModel: AddPropertyScreenV
                 Box(
                     modifier = Modifier
                         .weight(1f)
+                        .fillMaxSize()
                         .background(
                             color = Color.LightGray,
                             shape = imageShape
                         )
                 ) {
-                    IconButton(
-                        onClick = {
-                            // Get a picture from gallery or from camera
-                            singlePhotoPickerLauncher.launch(
-                                PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
-                            )
-                        }, modifier = Modifier
-                            .fillMaxSize()
-//                            .background(
-//                                color = Color.LightGray,
-//                                shape = RoundedCornerShape(40.dp)
-//                            )
-                    ) {
-                        if (viewModel.selectedImageUri.value == null) {
+
+                    if (viewModel.selectedImageUri.value != null) {
+                        AsyncImage(
+                            model = viewModel.selectedImageUri.value,
+                            contentDescription = "Property Image",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .clip(shape = imageShape)
+                        )
+                        IconButton(
+                            modifier = Modifier
+                                .size(60.dp)
+                                .align(Alignment.TopEnd),
+                            onClick = {
+                                // Get a picture from gallery or from camera
+                                viewModel.selectedImageUri.value?.let {
+                                    viewModel.onEvent(AddPropertyScreenEvents.ClickRemoveImage(it))
+                                }
+
+                            },
+                        ) {
                             Icon(
-                                modifier = Modifier.align(Alignment.Center),
+                                modifier = Modifier
+                                    .size(40.dp)
+                                    .align(Alignment.Center),
+                                painter = painterResource(id = R.drawable.remove_circle),
+                                contentDescription = "Remove photo"
+                            )
+                        }
+                    } else {
+
+                        IconButton(
+                            modifier = Modifier
+                                .size(80.dp)
+                                .align(Alignment.Center),
+                            onClick = {
+                                // Get a picture from gallery or from camera
+                                singlePhotoPickerLauncher.launch(
+                                    PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                                )
+                            },
+                        ) {
+                            Icon(
+                                modifier = Modifier
+                                    .size(40.dp)
+                                    .align(Alignment.Center),
                                 painter = painterResource(id = R.drawable.add_photo),
                                 contentDescription = "Add photo"
                             )
-                        } else {
-                            AsyncImage(
-                                modifier = Modifier
-                                    .align(Alignment.Center)
-                                    .clip(imageShape)
-                                    .fillMaxSize(),
-                                model = viewModel.selectedImageUri.value,
-                                contentDescription = "PropertyImage",
-                                contentScale = ContentScale.Crop
-                            )
                         }
+
                     }
                 }
                 Box(
                     modifier = Modifier
                         .weight(1f)
+                        .fillMaxSize()
                         .padding(top = 20.dp)
                 ) {
                     OutlinedTextField(
                         label = {
-                            Text(text = stringResource(id = R.string.description_prompt))
+                            Text(text = stringResource(id = R.string.description_prompt) + " (${description.value.length}/${PropertyDescription.lengthLimit})" )
                         },
                         modifier = Modifier.fillMaxSize(),
                         value = description.value,
                         onValueChange = {
-                            description.value = it
+                            if(it.length <= PropertyDescription.lengthLimit)
+                                description.value = it
                         })
 
                 }

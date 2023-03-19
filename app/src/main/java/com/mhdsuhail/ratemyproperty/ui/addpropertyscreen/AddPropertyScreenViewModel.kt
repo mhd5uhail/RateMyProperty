@@ -91,6 +91,10 @@ class AddPropertyScreenViewModel @Inject constructor(
 
         when (event) {
 
+            is AddPropertyScreenEvents.ClickRemoveImage -> {
+                selectedImageUri.value = null
+            }
+
             is AddPropertyScreenEvents.ClickAddNewImage -> {
                 selectedImageUri.value = event.uri
             }

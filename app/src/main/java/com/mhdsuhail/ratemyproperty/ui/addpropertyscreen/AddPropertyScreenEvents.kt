@@ -11,4 +11,7 @@ sealed class AddPropertyScreenEvents{
     data class FeatureDismissed(val feature: Feature) : AddPropertyScreenEvents()
 
     data class ClickAddNewImage(val uri: Uri) : AddPropertyScreenEvents()
+
+    data class ClickRemoveImage(val uri: Uri) : AddPropertyScreenEvents()
+
 }

@@ -8,4 +8,8 @@ data class PropertyDescription(
     @ColumnInfo(name = "id") val id: Int? = null,
     @ColumnInfo(name = "prop_uri") val prop_uri: String,
     @ColumnInfo(name = "text") val text: String
-)
+){
+    companion object{
+        const val lengthLimit = 200
+    }
+}
