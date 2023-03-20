@@ -90,7 +90,7 @@ fun PropertyInfoCard(
                             modifier = Modifier
                                 .padding(top = 1.dp)
                                 .fillMaxWidth(0.85F),
-                            text = "${propertyDetails.address.street} - ${propertyDetails.address.city}," + " ${propertyDetails.address.state}",
+                            text = "${propertyDetails.address.street} - ${propertyDetails.address.city}," + " ${propertyDetails.address.province}",
                             fontSize = 18.sp,
                             color = primaryTextColor
                         )

@@ -38,7 +38,7 @@ fun PreviewPictureDescForm() {
 }
 
 @Composable
-fun PictureDescForm(modifier: Modifier = Modifier, viewModel: AddPropertyScreenViewModel) {
+fun PictureDescForm(modifier: Modifier = Modifier, viewModel: AddPropertyScreenViewModel ) {
 
     val scaffoldState = rememberScaffoldState()
     val description = remember {

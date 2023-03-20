@@ -45,7 +45,8 @@ class AddPropertyScreenViewModel @Inject constructor(
 
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    private val listOfProvinceAndCity: List<CanadianProvince> = assetRepository.getCanadianProvinceAndCity()
+    private val listOfProvinceAndCity: List<CanadianProvince> =
+        assetRepository.getCanadianProvinceAndCity()
 
     private val listOfFeatureUnitData: List<FeatureData> = assetRepository.getStandardFeatures()
 
@@ -82,8 +83,7 @@ class AddPropertyScreenViewModel @Inject constructor(
 
     var addressFormState = FormStates.Address()
     var featuresListState = mutableStateListOf<Feature>()
-    var posterContact: MutableState<FormStates.PosterContact> =
-        mutableStateOf(FormStates.PosterContact())
+    var posterContact = FormStates.PosterContact()
     var price = mutableStateOf(0)
     var descriptionFormState = FormStates.PropertyDescription()
 
@@ -103,11 +103,11 @@ class AddPropertyScreenViewModel @Inject constructor(
             }
 
             is AddPropertyScreenEvents.OnClickSubmitFeatureCreateDialog -> {
-               if(featuresListState.any { it.name == event.feature.name }){
-                   sendUiEvent(UiEvent.ShowSnackbar("Cannot create duplicate feature !"))
-               }else{
-                   featuresListState.add(event.feature)
-               }
+                if (featuresListState.any { it.name == event.feature.name }) {
+                    sendUiEvent(UiEvent.ShowSnackbar("Cannot create duplicate feature !"))
+                } else {
+                    featuresListState.add(event.feature)
+                }
             }
 
             is AddPropertyScreenEvents.OnBackPressed -> {

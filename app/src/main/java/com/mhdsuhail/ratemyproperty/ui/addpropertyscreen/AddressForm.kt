@@ -168,7 +168,7 @@ fun AddressForm(
         viewModel.addressFormState
     }
     val posterContact = remember {
-        viewModel.posterContact.value
+        viewModel.posterContact
     }
 
     Scaffold(modifier = modifier, scaffoldState = scaffoldState) { paddingValues ->

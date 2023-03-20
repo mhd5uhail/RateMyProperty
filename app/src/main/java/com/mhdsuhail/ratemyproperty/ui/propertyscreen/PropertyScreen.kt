@@ -197,7 +197,7 @@ fun PropertyScreen(
                             modifier = Modifier
                                 .padding(top = 1.dp)
                                 .fillMaxWidth(0.85F),
-                            text = "${viewModel.state.value.propertyDetails.address.street} - ${viewModel.state.value.propertyDetails.address.city}," + " ${viewModel.state.value.propertyDetails.address.state}",
+                            text = "${viewModel.state.value.propertyDetails.address.street} - ${viewModel.state.value.propertyDetails.address.city}," + " ${viewModel.state.value.propertyDetails.address.province}",
                             fontSize = 18.sp,
                             color = primaryTextColor
                         )

@@ -7,7 +7,7 @@ class AddressTypeConverter {
     @TypeConverter
     fun toString(address: Address): String {
         return address.let {
-            " ${address.unitNum} ${address.street} ${address.city} ${address.state} ${address.country} ${address.postalCode}"
+            " ${address.unitNum} ${address.street} ${address.city} ${address.province} ${address.country} ${address.postalCode}"
         }
     }
 

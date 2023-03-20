@@ -108,7 +108,7 @@ class PropertyDetailsTests : DatabaseTests() {
             AddressTypeConverter().toString(result.address),
             AddressTypeConverter().toString(propertyDetails.address)
         )
-        result.address.state = "Montreal"
+        result.address.province = "Montreal"
         propertyDetailsDao.update(result)
 
         result = propertyDetailsDao.getPropertyDetails(propertyDetails.uri)

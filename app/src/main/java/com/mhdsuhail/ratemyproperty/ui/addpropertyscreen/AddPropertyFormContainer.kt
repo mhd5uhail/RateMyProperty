@@ -51,6 +51,7 @@ fun clearNavHistory(navController: NavController) {
 fun AddPropertyScreen(
     onBackToMainScreen: (UiEvent.Navigate) -> Unit,
     viewModel: AddPropertyScreenViewModel = hiltViewModel()
+    // The viewModel instance created for AddPropertyScreen is shared between all forms (screens) hosted by the AddPropertyScreen container.
 ) {
 
     val scaffoldState = rememberScaffoldState()
@@ -183,7 +184,7 @@ fun AddPropertyScreen(
             ) {
                 isLastPage.value = true
                 currentStep.value = AddFormPages.ReviewForm.step
-                ReviewForm()
+                ReviewForm(viewModel = viewModel)
             }
 
         }

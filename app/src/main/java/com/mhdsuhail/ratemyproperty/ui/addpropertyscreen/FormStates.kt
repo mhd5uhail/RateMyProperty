@@ -4,6 +4,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.snapshots.SnapshotStateList
+import com.mhdsuhail.ratemyproperty.data.Address
 import com.mhdsuhail.ratemyproperty.data.Feature
 
 sealed class FormStates {
