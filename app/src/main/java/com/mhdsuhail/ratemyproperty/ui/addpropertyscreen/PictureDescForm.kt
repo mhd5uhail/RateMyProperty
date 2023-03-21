@@ -32,7 +32,6 @@ fun PreviewPictureDescForm() {
         viewModel = AddPropertyScreenViewModel(
             assetRepository = PreviewAssetRepository(),
             propertyRepository = PreviewPropertyRepository(),
-            application = Application(),
         )
     )
 }

@@ -31,8 +31,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.SavedStateHandle
 import com.mhdsuhail.ratemyproperty.R
-import com.mhdsuhail.ratemyproperty.data.Feature
-import com.mhdsuhail.ratemyproperty.data.PosterContact
+import com.mhdsuhail.ratemyproperty.data.*
 import com.mhdsuhail.ratemyproperty.data.preview.*
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 import com.mhdsuhail.ratemyproperty.ui.theme.primaryTextColor
@@ -85,23 +84,45 @@ fun PropertyScreen(
         }
 
     }
+    PropertyView(
+        modifier = modifier,
+        scaffoldState = scaffoldState,
+        propertyDetails = viewModel.state.value.propertyDetails,
+        features = viewModel.state.value.features,
+        propertyDescription = viewModel.state.value.description,
+        posterContact = viewModel.state.value.propertyDetails.posterContact,
+        onBackPressed = { /*TODO*/ },
+        onFavouritePressed = { },
+        bottomActionBar = {} // TODO: Convert this to an add review bar making it easy for users to quickly review
+    )
 
+}
+
+@Composable
+fun PropertyView(
+    scaffoldState: ScaffoldState,
+    modifier: Modifier = Modifier,
+    propertyDetails: PropertyDetails,
+    features: List<Feature>,
+    propertyDescription: PropertyDescription,
+    onBackPressed: () -> Unit,
+    onFavouritePressed: (prop_id: String) -> Unit,
+    bottomActionBar: @Composable() () -> Unit,
+    posterContact: PosterContact,
+    isPreview: Boolean = false
+) {
     Scaffold(
         scaffoldState = scaffoldState,
         modifier = modifier
             .fillMaxSize(),
-        bottomBar = {
-            ContactCard(contactInfo = viewModel.state.value.propertyDetails.posterContact,
-                onCallClick = {
-                    viewModel.onEvent(PropertyScreenEvents.OnCallPosterClick(viewModel.state.value.propertyDetails.posterContact))
-                }, onMessageClick = {
-                    viewModel.onEvent(PropertyScreenEvents.OnMessagePosterClick(viewModel.state.value.propertyDetails.posterContact))
-                })
-        }
+        bottomBar = { bottomActionBar() }
     ) { padding ->
+
+        var showMoreState by remember {
+            mutableStateOf(false)
+        }
         Column(
             modifier = modifier
-                .fillMaxSize()
                 .padding(padding)
                 .verticalScroll(rememberScrollState())
         ) {
@@ -125,52 +146,48 @@ fun PropertyScreen(
                             .clip(RoundedCornerShape(40.dp)),
                         contentScale = ContentScale.FillBounds
                     )
-
-                    IconButton(
-                        onClick = {
-                            viewModel.onEvent(
-                                PropertyScreenEvents.OnAddToFavouritesClick(
-                                    viewModel.state.value.propertyDetails.uri,
-                                    !viewModel.state.value.propertyDetails.favourite
-                                )
-                            )
-                        },
-                        modifier = Modifier
-                            .align(Alignment.TopEnd)
-                            .offset(x = (-10).dp, y = 10.dp)
-                            .clip(CircleShape)
-                            .size(60.dp)
-                            .background(Color.White.copy(alpha = 0.2f))
-                    ) {
-                        Icon(
-                            imageVector = if (viewModel.state.value.propertyDetails.favourite) {
-                                Icons.Rounded.Favorite
-                            } else {
-                                Icons.Rounded.FavoriteBorder
+                    if (!isPreview) {
+                        IconButton(
+                            onClick = {
+                                onFavouritePressed(propertyDetails.uri)
                             },
-                            modifier = Modifier.size(30.dp),
-                            contentDescription = "Add to Favourites",
-                            tint = Color.White
-                        )
-                    }
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .offset(x = (-10).dp, y = 10.dp)
+                                .clip(CircleShape)
+                                .size(60.dp)
+                                .background(Color.White.copy(alpha = 0.2f))
+                        ) {
+                            Icon(
+                                imageVector = if (propertyDetails.favourite) {
+                                    Icons.Rounded.Favorite
+                                } else {
+                                    Icons.Rounded.FavoriteBorder
+                                },
+                                modifier = Modifier.size(30.dp),
+                                contentDescription = "Add to Favourites",
+                                tint = Color.White
+                            )
+                        }
 
-                    IconButton(
-                        onClick = {
-                            viewModel.onEvent(PropertyScreenEvents.OnBackButtonClick)
-                        },
-                        modifier = Modifier
-                            .align(Alignment.TopStart)
-                            .offset(x = (10).dp, y = 10.dp)
-                            .clip(CircleShape)
-                            .size(60.dp)
-                            .background(Color.White.copy(alpha = 0.2f))
-                    ) {
-                        Icon(
-                            imageVector = Icons.Rounded.ArrowBack,
-                            modifier = Modifier.size(30.dp),
-                            contentDescription = "Go back to previous page",
-                            tint = Color.White
-                        )
+                        IconButton(
+                            onClick = {
+                                onBackPressed()
+                            },
+                            modifier = Modifier
+                                .align(Alignment.TopStart)
+                                .offset(x = (10).dp, y = 10.dp)
+                                .clip(CircleShape)
+                                .size(60.dp)
+                                .background(Color.White.copy(alpha = 0.2f))
+                        ) {
+                            Icon(
+                                imageVector = Icons.Rounded.ArrowBack,
+                                modifier = Modifier.size(30.dp),
+                                contentDescription = "Go back to previous page",
+                                tint = Color.White
+                            )
+                        }
                     }
                 }
                 Column(
@@ -188,7 +205,7 @@ fun PropertyScreen(
                             modifier = Modifier
                                 .padding(top = 1.dp)
                                 .fillMaxWidth(),
-                            text = viewModel.state.value.propertyDetails.currency + viewModel.state.value.propertyDetails.price,
+                            text = propertyDetails.currency + propertyDetails.price,
                             fontSize = 35.sp,
                             fontWeight = FontWeight.SemiBold,
                             color = primaryTextColor
@@ -197,7 +214,7 @@ fun PropertyScreen(
                             modifier = Modifier
                                 .padding(top = 1.dp)
                                 .fillMaxWidth(0.85F),
-                            text = "${viewModel.state.value.propertyDetails.address.street} - ${viewModel.state.value.propertyDetails.address.city}," + " ${viewModel.state.value.propertyDetails.address.province}",
+                            text = "${propertyDetails.address.street} - ${propertyDetails.address.city}," + " ${propertyDetails.address.province}",
                             fontSize = 18.sp,
                             color = primaryTextColor
                         )
@@ -214,10 +231,11 @@ fun PropertyScreen(
                             .fillMaxWidth()
                             .wrapContentHeight()
                     ) {
-                        if (!viewModel.showMoreState.value) {
+                        if (showMoreState) {
                             Text(
-                                text = viewModel.state.value.description.text
-                                    ?: "No description provided",
+                                text = let {
+                                    propertyDescription.text.ifEmpty { "No description provided" }
+                                },
                                 maxLines = 4,
                                 overflow = TextOverflow.Ellipsis,
                                 textAlign = TextAlign.Left,
@@ -225,8 +243,9 @@ fun PropertyScreen(
                             )
                         } else {
                             Text(
-                                text = viewModel.state.value.description.text
-                                    ?: "No description provided",
+                                text = let {
+                                    propertyDescription.text.ifEmpty { "No description provided" }
+                                },
                                 textAlign = TextAlign.Left,
                                 color = Color.Gray
                             )
@@ -234,7 +253,7 @@ fun PropertyScreen(
 
                         ClickableText(modifier = Modifier.align(Alignment.End),
                             text = AnnotatedString(
-                                text = if (!viewModel.showMoreState.value) {
+                                text = if (!showMoreState) {
                                     "Show more"
                                 } else {
                                     "Show less"
@@ -246,7 +265,7 @@ fun PropertyScreen(
                                 )
                             ),
                             onClick = {
-                                viewModel.onEvent(PropertyScreenEvents.OnClickShowMore)
+                                showMoreState = !showMoreState
                             })
                     }
 
@@ -255,12 +274,13 @@ fun PropertyScreen(
                         color = Color.LightGray, thickness = 2.dp
                     )
 
-                    FeaturesList(viewModel.state.value.features)
+                    FeaturesList(features)
                 }
             }
         }
     }
 }
+
 
 //@Preview
 //@Composable
@@ -273,7 +293,11 @@ fun PropertyScreen(
 //}
 
 @Composable
-fun ContactCard(contactInfo: PosterContact, onCallClick: () -> Unit, onMessageClick: () -> Unit) {
+fun ContactCard(
+    contactInfo: PosterContact,
+    onCallClick: () -> Unit,
+    onMessageClick: () -> Unit
+) {
     Card(
         shape = RoundedCornerShape(35.dp), modifier = Modifier
             .fillMaxWidth()

@@ -314,7 +314,6 @@ fun PreviewAmenitiesForm() {
         AmenitiesForm(
             viewModel = AddPropertyScreenViewModel(
                 propertyRepository = PreviewPropertyRepository(),
-                application = Application(),
                 assetRepository = PreviewAssetRepository()
             )
         )

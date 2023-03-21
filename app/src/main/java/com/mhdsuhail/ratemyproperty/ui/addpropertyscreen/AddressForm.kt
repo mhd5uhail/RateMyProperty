@@ -29,7 +29,6 @@ fun PreviewAddressForm() {
         AddressForm(
             viewModel = AddPropertyScreenViewModel(
                 propertyRepository = PreviewPropertyRepository(),
-                application = Application(),
                 assetRepository = PreviewAssetRepository()
             ),
         )

@@ -20,7 +20,6 @@ class PropertyScreenViewModel @Inject constructor(
 
     var state =
         mutableStateOf(getEmptyProperty())
-    val showMoreState = mutableStateOf(false)
 
     init {
         val propUri = savedStateHandle.get<String>("prop_uri")
@@ -55,9 +54,6 @@ class PropertyScreenViewModel @Inject constructor(
             }
             is PropertyScreenEvents.OnBackButtonClick -> {
                 sendUiEvent(UiEvent.PopBackStack)
-            }
-            is PropertyScreenEvents.OnClickShowMore -> {
-                showMoreState.value = !showMoreState.value
             }
         }
 

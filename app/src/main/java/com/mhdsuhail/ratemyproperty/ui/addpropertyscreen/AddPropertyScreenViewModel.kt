@@ -9,6 +9,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mhdsuhail.ratemyproperty.data.*
 import com.mhdsuhail.ratemyproperty.util.Routes
@@ -25,9 +26,8 @@ import com.mhdsuhail.ratemyproperty.data.json.AssetJsonParserImpl
 class AddPropertyScreenViewModel @Inject constructor(
     private val propertyRepository: PropertyRepository,
     private val assetRepository: AssetRepository,
-    application: Application
 ) :
-    AndroidViewModel(application) {
+    ViewModel() {
 
     companion object {
         private const val TAG = "AddPropertyScreenViewModel"
