@@ -72,7 +72,7 @@ class PropertyScreenViewModel @Inject constructor(
                 favourite = false,
                 imageResourceId = null,
                 address = Address("", "", "", "", "", ""),
-                posterContact = PosterContact("", "", null, ""),
+                posterContact = PosterContact("Name", "Title", null, ""),
             ),
             features = emptyList(),
             description = PropertyDescription(prop_uri = "", text = "")

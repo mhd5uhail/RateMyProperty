@@ -1,6 +1,5 @@
 package com.mhdsuhail.ratemyproperty.ui.addpropertyscreen
 
-import android.app.Application
 import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
@@ -25,11 +24,15 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.mhdsuhail.ratemyproperty.R
+import com.mhdsuhail.ratemyproperty.data.Address
 import com.mhdsuhail.ratemyproperty.data.PosterContact
+import com.mhdsuhail.ratemyproperty.data.PropertyDescription
+import com.mhdsuhail.ratemyproperty.data.PropertyDetails
 import com.mhdsuhail.ratemyproperty.data.preview.PreviewAssetRepository
 import com.mhdsuhail.ratemyproperty.data.preview.PreviewPropertyRepository
-import com.mhdsuhail.ratemyproperty.ui.propertyscreen.ContactCard
+import com.mhdsuhail.ratemyproperty.ui.propertyscreen.ContributorCard
 import com.mhdsuhail.ratemyproperty.ui.propertyscreen.FeaturesList
+import com.mhdsuhail.ratemyproperty.ui.propertyscreen.PropertyView
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
 import com.mhdsuhail.ratemyproperty.ui.theme.primaryTextColor
 
@@ -48,6 +51,8 @@ fun PreviewReviewForm() {
     }
 }
 
+// TODO: Form states and the entity models are not matching which is causing a lot of
+//  unnecessary mapping in the UI and view-models
 
 @Composable
 fun ReviewForm(modifier: Modifier = Modifier, viewModel: AddPropertyScreenViewModel) {
@@ -61,134 +66,46 @@ fun ReviewForm(modifier: Modifier = Modifier, viewModel: AddPropertyScreenViewMo
         scaffoldState = scaffoldState,
         modifier = modifier
             .fillMaxSize(),
-        bottomBar = {
-            ContactCard(contactInfo = PosterContact(
+    ) { padding ->
+        PropertyView(
+            modifier = modifier.padding(padding),
+            scaffoldState = scaffoldState,
+            propertyDetails = PropertyDetails(
+                posterContact = PosterContact(
+                    name = viewModel.posterContact.name.value,
+                    title = viewModel.posterContact.title.value,
+                    phoneNumber = viewModel.posterContact.phoneNumber.value,
+                    imageResourceId = R.drawable.sample_realtor_3
+                ),
+                imageResourceId = null,
+                favourite = false,
+                recentlyViewed = true,
+                uri = "draft_1",
+                price = 0,
+                currency = "$",
+                address = Address(
+                    country = viewModel.addressFormState.country.value,
+                    postalCode = viewModel.addressFormState.postalCode.value,
+                    province = viewModel.addressFormState.province.value,
+                    unitNum = viewModel.addressFormState.unitNum.value,
+                    city = viewModel.addressFormState.city.value,
+                    street = viewModel.addressFormState.street.value
+                )
+            ),
+            features = viewModel.featuresListState,
+            propertyDescription = PropertyDescription(
+                prop_uri = "",
+                text = viewModel.descriptionFormState.text.value
+            ),
+            posterContact = PosterContact(
                 name = viewModel.posterContact.name.value,
                 title = viewModel.posterContact.title.value,
-                imageResourceId = null,
-                phoneNumber = viewModel.posterContact.phoneNumber.value
+                phoneNumber = viewModel.posterContact.phoneNumber.value,
+                imageResourceId = R.drawable.sample_realtor_3
+
             ),
-                onCallClick = {
-                    //viewModel.onEvent(PropertyScreenEvents.OnCallPosterClick(viewModel.state.value.propertyDetails.posterContact))
-                }, onMessageClick = {
-                    //viewModel.onEvent(PropertyScreenEvents.OnMessagePosterClick(viewModel.state.value.propertyDetails.posterContact))
-                })
-        }
-    ) { padding ->
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(padding)
-                .verticalScroll(rememberScrollState())
-        ) {
-            Column(
-                verticalArrangement = Arrangement.Top,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
-            ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(350.dp)
-                ) {
-
-                    Image(
-                        painter = painterResource(id = R.drawable.propertyprop2),
-                        contentDescription = "",
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .clip(RoundedCornerShape(40.dp)),
-                        contentScale = ContentScale.FillBounds
-                    )
-
-                }
-                Column(
-                    verticalArrangement = Arrangement.Top,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(15.dp)
-                ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight()
-                    ) {
-                        Text(
-                            modifier = Modifier
-                                .padding(top = 1.dp)
-                                .fillMaxWidth(),
-                            text = "$ ${viewModel.price.value}",
-                            fontSize = 35.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = primaryTextColor
-                        )
-                        Text(
-                            modifier = Modifier
-                                .padding(top = 1.dp)
-                                .fillMaxWidth(0.85F),
-                            text = "${viewModel.addressFormState.street.value} - ${viewModel.addressFormState.city.value}," + " ${viewModel.addressFormState.province.value}",
-                            fontSize = 18.sp,
-                            color = primaryTextColor
-                        )
-
-                    }
-                    Divider(
-                        modifier = Modifier.padding(top = 15.dp, bottom = 15.dp),
-                        color = Color.LightGray, thickness = 2.dp
-                    )
-
-                    Column(
-                        modifier = Modifier
-                            .animateContentSize()
-                            .fillMaxWidth()
-                            .wrapContentHeight()
-                    ) {
-                        if (!showMoreState) {
-                            Text(
-                                text = viewModel.descriptionFormState.text.value
-                                    ?: "No description provided",
-                                maxLines = 4,
-                                overflow = TextOverflow.Ellipsis,
-                                textAlign = TextAlign.Left,
-                                color = Color.Gray
-                            )
-                        } else {
-                            Text(
-                                text = viewModel.descriptionFormState.text.value
-                                    ?: "No description provided",
-                                textAlign = TextAlign.Left,
-                                color = Color.Gray
-                            )
-                        }
-
-                        ClickableText(modifier = Modifier.align(Alignment.End),
-                            text = AnnotatedString(
-                                text = if (!showMoreState) {
-                                    "Show more"
-                                } else {
-                                    "Show less"
-                                },
-                                spanStyle = SpanStyle(
-                                    color = primaryTextColor,
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 17.sp
-                                )
-                            ),
-                            onClick = {
-                                showMoreState = !showMoreState
-                            })
-                    }
-
-                    Divider(
-                        modifier = Modifier.padding(top = 15.dp, bottom = 15.dp),
-                        color = Color.LightGray, thickness = 2.dp
-                    )
-
-                    FeaturesList(viewModel.featuresListState)
-                }
-            }
-        }
+            isPreview = true
+        )
     }
 
 }

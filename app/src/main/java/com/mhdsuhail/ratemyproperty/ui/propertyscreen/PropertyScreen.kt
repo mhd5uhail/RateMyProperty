@@ -16,7 +16,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.LightGray
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -33,14 +32,14 @@ import androidx.lifecycle.SavedStateHandle
 import com.mhdsuhail.ratemyproperty.R
 import com.mhdsuhail.ratemyproperty.data.*
 import com.mhdsuhail.ratemyproperty.data.preview.*
-import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
-import com.mhdsuhail.ratemyproperty.ui.theme.primaryTextColor
+import com.mhdsuhail.ratemyproperty.ui.globalui.TitleText
+import com.mhdsuhail.ratemyproperty.ui.theme.*
 import com.mhdsuhail.ratemyproperty.util.UiEvent
 
 @Preview
 @Composable
 fun PropertyScreenPreviews() {
-    RateMyPropertyTheme() {
+    RateMyPropertyTheme {
         val viewModel = PropertyScreenViewModel(
             savedStateHandle = SavedStateHandle(),
             repository = PreviewPropertyRepository()
@@ -91,8 +90,10 @@ fun PropertyScreen(
         features = viewModel.state.value.features,
         propertyDescription = viewModel.state.value.description,
         posterContact = viewModel.state.value.propertyDetails.posterContact,
-        onBackPressed = { /*TODO*/ },
-        onFavouritePressed = { },
+        onBackPressed = { viewModel.onEvent(PropertyScreenEvents.OnBackButtonClick) },
+        onFavouritePressed = { property ->
+            viewModel.onEvent(PropertyScreenEvents.OnAddToFavouritesClick(property))
+        },
         bottomActionBar = {} // TODO: Convert this to an add review bar making it easy for users to quickly review
     )
 
@@ -105,9 +106,9 @@ fun PropertyView(
     propertyDetails: PropertyDetails,
     features: List<Feature>,
     propertyDescription: PropertyDescription,
-    onBackPressed: () -> Unit,
-    onFavouritePressed: (prop_id: String) -> Unit,
-    bottomActionBar: @Composable() () -> Unit,
+    onBackPressed: () -> Unit = {},
+    onFavouritePressed: (prop_id: String) -> Unit = {},
+    bottomActionBar: @Composable () -> Unit = {},
     posterContact: PosterContact,
     isPreview: Boolean = false
 ) {
@@ -275,8 +276,11 @@ fun PropertyView(
                     )
 
                     FeaturesList(features)
+                    TitleText(text = stringResource(id = R.string.contributor))
+                    ContributorCard(contactInfo = posterContact)
                 }
             }
+
         }
     }
 }
@@ -293,87 +297,79 @@ fun PropertyView(
 //}
 
 @Composable
-fun ContactCard(
-    contactInfo: PosterContact,
-    onCallClick: () -> Unit,
-    onMessageClick: () -> Unit
+fun ContributorCard(
+    contactInfo: PosterContact
 ) {
-    Card(
-        shape = RoundedCornerShape(35.dp), modifier = Modifier
-            .fillMaxWidth()
-            .height(85.dp),
-        border = BorderStroke(width = 1.dp, color = LightGray),
-        backgroundColor = Color.White
+    Row(
+        modifier = Modifier
+            .fillMaxSize(),
+        verticalAlignment = Alignment.CenterVertically
     ) {
+
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .weight(0.2f)
+        ) {
+            Image(
+                modifier = Modifier
+                    .align(Alignment.Center)
+                    .size(64.dp)
+                    .clip(CircleShape), // Descriptive Image
+                painter = painterResource(
+                    id = contactInfo.imageResourceId ?: R.drawable.contact
+                ),
+                contentScale = ContentScale.Crop,
+                contentDescription = "Realtor Contact Picture"
+            )
+        }
+
         Row(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(10.dp), verticalAlignment = Alignment.CenterVertically
+                .weight(0.4f)
+                .padding(start = 5.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .weight(0.2f)
-            ) {
-                Image(
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                        .size(64.dp)
-                        .clip(CircleShape), // Descriptive Image
-                    painter = painterResource(
-                        id = contactInfo.imageResourceId ?: R.drawable.contact
-                    ),
-                    contentScale = ContentScale.Crop,
-                    contentDescription = "Realtor Contact Picture"
-                )
-            }
+            Text(
+                text = buildAnnotatedString {
+                    withStyle(style = SpanStyle(color = Color.Gray)) {
+                        append("${contactInfo.title}\n")
+                    }
+                    withStyle(
+                        style = SpanStyle(
+                            color = primaryTextColor,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    ) {
+                        append(contactInfo.name)
+                    }
+                },
+            )
 
             Row(
                 modifier = Modifier
                     .fillMaxSize()
                     .weight(0.4f)
                     .padding(start = 5.dp),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                Text(
-                    text = buildAnnotatedString {
-                        withStyle(style = SpanStyle(color = Color.Gray)) {
-                            append("${contactInfo.title}\n")
-                        }
-                        withStyle(
-                            style = SpanStyle(
-                                color = primaryTextColor,
-                                fontWeight = FontWeight.SemiBold
-                            )
-                        ) {
-                            append(contactInfo.name)
-                        }
-                    },
+
+
+                Icon(
+                    painter = painterResource(id = R.drawable.downvote_24),
+                    modifier = Modifier.size(55.dp),
+                    contentDescription = "Down-vote Contributor",
+                    tint = Color.Red.copy(alpha = 0.5f)
                 )
-            }
 
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .weight(0.4f)
-                    .padding(start = 5.dp),
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-
-                ContactActionButton(modifier = Modifier.padding(start = 10.dp),
-                    imageResourceId = R.drawable.chat,
-                    backgroundColor = Color.Blue.copy(alpha = 0.15f),
-                    tintColor = Color.Blue,
-                    clickHandler = {
-                        onMessageClick()
-                    })
-
-                ContactActionButton(modifier = Modifier.padding(start = 10.dp),
-                    imageResourceId = R.drawable.phone,
-                    backgroundColor = Color.Green.copy(alpha = 0.15f),
-                    tintColor = Color.Green,
-                    clickHandler = { onCallClick() })
+                Icon(
+                    painter = painterResource(id = R.drawable.upvote_24),
+                    modifier = Modifier.size(55.dp),
+                    contentDescription = "Up-vote Contributor",
+                    tint = Color.Green.copy(alpha = 0.5f)
+                )
 
             }
 
@@ -382,7 +378,7 @@ fun ContactCard(
 }
 
 @Composable
-fun ContactActionButton(
+fun ActionButton(
     modifier: Modifier = Modifier, imageResourceId: Int,
     backgroundColor: Color, tintColor: Color, clickHandler: () -> Unit,
     contentDescription: String? = null
@@ -396,7 +392,7 @@ fun ContactActionButton(
     ) {
         Icon(
             painter = painterResource(id = imageResourceId),
-            modifier = Modifier.size(30.dp),
+            modifier = Modifier.size(45.dp),
             contentDescription = contentDescription,
             tint = tintColor
         )
@@ -411,30 +407,22 @@ fun FeaturesList(features: List<Feature>) {
             .fillMaxWidth()
             .wrapContentHeight()
     ) {
-        Text(
-            modifier = Modifier
-                .padding(top = 1.dp)
-                .fillMaxWidth(),
-            text = stringResource(id = R.string.feature_text),
-            fontSize = 25.sp,
-            fontWeight = FontWeight.SemiBold,
-            color = primaryTextColor
-        )
+        TitleText(text = stringResource(id = R.string.feature_text))
         features.forEach { feature ->
             FeatureItem(feature)
         }
     }
 }
 
-@Preview
-@Composable
-fun FeatureItemPreviews(@PreviewParameter(PreviewFeatureProvider::class) feature: Feature) {
-    RateMyPropertyTheme() {
-        Surface() {
-            FeatureItem(feature)
-        }
-    }
-}
+//@Preview
+//@Composable
+//fun FeatureItemPreviews(@PreviewParameter(PreviewFeatureProvider::class) feature: Feature) {
+//    RateMyPropertyTheme {
+//        Surface {
+//            FeatureItem(feature)
+//        }
+//    }
+//}
 
 @Composable
 fun FeatureItem(feature: Feature) {
