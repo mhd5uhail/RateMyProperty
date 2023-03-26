@@ -52,7 +52,7 @@ fun AddressSection(
     Column(modifier = modifier) {
         TitleText(text = stringResource(id = R.string.address))
 
-
+        // Cannot be empty
         OutlinedTextField(
             modifier = Modifier
                 .padding(10.dp)
@@ -63,7 +63,8 @@ fun AddressSection(
             onValueChange = {
                 address.unitNum.value = it
             },
-            singleLine = true
+            singleLine = true,
+            isError = !FieldValidators.Address.isUnitNumberValid(address.unitNum.value)
         )
         OutlinedTextField(
             modifier = Modifier
@@ -74,7 +75,8 @@ fun AddressSection(
             onValueChange = {
                 address.street.value = it
             },
-            singleLine = true
+            singleLine = true,
+            isError = !FieldValidators.Address.isStreetNameValid(address.street.value)
         )
 
         OutlinedDropDown(
@@ -103,58 +105,11 @@ fun AddressSection(
             onValueChange = {
                 address.postalCode.value = it
             },
+            isError = !FieldValidators.Address.isPostalCodeValid(address.postalCode.value)
         )
     }
 }
 
-@Composable
-fun PosterSection(modifier: Modifier = Modifier, posterContact: FormStates.PosterContact) {
-    val phoneNumberLength = 10
-
-    Column(modifier = modifier) {
-        TitleText(text = stringResource(id = R.string.about_you))
-
-        OutlinedTextField(
-            modifier = Modifier
-                .padding(10.dp)
-                .fillMaxWidth(),
-            label = { Text(text = "Name") },
-            value = posterContact.name.value,
-            onValueChange = {
-                posterContact.name.value = it
-            },
-            singleLine = true
-        )
-
-        OutlinedTextField(
-            modifier = Modifier
-                .padding(10.dp)
-                .fillMaxWidth(),
-            label = { Text(text = "Title") },
-            value = posterContact.title.value,
-            onValueChange = {
-                posterContact.title.value = it
-            },
-            singleLine = true
-        )
-
-        OutlinedTextField(
-            modifier = Modifier
-                .padding(10.dp)
-                .fillMaxWidth(),
-            label = { Text(text = "Mobile") },
-            value = posterContact.phoneNumber.value,
-            onValueChange = {
-                if (it.length <= phoneNumberLength)
-                    posterContact.phoneNumber.value = it
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            singleLine = true
-        )
-
-
-    }
-}
 
 @Composable
 fun AddressForm(
@@ -165,9 +120,6 @@ fun AddressForm(
 
     val address = remember {
         viewModel.addressFormState
-    }
-    val posterContact = remember {
-        viewModel.posterContact
     }
 
     Scaffold(modifier = modifier, scaffoldState = scaffoldState) { paddingValues ->
@@ -184,8 +136,6 @@ fun AddressForm(
                 listOfProvinces = viewModel.province2City.keys.toList(),
                 mapOfCities = viewModel.province2City
             )
-            PosterSection(posterContact = posterContact)
-
         }
     }
 

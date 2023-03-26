@@ -1,14 +1,9 @@
 package com.mhdsuhail.ratemyproperty.ui.addpropertyscreen
 
-import android.app.Application
 import android.net.Uri
 import android.util.Log
-import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mhdsuhail.ratemyproperty.data.*
@@ -20,7 +15,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import com.mhdsuhail.ratemyproperty.data.UnitType
-import com.mhdsuhail.ratemyproperty.data.json.AssetJsonParserImpl
 
 @HiltViewModel
 class AddPropertyScreenViewModel @Inject constructor(
@@ -156,14 +150,20 @@ class AddPropertyScreenViewModel @Inject constructor(
                 }
             }
 
-            is AddPropertyScreenEvents.OnClickSubmitPage -> {
+            is AddPropertyScreenEvents.OnClickNextPage -> {
                 when (event.currentPageRoute) {
 
                     AddFormPages.AddressForm.route -> {
-                        // todo: Validate form
                         // todo: Create and prepare the address object
                         Log.i(TAG, "onEvent: ${event.currentPageRoute}")
-                        sendUiEvent(UiEvent.Navigate(AddFormPages.AmenitiesForm.route))
+                        if (FieldValidators.Address.isUnitNumberValid(addressFormState.unitNum.value)
+                            && FieldValidators.Address.isPostalCodeValid(addressFormState.postalCode.value)
+                            && FieldValidators.Address.isStreetNameValid(addressFormState.street.value)
+                        ) {
+                            sendUiEvent(UiEvent.Navigate(AddFormPages.AmenitiesForm.route))
+                        }else{
+                            sendUiEvent(UiEvent.ShowSnackbar("Some values are invalid!"))
+                        }
                     }
                     AddFormPages.AmenitiesForm.route -> {
                         sendUiEvent(UiEvent.Navigate(AddFormPages.PictureDescForm.route))

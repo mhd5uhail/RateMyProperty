@@ -1,7 +1,6 @@
 package com.mhdsuhail.ratemyproperty.ui.addpropertyscreen
 
 import MileStoneProgressBar
-import android.app.Application
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
@@ -14,7 +13,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import com.google.accompanist.navigation.animation.AnimatedNavHost
 import com.google.accompanist.navigation.animation.composable
 import com.google.accompanist.navigation.animation.rememberAnimatedNavController
-import com.mhdsuhail.ratemyproperty.data.json.AssetJsonParserImpl
 import com.mhdsuhail.ratemyproperty.data.preview.*
 import com.mhdsuhail.ratemyproperty.ui.globalui.AnimatedFormBottomNavBar
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
@@ -133,7 +131,7 @@ fun AddPropertyScreen(
                 },
                 onNextPressed = {
                     navBackStackEntry?.destination?.route.let {
-                        it?.let { viewModel.onEvent(AddPropertyScreenEvents.OnClickSubmitPage(it)) }
+                        it?.let { viewModel.onEvent(AddPropertyScreenEvents.OnClickNextPage(it)) }
                     }
                 }
             )
