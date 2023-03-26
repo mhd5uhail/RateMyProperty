@@ -9,7 +9,7 @@ import com.mhdsuhail.ratemyproperty.data.*
 
 @Database(
     entities = [PropertyDetails::class, Feature::class, PropertyDescription::class, SearchQuery::class],
-    version = 5,
+    version = 3,
     exportSchema = false
 )
 @TypeConverters(DateTimeTypeConverters::class)
@@ -31,10 +31,12 @@ abstract class RMPDatabase : RoomDatabase() {
                     context.applicationContext,
                     RMPDatabase::class.java,
                     "rmp_db"
-                ).addTypeConverter(DateTimeTypeConverters()).fallbackToDestructiveMigration()
+                ).addTypeConverter(DateTimeTypeConverters())
+                    .addTypeConverter(AddressTypeConverter())
+                    .fallbackToDestructiveMigration()
                     .build().also {
-                    INSTANCE = it
-                }
+                        INSTANCE = it
+                    }
             }
         }
     }

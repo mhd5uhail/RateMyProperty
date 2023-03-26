@@ -5,6 +5,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mhdsuhail.ratemyproperty.data.*
+import com.mhdsuhail.ratemyproperty.data.preview.PreviewContributorProvider
 import com.mhdsuhail.ratemyproperty.util.UiEvent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -43,14 +44,15 @@ class PropertyScreenViewModel @Inject constructor(
         when (event) {
 
             is PropertyScreenEvents.OnAddToFavouritesClick -> {
-                state.value = state.value.copy(propertyDetails = state.value.propertyDetails.copy(favourite = !state.value.propertyDetails.favourite))
+                state.value =
+                    state.value.copy(propertyDetails = state.value.propertyDetails.copy(favourite = !state.value.propertyDetails.favourite))
                 sendUiEvent(UiEvent.ShowSnackbar("Added to favourites !"))
             }
             is PropertyScreenEvents.OnCallPosterClick -> {
-                sendUiEvent(UiEvent.ShowSnackbar("Calling ...${event.posterContact.name}"))
+                sendUiEvent(UiEvent.ShowSnackbar("Calling ...${event.contributor.name}"))
             }
             is PropertyScreenEvents.OnMessagePosterClick -> {
-                sendUiEvent(UiEvent.ShowSnackbar("Messaging ...${event.posterContact.name}"))
+                sendUiEvent(UiEvent.ShowSnackbar("Messaging ...${event.contributor.name}"))
             }
             is PropertyScreenEvents.OnBackButtonClick -> {
                 sendUiEvent(UiEvent.PopBackStack)
@@ -70,9 +72,9 @@ class PropertyScreenViewModel @Inject constructor(
             propertyDetails = PropertyDetails(
                 "", 0, "", false,
                 favourite = false,
-                imageResourceId = null,
+                imagePropertyUri = null,
                 address = Address("", "", "", "", "", ""),
-                posterContact = PosterContact("Name", "Title", null, ""),
+                contributor = Contributor("", "", "", null, "")
             ),
             features = emptyList(),
             description = PropertyDescription(prop_uri = "", text = "")

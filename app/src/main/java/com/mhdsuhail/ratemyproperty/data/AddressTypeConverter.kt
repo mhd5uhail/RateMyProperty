@@ -1,20 +1,22 @@
 package com.mhdsuhail.ratemyproperty.data
 
+import androidx.room.ProvidedTypeConverter
 import androidx.room.TypeConverter
-
+import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
+@ProvidedTypeConverter
 class AddressTypeConverter {
 
     @TypeConverter
-    fun toString(address: Address): String {
+    fun toString(address: Address?): String? {
         return address.let {
-            " ${address.unitNum} ${address.street} ${address.city} ${address.province} ${address.country} ${address.postalCode}"
+            Gson().toJson(address)
         }
     }
 
     @TypeConverter
-    fun fromString(address: String): Address? {
-        // "Regex based address converter to re-create the address object")
-        TODO("Not yet Implemented")
+    fun fromString(jsonString: String?): Address? {
+        return Gson().fromJson(jsonString,object :TypeToken<Address>() {})
     }
 
 }

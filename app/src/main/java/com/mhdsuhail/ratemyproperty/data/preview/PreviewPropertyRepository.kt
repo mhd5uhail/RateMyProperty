@@ -13,30 +13,19 @@ class PreviewPropertyRepository() : PropertyRepository {
         return 1
     }
 
-    override suspend fun deletePropertyDetails(propertyDetails: PropertyDetails) : Int{
+    override suspend fun deletePropertyDetails(propertyDetails: PropertyDetails): Int {
         //TODO("Not yet implemented")
         return 1
     }
 
     override suspend fun getPropertyById(uri: String): Property? {
         return Property(
-            propertyDetails = PropertyDetails(
-                uri = "90741389-caa6-4d22-9f4f-1a4201db3be1",
-                price = 1300,
-                currency = "$",
-                recentlyViewed = true,
-                favourite = true,
-                imageResourceId = null,
-                address = Address("Canada", "ON", "Toronto", "88 Harbor St N", "1432", "H2A 4L2"),
-                posterContact = PosterContact(
-                    "Mohammed Suhail",
-                    "Realtor",
-                    R.drawable.sample_realtor,
-                    "523-349-233"
-                ),
-            ),
+            propertyDetails = PropertyPreviewParameterProvider().values.elementAt(0),
             features = PreviewFeatureProvider().values.toList(),
-            description = PropertyDescription(prop_uri = "90741389-caa6-4d22-9f4f-1a4201db3be1",text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis finibus sem. Duis nec dolor et tortor malesuada pellentesque. Suspendisse porttitor tempus lectus, non commodo orci rhoncus et. Praesent odio est, ultricies sed augue ut, laoreet congue magna. Duis semper suscipit bibendum. Maecenas semper dolor vel nulla congue dignissim. Ut pretium lobortis felis a tristique\n")
+            description = PropertyDescription(
+                prop_uri = "90741389-caa6-4d22-9f4f-1a4201db3be1",
+                text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec quis finibus sem. Duis nec dolor et tortor malesuada pellentesque. Suspendisse porttitor tempus lectus, non commodo orci rhoncus et. Praesent odio est, ultricies sed augue ut, laoreet congue magna. Duis semper suscipit bibendum. Maecenas semper dolor vel nulla congue dignissim. Ut pretium lobortis felis a tristique\n"
+            )
         )
     }
 
@@ -47,7 +36,7 @@ class PreviewPropertyRepository() : PropertyRepository {
 
     override fun getAllFavouritePropertyDetails(): Flow<List<PropertyDetails>> {
         return flow {
-            while(true) {
+            while (true) {
                 emit(PropertyPreviewParameterProvider().values.toList())
                 delay(10000)
             }
@@ -60,7 +49,7 @@ class PreviewPropertyRepository() : PropertyRepository {
 
     override fun getAllPropertiesDetails(): Flow<List<PropertyDetails>> {
         return flow {
-            while(true) {
+            while (true) {
                 emit(PropertyPreviewParameterProvider().values.toList())
                 delay(10000)
             }

@@ -24,7 +24,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -83,205 +82,201 @@ fun PropertyScreen(
         }
 
     }
-    PropertyView(
-        modifier = modifier,
+    Scaffold(
         scaffoldState = scaffoldState,
-        propertyDetails = viewModel.state.value.propertyDetails,
-        features = viewModel.state.value.features,
-        propertyDescription = viewModel.state.value.description,
-        posterContact = viewModel.state.value.propertyDetails.posterContact,
-        onBackPressed = { viewModel.onEvent(PropertyScreenEvents.OnBackButtonClick) },
-        onFavouritePressed = { property ->
-            viewModel.onEvent(PropertyScreenEvents.OnAddToFavouritesClick(property))
-        },
-        bottomActionBar = {} // TODO: Convert this to an add review bar making it easy for users to quickly review
-    )
-
+        modifier = modifier
+            .fillMaxSize()
+    ) { padding ->
+        Column(modifier = Modifier
+            .padding(padding)
+            .verticalScroll(rememberScrollState())
+            .wrapContentSize()) {
+            PropertyView(
+                propertyDetails = viewModel.state.value.propertyDetails,
+                features = viewModel.state.value.features,
+                propertyDescription = viewModel.state.value.description,
+                onBackPressed = { viewModel.onEvent(PropertyScreenEvents.OnBackButtonClick) },
+                onFavouritePressed = { property ->
+                    viewModel.onEvent(PropertyScreenEvents.OnAddToFavouritesClick(property))
+                },
+            )
+            TitleText(text = stringResource(id = R.string.contributor))
+            ContributorCard(contributor = viewModel.state.value.propertyDetails.contributor,
+                onUpVote = {},
+                onDownVote = {})
+        }
+    }
 }
 
 @Composable
 fun PropertyView(
-    scaffoldState: ScaffoldState,
     modifier: Modifier = Modifier,
     propertyDetails: PropertyDetails,
     features: List<Feature>,
     propertyDescription: PropertyDescription,
-    onBackPressed: () -> Unit = {},
-    onFavouritePressed: (prop_id: String) -> Unit = {},
-    bottomActionBar: @Composable () -> Unit = {},
-    posterContact: PosterContact,
-    isPreview: Boolean = false
+    onBackPressed: (() -> Unit)? = null,
+    onFavouritePressed: ((prop_id: String) -> Unit)? = null,
 ) {
-    Scaffold(
-        scaffoldState = scaffoldState,
-        modifier = modifier
-            .fillMaxSize(),
-        bottomBar = { bottomActionBar() }
-    ) { padding ->
 
-        var showMoreState by remember {
-            mutableStateOf(false)
-        }
+    var showMoreState by remember {
+        mutableStateOf(false)
+    }
+    Column(
+        modifier = modifier
+    ) {
         Column(
-            modifier = modifier
-                .padding(padding)
-                .verticalScroll(rememberScrollState())
+            verticalArrangement = Arrangement.Top,
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight()
         ) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(350.dp)
+            ) {
+
+                Image(
+                    painter = painterResource(id = R.drawable.propertyprop2),
+                    contentDescription = "",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(RoundedCornerShape(40.dp)),
+                    contentScale = ContentScale.FillBounds
+                )
+                onFavouritePressed?.let {
+                    IconButton(
+                        onClick = {
+                            onFavouritePressed(propertyDetails.uri)
+                        },
+                        modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .offset(x = (-10).dp, y = 10.dp)
+                            .clip(CircleShape)
+                            .size(60.dp)
+                            .background(Color.White.copy(alpha = 0.2f))
+                    ) {
+                        Icon(
+                            imageVector = if (propertyDetails.favourite) {
+                                Icons.Rounded.Favorite
+                            } else {
+                                Icons.Rounded.FavoriteBorder
+                            },
+                            modifier = Modifier.size(30.dp),
+                            contentDescription = "Add to Favourites",
+                            tint = Color.White
+                        )
+                    }
+                }
+                onBackPressed?.let {
+                    IconButton(
+                        onClick = {
+                            onBackPressed()
+                        },
+                        modifier = Modifier
+                            .align(Alignment.TopStart)
+                            .offset(x = (10).dp, y = 10.dp)
+                            .clip(CircleShape)
+                            .size(60.dp)
+                            .background(Color.White.copy(alpha = 0.2f))
+                    ) {
+                        Icon(
+                            imageVector = Icons.Rounded.ArrowBack,
+                            modifier = Modifier.size(30.dp),
+                            contentDescription = "Go back to previous page",
+                            tint = Color.White
+                        )
+                    }
+                }
+            }
             Column(
                 verticalArrangement = Arrangement.Top,
                 modifier = Modifier
-                    .fillMaxWidth()
-                    .wrapContentHeight()
+                    .fillMaxSize()
+                    .padding(15.dp)
             ) {
-                Box(
+                Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(350.dp)
+                        .wrapContentHeight()
                 ) {
-
-                    Image(
-                        painter = painterResource(id = R.drawable.propertyprop2),
-                        contentDescription = "",
+                    Text(
                         modifier = Modifier
-                            .fillMaxSize()
-                            .clip(RoundedCornerShape(40.dp)),
-                        contentScale = ContentScale.FillBounds
+                            .padding(top = 1.dp)
+                            .fillMaxWidth(),
+                        text = propertyDetails.currency + propertyDetails.price,
+                        fontSize = 35.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = primaryTextColor
                     )
-                    if (!isPreview) {
-                        IconButton(
-                            onClick = {
-                                onFavouritePressed(propertyDetails.uri)
-                            },
-                            modifier = Modifier
-                                .align(Alignment.TopEnd)
-                                .offset(x = (-10).dp, y = 10.dp)
-                                .clip(CircleShape)
-                                .size(60.dp)
-                                .background(Color.White.copy(alpha = 0.2f))
-                        ) {
-                            Icon(
-                                imageVector = if (propertyDetails.favourite) {
-                                    Icons.Rounded.Favorite
-                                } else {
-                                    Icons.Rounded.FavoriteBorder
-                                },
-                                modifier = Modifier.size(30.dp),
-                                contentDescription = "Add to Favourites",
-                                tint = Color.White
-                            )
-                        }
+                    Text(
+                        modifier = Modifier
+                            .padding(top = 1.dp)
+                            .fillMaxWidth(0.85F),
+                        text = "${propertyDetails.address.street} - ${propertyDetails.address.city}," + " ${propertyDetails.address.province}",
+                        fontSize = 18.sp,
+                        color = primaryTextColor
+                    )
 
-                        IconButton(
-                            onClick = {
-                                onBackPressed()
-                            },
-                            modifier = Modifier
-                                .align(Alignment.TopStart)
-                                .offset(x = (10).dp, y = 10.dp)
-                                .clip(CircleShape)
-                                .size(60.dp)
-                                .background(Color.White.copy(alpha = 0.2f))
-                        ) {
-                            Icon(
-                                imageVector = Icons.Rounded.ArrowBack,
-                                modifier = Modifier.size(30.dp),
-                                contentDescription = "Go back to previous page",
-                                tint = Color.White
-                            )
-                        }
-                    }
                 }
+                Divider(
+                    modifier = Modifier.padding(top = 15.dp, bottom = 15.dp),
+                    color = Color.LightGray, thickness = 2.dp
+                )
+
                 Column(
-                    verticalArrangement = Arrangement.Top,
                     modifier = Modifier
-                        .fillMaxSize()
-                        .padding(15.dp)
+                        .animateContentSize()
+                        .fillMaxWidth()
+                        .wrapContentHeight()
                 ) {
-                    Column(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .wrapContentHeight()
-                    ) {
+                    if (!showMoreState) {
                         Text(
-                            modifier = Modifier
-                                .padding(top = 1.dp)
-                                .fillMaxWidth(),
-                            text = propertyDetails.currency + propertyDetails.price,
-                            fontSize = 35.sp,
-                            fontWeight = FontWeight.SemiBold,
-                            color = primaryTextColor
+                            text = let {
+                                propertyDescription.text.ifEmpty { "No description provided" }
+                            },
+                            maxLines = 4,
+                            overflow = TextOverflow.Ellipsis,
+                            textAlign = TextAlign.Left,
+                            color = Color.Gray
                         )
+                    } else {
                         Text(
-                            modifier = Modifier
-                                .padding(top = 1.dp)
-                                .fillMaxWidth(0.85F),
-                            text = "${propertyDetails.address.street} - ${propertyDetails.address.city}," + " ${propertyDetails.address.province}",
-                            fontSize = 18.sp,
-                            color = primaryTextColor
+                            text = let {
+                                propertyDescription.text.ifEmpty { "No description provided" }
+                            },
+                            textAlign = TextAlign.Left,
+                            color = Color.Gray
                         )
-
-                    }
-                    Divider(
-                        modifier = Modifier.padding(top = 15.dp, bottom = 15.dp),
-                        color = Color.LightGray, thickness = 2.dp
-                    )
-
-                    Column(
-                        modifier = Modifier
-                            .animateContentSize()
-                            .fillMaxWidth()
-                            .wrapContentHeight()
-                    ) {
-                        if (showMoreState) {
-                            Text(
-                                text = let {
-                                    propertyDescription.text.ifEmpty { "No description provided" }
-                                },
-                                maxLines = 4,
-                                overflow = TextOverflow.Ellipsis,
-                                textAlign = TextAlign.Left,
-                                color = Color.Gray
-                            )
-                        } else {
-                            Text(
-                                text = let {
-                                    propertyDescription.text.ifEmpty { "No description provided" }
-                                },
-                                textAlign = TextAlign.Left,
-                                color = Color.Gray
-                            )
-                        }
-
-                        ClickableText(modifier = Modifier.align(Alignment.End),
-                            text = AnnotatedString(
-                                text = if (!showMoreState) {
-                                    "Show more"
-                                } else {
-                                    "Show less"
-                                },
-                                spanStyle = SpanStyle(
-                                    color = primaryTextColor,
-                                    fontWeight = FontWeight.Bold,
-                                    fontSize = 17.sp
-                                )
-                            ),
-                            onClick = {
-                                showMoreState = !showMoreState
-                            })
                     }
 
-                    Divider(
-                        modifier = Modifier.padding(top = 15.dp, bottom = 15.dp),
-                        color = Color.LightGray, thickness = 2.dp
-                    )
-
-                    FeaturesList(features)
-                    TitleText(text = stringResource(id = R.string.contributor))
-                    ContributorCard(contactInfo = posterContact)
+                    ClickableText(modifier = Modifier.align(Alignment.End),
+                        text = AnnotatedString(
+                            text = if (!showMoreState) {
+                                "Show more"
+                            } else {
+                                "Show less"
+                            },
+                            spanStyle = SpanStyle(
+                                color = primaryTextColor,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 17.sp
+                            )
+                        ),
+                        onClick = {
+                            showMoreState = !showMoreState
+                        })
                 }
-            }
 
+                Divider(
+                    modifier = Modifier.padding(top = 15.dp, bottom = 15.dp),
+                    color = Color.LightGray, thickness = 2.dp
+                )
+                TitleText(text = stringResource(id = R.string.feature_text))
+                FeaturesList(features)
+            }
         }
+
     }
 }
 
@@ -298,43 +293,39 @@ fun PropertyView(
 
 @Composable
 fun ContributorCard(
-    contactInfo: PosterContact
+    modifier: Modifier = Modifier,
+    contributor: Contributor,
+    onUpVote: () -> Unit,
+    onDownVote: () -> Unit
 ) {
     Row(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxSize(),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.SpaceEvenly
     ) {
 
-        Box(
+        Image(
             modifier = Modifier
-                .fillMaxSize()
-                .weight(0.2f)
-        ) {
-            Image(
-                modifier = Modifier
-                    .align(Alignment.Center)
-                    .size(64.dp)
-                    .clip(CircleShape), // Descriptive Image
-                painter = painterResource(
-                    id = contactInfo.imageResourceId ?: R.drawable.contact
-                ),
-                contentScale = ContentScale.Crop,
-                contentDescription = "Realtor Contact Picture"
-            )
-        }
+                .size(64.dp)
+                .clip(CircleShape), // Descriptive Image
+            painter = painterResource(
+                id = contributor.imageContributorUri ?: R.drawable.contact
+            ),
+            contentScale = ContentScale.Crop,
+            contentDescription = "Realtor Contact Picture"
+        )
+
 
         Row(
             modifier = Modifier
-                .fillMaxSize()
-                .weight(0.4f)
                 .padding(start = 5.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = buildAnnotatedString {
                     withStyle(style = SpanStyle(color = Color.Gray)) {
-                        append("${contactInfo.title}\n")
+                        append("${contributor.title}\n")
                     }
                     withStyle(
                         style = SpanStyle(
@@ -342,38 +333,44 @@ fun ContributorCard(
                             fontWeight = FontWeight.SemiBold
                         )
                     ) {
-                        append(contactInfo.name)
+                        append(contributor.name)
                     }
                 },
             )
+        }
 
-            Row(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .weight(0.4f)
-                    .padding(start = 5.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceEvenly
-            ) {
+        Row(
+            modifier = Modifier
+                .padding(start = 5.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceEvenly
+        ) {
 
-
+            IconButton(onClick = {
+                onDownVote()
+            }) {
                 Icon(
                     painter = painterResource(id = R.drawable.downvote_24),
                     modifier = Modifier.size(55.dp),
                     contentDescription = "Down-vote Contributor",
                     tint = Color.Red.copy(alpha = 0.5f)
                 )
-
+            }
+            Text(text = "999+", fontSize = 20.sp)
+            IconButton(onClick = {
+                onUpVote()
+            }) {
                 Icon(
                     painter = painterResource(id = R.drawable.upvote_24),
                     modifier = Modifier.size(55.dp),
                     contentDescription = "Up-vote Contributor",
                     tint = Color.Green.copy(alpha = 0.5f)
                 )
-
             }
 
         }
+
+
     }
 }
 
@@ -407,7 +404,6 @@ fun FeaturesList(features: List<Feature>) {
             .fillMaxWidth()
             .wrapContentHeight()
     ) {
-        TitleText(text = stringResource(id = R.string.feature_text))
         features.forEach { feature ->
             FeatureItem(feature)
         }

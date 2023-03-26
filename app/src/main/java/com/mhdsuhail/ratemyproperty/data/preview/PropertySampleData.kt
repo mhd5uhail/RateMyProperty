@@ -11,14 +11,9 @@ data class PropertySampleData(
             currency = "$",
             recentlyViewed = true,
             favourite = true,
-            imageResourceId = null,
+            imagePropertyUri = null,
             address = Address("Canada", "ON", "Toronto", "88 Harbor St N", "1432", "H2A 4L2"),
-            posterContact = PosterContact(
-                "Mohammed Suhail",
-                "Realtor",
-                R.drawable.sample_realtor,
-                "523-349-233"
-            ),
+            Contributor("1","test","test_title",null,"519213123")
         ),
         features = listOf(
             Feature(1,"59ac0c32-cc0e-49f9-a881-c0bd073f11cd","Area",R.drawable.square_foot,"sqft","580","Carpet Area"),

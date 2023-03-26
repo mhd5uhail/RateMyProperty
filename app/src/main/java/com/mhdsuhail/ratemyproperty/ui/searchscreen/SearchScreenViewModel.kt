@@ -58,7 +58,7 @@ class SearchScreenViewModel @Inject constructor(
                 viewModelScope.launch {
                     val results = propertyRepository.searchPropertiesDetails(event.query)
                         .filter { property ->
-                            AddressTypeConverter().toString(property.address)
+                            property.address.toString()
                                 .contains(event.query, ignoreCase = true)
                         }
                     searchResults.clear()
