@@ -1,13 +1,15 @@
 package com.mhdsuhail.ratemyproperty.database
 
+import android.content.ContentValues
 import android.content.Context
 import android.database.sqlite.SQLiteConstraintException
+import android.util.Log
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.mhdsuhail.ratemyproperty.data.DateTimeTypeConverters
 import com.mhdsuhail.ratemyproperty.data.Feature
 import com.mhdsuhail.ratemyproperty.data.preview.PropertySampleData
-import com.mhdsuhail.ratemyproperty.data.room.RMPDatabase
+import com.mhdsuhail.ratemyproperty.data.room.*
 import junit.framework.TestCase.*
 import kotlinx.coroutines.runBlocking
 import org.junit.After
@@ -17,12 +19,13 @@ import org.junit.Test
 
 class FeaturesTests : DatabaseTests() {
     private val TAG = "FeaturesTests"
-
+    private lateinit var featureDao: FeatureDao
+    private lateinit var propertyDetailsDao: PropertyDetailsDao
     @Before
     override fun setUpDb() {
+        Log.i(TAG, "Setting up database")
         val context = ApplicationProvider.getApplicationContext<Context>()
-        rmpDatabase = Room.inMemoryDatabaseBuilder(context, RMPDatabase::class.java)
-            .addTypeConverter(DateTimeTypeConverters()).fallbackToDestructiveMigration().build()
+        rmpDatabase = getDbInstance(context)
         featureDao = rmpDatabase.featureDao
         propertyDetailsDao = rmpDatabase.propertyDetailsDao
     }

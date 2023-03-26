@@ -1,12 +1,13 @@
 package com.mhdsuhail.ratemyproperty.database
 
+import android.content.ContentValues
 import android.content.Context
 import android.util.Log
 import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import com.mhdsuhail.ratemyproperty.data.DateTimeTypeConverters
 import com.mhdsuhail.ratemyproperty.data.SearchQuery
-import com.mhdsuhail.ratemyproperty.data.room.RMPDatabase
+import com.mhdsuhail.ratemyproperty.data.room.*
 import junit.framework.TestCase.*
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.first
@@ -19,7 +20,7 @@ import java.time.LocalDateTime
 
 class SearchTests : DatabaseTests() {
     private val TAG = "SearchTests"
-
+    private lateinit var searchDao: SearchQueryDao
     @Test
     fun insertSearchItem() = runBlocking {
         val searchQuery = SearchQuery("test", LocalDateTime.now(), 1)
@@ -51,9 +52,9 @@ class SearchTests : DatabaseTests() {
 
     @Before
     override fun setUpDb() {
+        Log.i(ContentValues.TAG, "Setting up database")
         val context = ApplicationProvider.getApplicationContext<Context>()
-        rmpDatabase = Room.inMemoryDatabaseBuilder(context, RMPDatabase::class.java)
-            .addTypeConverter(DateTimeTypeConverters()).fallbackToDestructiveMigration().build()
+        rmpDatabase = getDbInstance(context)
         searchDao = rmpDatabase.searchQueryDao
     }
 

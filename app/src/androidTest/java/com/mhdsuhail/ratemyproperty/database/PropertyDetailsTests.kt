@@ -18,14 +18,16 @@ import org.junit.Test
 
 class PropertyDetailsTests : DatabaseTests() {
     private val TAG = "PropertyDetailsTests"
+    private lateinit var featureDao: FeatureDao
+    private lateinit var descriptionDao: DescriptionsDao
+    private lateinit var propertyDetailsDao: PropertyDetailsDao
+    private lateinit var propertyDao: PropertyDao
 
     @Before
     override fun setUpDb() {
-
-        Log.i(ContentValues.TAG, "Setting up database")
+        Log.i(TAG, "Setting up database")
         val context = ApplicationProvider.getApplicationContext<Context>()
-        rmpDatabase = Room.inMemoryDatabaseBuilder(context, RMPDatabase::class.java)
-            .addTypeConverter(DateTimeTypeConverters()).fallbackToDestructiveMigration().build()
+        rmpDatabase = getDbInstance(context)
         featureDao = rmpDatabase.featureDao
         descriptionDao = rmpDatabase.descriptionsDao
         propertyDetailsDao = rmpDatabase.propertyDetailsDao
