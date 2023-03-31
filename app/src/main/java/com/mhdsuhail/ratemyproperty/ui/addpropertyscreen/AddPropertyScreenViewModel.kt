@@ -78,7 +78,7 @@ class AddPropertyScreenViewModel @Inject constructor(
     var addressFormState = FormStates.Address()
     var featuresListState = mutableStateListOf<Feature>()
     var posterContact = FormStates.PosterContact()
-    var price = mutableStateOf(0)
+    var price = mutableStateOf("")
     var descriptionFormState = FormStates.PropertyDescription()
 
     fun onEvent(event: AddPropertyScreenEvents) {
@@ -151,25 +151,39 @@ class AddPropertyScreenViewModel @Inject constructor(
             }
 
             is AddPropertyScreenEvents.OnClickNextPage -> {
+                Log.i(TAG, "onEvent: ${event.currentPageRoute}")
                 when (event.currentPageRoute) {
-
                     AddFormPages.AddressForm.route -> {
-                        // todo: Create and prepare the address object
-                        Log.i(TAG, "onEvent: ${event.currentPageRoute}")
-                        if (FieldValidators.Address.isUnitNumberValid(addressFormState.unitNum.value)
-                            && FieldValidators.Address.isPostalCodeValid(addressFormState.postalCode.value)
-                            && FieldValidators.Address.isStreetNameValid(addressFormState.street.value)
+                        if (FieldValidators.Address.validateAddress(
+                                unitNumber = addressFormState.unitNum.value,
+                                streetName = addressFormState.street.value,
+                                province = addressFormState.province.value,
+                                city = addressFormState.city.value,
+                                postalCode = addressFormState.postalCode.value,
+                                province2CityMap = province2City
+                            )
                         ) {
                             sendUiEvent(UiEvent.Navigate(AddFormPages.AmenitiesForm.route))
-                        }else{
+                        } else {
                             sendUiEvent(UiEvent.ShowSnackbar("Some values are invalid!"))
                         }
                     }
                     AddFormPages.AmenitiesForm.route -> {
-                        sendUiEvent(UiEvent.Navigate(AddFormPages.PictureDescForm.route))
+                        if (featuresListState.isEmpty()) {
+                            sendUiEvent(UiEvent.ShowSnackbar("Please any amenities available"))
+                        } else {
+                            sendUiEvent(UiEvent.Navigate(AddFormPages.PictureDescForm.route))
+                        }
                     }
                     AddFormPages.PictureDescForm.route -> {
-                        sendUiEvent(UiEvent.Navigate(AddFormPages.ReviewForm.route))
+                        if (descriptionFormState.text.value.isNotBlank() &&
+                            selectedImageUri.value != null &&
+                            price.value != null
+                        ) {
+                            sendUiEvent(UiEvent.Navigate(AddFormPages.ReviewForm.route))
+                        } else {
+                            sendUiEvent(UiEvent.ShowSnackbar("Please provide more details"))
+                        }
                     }
                     AddFormPages.ReviewForm.route -> {
                         // On submitting the final review page form is completed

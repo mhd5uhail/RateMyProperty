@@ -3,12 +3,17 @@ package com.mhdsuhail.ratemyproperty.ui.addpropertyscreen
 import android.app.Application
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -35,6 +40,7 @@ fun PreviewAddressForm() {
     }
 }
 
+@OptIn(ExperimentalComposeUiApi::class)
 @Composable
 fun AddressSection(
     modifier: Modifier = Modifier,
@@ -42,6 +48,9 @@ fun AddressSection(
     listOfProvinces: List<String>,
     mapOfCities: HashMap<String, List<String>>
 ) {
+    val keyboardController = LocalSoftwareKeyboardController.current
+    val localFocusManager = LocalFocusManager.current
+
     val countryDropDownExpanded = remember {
         mutableStateOf(false)
     }
@@ -59,7 +68,14 @@ fun AddressSection(
                 .fillMaxWidth(),
             label = { Text(text = "Apt/Unit #") },
             value = address.unitNum.value,
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Done,
+                keyboardType = KeyboardType.Number
+            ),
+            keyboardActions = KeyboardActions(onDone = {
+                // move focus to the next
+
+            }),
             onValueChange = {
                 address.unitNum.value = it
             },
@@ -105,7 +121,8 @@ fun AddressSection(
             onValueChange = {
                 address.postalCode.value = it
             },
-            isError = !FieldValidators.Address.isPostalCodeValid(address.postalCode.value)
+            isError = !FieldValidators.Address.isPostalCodeValid(address.postalCode.value),
+            singleLine = true
         )
     }
 }

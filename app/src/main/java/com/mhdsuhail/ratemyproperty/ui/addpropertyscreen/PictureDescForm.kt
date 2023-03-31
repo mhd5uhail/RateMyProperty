@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -16,6 +17,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
@@ -56,7 +58,7 @@ fun PictureDescForm(modifier: Modifier = Modifier, viewModel: AddPropertyScreenV
     Scaffold(modifier = modifier, scaffoldState = scaffoldState) { paddingValues ->
         Column(
             modifier = Modifier.padding(paddingValues),
-            verticalArrangement = Arrangement.Top,
+            verticalArrangement = Arrangement.SpaceEvenly,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TitleText(text = stringResource(id = R.string.description))
@@ -69,7 +71,6 @@ fun PictureDescForm(modifier: Modifier = Modifier, viewModel: AddPropertyScreenV
                 val imageShape = RoundedCornerShape(20.dp)
                 Box(
                     modifier = Modifier
-                        .weight(1f)
                         .fillMaxSize()
                         .background(
                             color = Color.LightGray,
@@ -130,9 +131,19 @@ fun PictureDescForm(modifier: Modifier = Modifier, viewModel: AddPropertyScreenV
 
                     }
                 }
+                OutlinedTextField(
+                    label = {
+                        Text("How expensive is the place monthly? (CA$)")
+                    },
+                    modifier = Modifier.fillMaxSize(),
+                    value = viewModel.price.value,
+                    onValueChange = {
+                        viewModel.price.value = it
+                    },
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
+                )
                 Box(
                     modifier = Modifier
-                        .weight(1f)
                         .fillMaxSize()
                         .padding(top = 20.dp)
                 ) {

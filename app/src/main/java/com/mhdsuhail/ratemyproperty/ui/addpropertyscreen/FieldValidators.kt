@@ -28,6 +28,25 @@ class FieldValidators {
                 Log.d(TAG, "postalCode: $ret")
                 return ret
             }
+
+            fun isCitySelectionValid(city: String, province: String, province2City : Map<String,List<String>>): Boolean {
+               return province2City[province]?.any { it == city } ?: false
+            }
+
+            fun validateAddress(
+                unitNumber: String,
+                streetName: String,
+                province: String,
+                city: String,
+                postalCode: String,
+                province2CityMap: Map<String, List<String>>
+            ): Boolean {
+                return (isUnitNumberValid(unitNumber)
+                        && isPostalCodeValid(postalCode)
+                        && isCitySelectionValid(city, province, province2CityMap)
+                        && isStreetNameValid(streetName))
+            }
         }
+
     }
 }
