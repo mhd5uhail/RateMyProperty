@@ -17,4 +17,12 @@ class PreviewAssetRepository : AssetRepository {
     override fun getStandardFeatureUnits(): List<UnitType> {
         return listOf(UnitType(1,"sq ft","Number"))
     }
+
+    override fun getProvince2CityMap(): Map<String, List<String>> {
+        return HashMap()
+    }
+
+    override fun getFeature2UnitMap(): Map<String, List<String>> {
+        return HashMap()
+    }
 }

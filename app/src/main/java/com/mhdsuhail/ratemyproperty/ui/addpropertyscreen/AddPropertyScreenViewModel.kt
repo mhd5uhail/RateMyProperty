@@ -14,7 +14,6 @@ import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import com.mhdsuhail.ratemyproperty.data.UnitType
 
 @HiltViewModel
 class AddPropertyScreenViewModel @Inject constructor(
@@ -39,41 +38,14 @@ class AddPropertyScreenViewModel @Inject constructor(
 
     val uiEvent = _uiEvent.receiveAsFlow()
 
-    private val listOfProvinceAndCity: List<CanadianProvince> =
-        assetRepository.getCanadianProvinceAndCity()
-
-    private val listOfFeatureUnitData: List<FeatureData> = assetRepository.getStandardFeatures()
-
-    private val listOfUnits: List<UnitType> = assetRepository.getStandardFeatureUnits()
-
-    val province2City = HashMap<String, List<String>>()
-    val unitsOfFeature = HashMap<String, List<String>>()
+    val province2City = assetRepository.getProvince2CityMap()
+    val feature2Unit = assetRepository.getFeature2UnitMap()
 
 
     val selectedImageUri = mutableStateOf<Uri?>(null)
 
 
     // TODO: Move data organization logic to asset repository
-    init {
-        listOfProvinceAndCity.forEach { province ->
-            province2City[province.name!!] = province.cities + province.towns
-        }
-
-        val unitMap = HashMap<Int, UnitType>()
-        listOfUnits.forEach { unit ->
-            unitMap[unit.id] = unit
-        }
-
-        listOfFeatureUnitData.forEach { featureUnitData ->
-            unitsOfFeature[featureUnitData.name] = let {
-                val units = ArrayList<String>()
-                featureUnitData.unitTypes.forEach { unit ->
-                    unitMap[unit]?.let { it -> units.add(it.unit) }
-                }
-                units
-            }
-        }
-    }
 
     var addressFormState = FormStates.Address()
     var featuresListState = mutableStateListOf<Feature>()

@@ -46,7 +46,7 @@ fun AddressSection(
     modifier: Modifier = Modifier,
     address: FormStates.Address,
     listOfProvinces: List<String>,
-    mapOfCities: HashMap<String, List<String>>
+    mapOfCities: Map<String, List<String>>
 ) {
     val keyboardController = LocalSoftwareKeyboardController.current
     val localFocusManager = LocalFocusManager.current

@@ -1,6 +1,5 @@
 package com.mhdsuhail.ratemyproperty.ui.addpropertyscreen
 
-import android.app.Application
 import android.util.Log
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.*
@@ -29,7 +28,6 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import com.mhdsuhail.ratemyproperty.R
 import com.mhdsuhail.ratemyproperty.data.Feature
-import com.mhdsuhail.ratemyproperty.data.json.AssetJsonParserImpl
 import com.mhdsuhail.ratemyproperty.data.preview.PreviewAssetRepository
 import com.mhdsuhail.ratemyproperty.ui.globalui.OutlinedDropDown
 import com.mhdsuhail.ratemyproperty.ui.globalui.TitleText
@@ -188,7 +186,7 @@ fun AmenitiesForm(
                 }, onCancel = {
                     dialogState.value = false
                 },
-                    unitsOfFeature = viewModel.unitsOfFeature
+                    unitsOfFeature = viewModel.feature2Unit
                 )
             }
         }
