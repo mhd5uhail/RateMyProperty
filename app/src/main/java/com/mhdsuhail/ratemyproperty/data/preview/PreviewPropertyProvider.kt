@@ -17,7 +17,7 @@ class PropertyPreviewParameterProvider : PreviewParameterProvider<PropertyDetail
             currency = "$",
             recentlyViewed = true,
             favourite = true,
-            imagePropertyUri = Uri.parse("$androidResourceUri/${R.drawable.propertyprop2}"),
+            imagePropertyUri = Uri.parse("$androidResourceUri/${R.drawable.propertyprop}"),
             address = Address("Canada", "ON", "Waterloo", "350 Columbia St W", "102", "N2L6P1"),
             contributor = contributors.elementAt(0)
         ),
@@ -28,7 +28,7 @@ class PropertyPreviewParameterProvider : PreviewParameterProvider<PropertyDetail
             currency = "$",
             recentlyViewed = true,
             favourite = false,
-            imagePropertyUri = Uri.parse("$androidResourceUri/${R.drawable.propertyprop}"),
+            imagePropertyUri = Uri.parse("$androidResourceUri/${R.drawable.propertyprop2}"),
             address = Address("Canada", "ON", "Toronto", "88 Harbor St N", "1432", "H2A 4L2"),
             contributor = contributors.elementAt(1)
         ),
