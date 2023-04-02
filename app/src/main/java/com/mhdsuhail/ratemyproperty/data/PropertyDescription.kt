@@ -16,7 +16,7 @@ import androidx.room.ForeignKey
 )
 data class PropertyDescription(
     @ColumnInfo(name = "id") val id: Int? = null,
-    @ColumnInfo(name = "prop_uri") val prop_uri: String,
+    @ColumnInfo(name = "prop_uri", index = true) val prop_uri: String,
     @ColumnInfo(name = "text") val text: String
 ) {
     companion object {

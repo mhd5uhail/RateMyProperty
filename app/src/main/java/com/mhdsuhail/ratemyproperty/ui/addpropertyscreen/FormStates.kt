@@ -1,5 +1,6 @@
 package com.mhdsuhail.ratemyproperty.ui.addpropertyscreen
 
+import android.net.Uri
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -20,7 +21,7 @@ sealed class FormStates {
     data class PosterContact(
         val name: MutableState<String> = mutableStateOf(""),
         val title: MutableState<String> = mutableStateOf(""),
-        val imageResourceId: MutableState<Int?> = mutableStateOf(null),
+        val imageResourceId: MutableState<Uri?> = mutableStateOf(null),
         val phoneNumber: MutableState<String> = mutableStateOf("")
     ): FormStates()
 

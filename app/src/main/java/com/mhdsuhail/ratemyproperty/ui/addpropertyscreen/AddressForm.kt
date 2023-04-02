@@ -10,6 +10,9 @@ import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.stringResource
@@ -25,6 +28,7 @@ import com.mhdsuhail.ratemyproperty.ui.globalui.OutlinedDropDown
 import com.mhdsuhail.ratemyproperty.ui.globalui.OutlinedDropDownWFilter
 import com.mhdsuhail.ratemyproperty.ui.globalui.TitleText
 import com.mhdsuhail.ratemyproperty.ui.theme.RateMyPropertyTheme
+import okhttp3.internal.wait
 
 
 @Preview
@@ -51,6 +55,9 @@ fun AddressSection(
     val keyboardController = LocalSoftwareKeyboardController.current
     val localFocusManager = LocalFocusManager.current
 
+    val (unitNumFocus, streetFocus, cityFocus, provinceFocus, postalCodeFocus) = FocusRequester.createRefs();
+
+
     val countryDropDownExpanded = remember {
         mutableStateOf(false)
     }
@@ -65,16 +72,16 @@ fun AddressSection(
         OutlinedTextField(
             modifier = Modifier
                 .padding(10.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .focusRequester(unitNumFocus),
             label = { Text(text = "Apt/Unit #") },
             value = address.unitNum.value,
             keyboardOptions = KeyboardOptions(
-                imeAction = ImeAction.Done,
+                imeAction = ImeAction.Next,
                 keyboardType = KeyboardType.Number
             ),
             keyboardActions = KeyboardActions(onDone = {
-                // move focus to the next
-
+                localFocusManager.moveFocus(FocusDirection.Next)
             }),
             onValueChange = {
                 address.unitNum.value = it
@@ -85,35 +92,46 @@ fun AddressSection(
         OutlinedTextField(
             modifier = Modifier
                 .padding(10.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .focusRequester(streetFocus),
             label = { Text(text = "Street") },
             value = address.street.value,
             onValueChange = {
                 address.street.value = it
             },
             singleLine = true,
-            isError = !FieldValidators.Address.isStreetNameValid(address.street.value)
+            isError = !FieldValidators.Address.isStreetNameValid(address.street.value),
+            keyboardActions = KeyboardActions(onDone = {
+                localFocusManager.moveFocus(FocusDirection.Next)
+            })
         )
 
         OutlinedDropDown(
+            modifier = Modifier.focusRequester(provinceFocus),
             expanded = countryDropDownExpanded,
             label = "Province",
             dropDownList = listOfProvinces,
             text = address.province,
             onSelectItem = {
                 address.city.value = ""
+                localFocusManager.moveFocus(FocusDirection.Next)
             }
         )
 
         OutlinedDropDownWFilter(
+            modifier = Modifier.focusRequester(cityFocus),
             expanded = cityDropDownExpanded,
             label = "City",
             dropDownList = mapOfCities[address.province.value],
-            text = address.city
+            text = address.city,
+            onSelectItem = {
+                localFocusManager.moveFocus(FocusDirection.Next)
+            }
         )
 
         OutlinedTextField(
             modifier = Modifier
+                .focusRequester(postalCodeFocus)
                 .padding(10.dp)
                 .fillMaxWidth(),
             label = { Text(text = "Postal Code") },
@@ -122,7 +140,11 @@ fun AddressSection(
                 address.postalCode.value = it
             },
             isError = !FieldValidators.Address.isPostalCodeValid(address.postalCode.value),
-            singleLine = true
+            singleLine = true,
+            keyboardActions = KeyboardActions(onDone = {
+                keyboardController?.hide()
+            }),
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Done)
         )
     }
 }

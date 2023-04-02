@@ -44,7 +44,7 @@ fun HomeScreenPreview() {
 }
 
 @Composable
-fun TitledLazyRowProperty(
+fun PropertyLazyRow(
     modifier: Modifier = Modifier,
     title: String,
     properties: List<PropertyDetails>,
@@ -186,7 +186,7 @@ fun HomeScreen(
             )
 
             if (favList.value.isNotEmpty()) {
-                TitledLazyRowProperty(
+                PropertyLazyRow(
                     title = "Your Favorites",
                     properties = favList.value,
                     onClickActionButton = {
@@ -200,7 +200,7 @@ fun HomeScreen(
                 // TODO: Prompt to add favourites
             }
             if (myListings.value.isNotEmpty()) {
-                TitledLazyRowProperty(
+                PropertyLazyRow(
                     title = "Your Listings",
                     properties = myListings.value,
                     onClickActionButton = {

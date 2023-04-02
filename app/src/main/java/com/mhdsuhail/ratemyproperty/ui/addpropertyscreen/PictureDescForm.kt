@@ -58,20 +58,20 @@ fun PictureDescForm(modifier: Modifier = Modifier, viewModel: AddPropertyScreenV
     Scaffold(modifier = modifier, scaffoldState = scaffoldState) { paddingValues ->
         Column(
             modifier = Modifier.padding(paddingValues),
-            verticalArrangement = Arrangement.SpaceEvenly,
+            verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             TitleText(text = stringResource(id = R.string.description))
 
             Column(
                 modifier = Modifier.padding(20.dp),
-                verticalArrangement = Arrangement.Top,
+                verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 val imageShape = RoundedCornerShape(20.dp)
                 Box(
                     modifier = Modifier
-                        .fillMaxSize()
+                        .fillMaxWidth().height(300.dp)
                         .background(
                             color = Color.LightGray,
                             shape = imageShape
@@ -131,20 +131,10 @@ fun PictureDescForm(modifier: Modifier = Modifier, viewModel: AddPropertyScreenV
 
                     }
                 }
-                OutlinedTextField(
-                    label = {
-                        Text("How expensive is the place monthly? (CA$)")
-                    },
-                    modifier = Modifier.fillMaxSize(),
-                    value = viewModel.price.value,
-                    onValueChange = {
-                        viewModel.price.value = it
-                    },
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number)
-                )
+
                 Box(
                     modifier = Modifier
-                        .fillMaxSize()
+                        .fillMaxWidth()
                         .padding(top = 20.dp)
                 ) {
                     OutlinedTextField(

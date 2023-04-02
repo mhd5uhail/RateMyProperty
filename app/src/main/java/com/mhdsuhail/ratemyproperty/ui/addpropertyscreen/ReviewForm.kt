@@ -50,7 +50,7 @@ fun ReviewForm(modifier: Modifier = Modifier, viewModel: AddPropertyScreenViewMo
         ) {
             PropertyView(
                 propertyDetails = PropertyDetails(
-                    imagePropertyUri = null,
+                    imagePropertyUri = viewModel.selectedImageUri.value,
                     favourite = false,
                     recentlyViewed = true,
                     uri = "draft_1",

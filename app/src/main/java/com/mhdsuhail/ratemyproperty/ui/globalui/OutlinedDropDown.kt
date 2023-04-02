@@ -5,6 +5,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
@@ -47,7 +49,8 @@ fun OutlinedDropDownWFilter(
     label: String?,
     dropDownList: List<String>?,
     text: MutableState<String>,
-    onSelectItem: (String) -> Unit = {}// To control any other event that may happen
+    onSelectItem: (String) -> Unit = {},// To control any other event that may happen,
+    keyboardActions: KeyboardActions = KeyboardActions()
 ) {
 
     Box(modifier = modifier.wrapContentSize()) {
@@ -67,12 +70,13 @@ fun OutlinedDropDownWFilter(
                     text.value = it
                 },
                 singleLine = true,
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded.value) }
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded.value) },
+                keyboardActions = keyboardActions
             )
             dropDownList?.let {
                 ExposedDropdownMenu(
                     expanded = expanded.value,
-                    onDismissRequest = { }
+                    onDismissRequest = { },
                 ) {
 
                     val filteredList =
@@ -102,7 +106,8 @@ fun OutlinedDropDown(
     label: String?,
     dropDownList: List<String>?,
     text: MutableState<String>,
-    onSelectItem: (String) -> Unit = {} // To control any other event that may happen
+    onSelectItem: (String) -> Unit = {}, // To control any other event that may happen
+    keyboardActions: KeyboardActions = KeyboardActions()
 ) {
 
     Box(modifier = modifier.wrapContentSize()) {
@@ -122,7 +127,8 @@ fun OutlinedDropDown(
                 },
                 singleLine = true,
                 readOnly = true,
-                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded.value) }
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded.value) },
+                keyboardActions = keyboardActions
             )
             dropDownList?.let {
                 ExposedDropdownMenu(

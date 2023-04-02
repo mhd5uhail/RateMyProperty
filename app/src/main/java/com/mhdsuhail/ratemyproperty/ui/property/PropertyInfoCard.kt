@@ -19,6 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.mhdsuhail.ratemyproperty.R
 import com.mhdsuhail.ratemyproperty.data.PropertyDetails
 import com.mhdsuhail.ratemyproperty.data.preview.PropertyPreviewParameterProvider
@@ -55,10 +56,10 @@ fun PropertyInfoCard(
                         .fillMaxHeight(0.65F)
                         .fillMaxWidth()
                 ) {
-                    Image(
-                        painter = painterResource(id = R.drawable.propertyprop2),
-                        contentDescription = "",
+                    AsyncImage(
                         modifier = Modifier.fillMaxSize(),
+                        model = propertyDetails.imagePropertyUri,
+                        contentDescription = "PropertyImage",
                         contentScale = ContentScale.FillBounds
                     )
                 }
@@ -72,29 +73,23 @@ fun PropertyInfoCard(
                         )
                         .fillMaxSize(0.5F)
                 ) {
-                    Text(
-                        modifier = Modifier
-                            .padding(top = 1.dp)
-                            .fillMaxWidth(),
-                        text = propertyDetails.currency + propertyDetails.price.toString(),
-                        fontSize = 25.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = primaryTextColor
-                    )
-                    Row(
-                        horizontalArrangement = Arrangement.Start,
-                        verticalAlignment = Alignment.Top,
-                        modifier = Modifier.fillMaxWidth()
+                    Box(
+                        modifier = Modifier.fillMaxSize()
                     ) {
                         Text(
                             modifier = Modifier
-                                .padding(top = 1.dp)
-                                .fillMaxWidth(0.85F),
-                            text = "${propertyDetails.address.street} - ${propertyDetails.address.city}," + " ${propertyDetails.address.province}",
-                            fontSize = 18.sp,
+                                .align(Alignment.TopStart)
+                                .fillMaxWidth()
+                                .padding(10.dp),
+                            text = "${propertyDetails.address.street} \n ${propertyDetails.address.city}," + " ${propertyDetails.address.province}",
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight.SemiBold,
                             color = primaryTextColor
                         )
-                        IconButton(modifier = Modifier.fillMaxSize(),
+                        IconButton(modifier = Modifier
+                            .padding(10.dp)
+                            .size(50.dp)
+                            .align(Alignment.BottomEnd),
                             onClick = { onClickActionButton(propertyDetails) }) {
                             Icon(
                                 imageVector = if (propertyDetails.favourite) {

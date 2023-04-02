@@ -28,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.SavedStateHandle
+import coil.compose.AsyncImage
 import com.mhdsuhail.ratemyproperty.R
 import com.mhdsuhail.ratemyproperty.data.*
 import com.mhdsuhail.ratemyproperty.data.preview.*
@@ -87,10 +88,12 @@ fun PropertyScreen(
         modifier = modifier
             .fillMaxSize()
     ) { padding ->
-        Column(modifier = Modifier
-            .padding(padding)
-            .verticalScroll(rememberScrollState())
-            .wrapContentSize()) {
+        Column(
+            modifier = Modifier
+                .padding(padding)
+                .verticalScroll(rememberScrollState())
+                .wrapContentSize()
+        ) {
             PropertyView(
                 propertyDetails = viewModel.state.value.propertyDetails,
                 features = viewModel.state.value.features,
@@ -135,13 +138,12 @@ fun PropertyView(
                     .fillMaxWidth()
                     .height(350.dp)
             ) {
-
-                Image(
-                    painter = painterResource(id = R.drawable.propertyprop2),
-                    contentDescription = "",
+                AsyncImage(
                     modifier = Modifier
                         .fillMaxSize()
                         .clip(RoundedCornerShape(40.dp)),
+                    model = propertyDetails.imagePropertyUri,
+                    contentDescription = "property Image",
                     contentScale = ContentScale.FillBounds
                 )
                 onFavouritePressed?.let {
@@ -204,17 +206,10 @@ fun PropertyView(
                         modifier = Modifier
                             .padding(top = 1.dp)
                             .fillMaxWidth(),
-                        text = propertyDetails.currency + propertyDetails.price,
-                        fontSize = 35.sp,
+                        text = "${propertyDetails.address.street}\n" +
+                                " ${propertyDetails.address.city}," + " ${propertyDetails.address.province}",
+                        fontSize = 30.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = primaryTextColor
-                    )
-                    Text(
-                        modifier = Modifier
-                            .padding(top = 1.dp)
-                            .fillMaxWidth(0.85F),
-                        text = "${propertyDetails.address.street} - ${propertyDetails.address.city}," + " ${propertyDetails.address.province}",
-                        fontSize = 18.sp,
                         color = primaryTextColor
                     )
 
@@ -305,17 +300,13 @@ fun ContributorCard(
         horizontalArrangement = Arrangement.SpaceEvenly
     ) {
 
-        Image(
+        AsyncImage(
             modifier = Modifier
                 .size(64.dp)
-                .clip(CircleShape), // Descriptive Image
-            painter = painterResource(
-                id = contributor.imageContributorUri ?: R.drawable.contact
-            ),
+                .clip(CircleShape), model = contributor.imageContributorUri,
             contentScale = ContentScale.Crop,
             contentDescription = "Realtor Contact Picture"
         )
-
 
         Row(
             modifier = Modifier

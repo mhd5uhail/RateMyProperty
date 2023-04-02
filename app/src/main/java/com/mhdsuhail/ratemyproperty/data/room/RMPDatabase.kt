@@ -9,7 +9,7 @@ import com.mhdsuhail.ratemyproperty.data.*
 
 @Database(
     entities = [PropertyDetails::class, Feature::class, PropertyDescription::class, SearchQuery::class],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 @TypeConverters(DateTimeTypeConverters::class)
@@ -33,6 +33,7 @@ abstract class RMPDatabase : RoomDatabase() {
                     "rmp_db"
                 ).addTypeConverter(DateTimeTypeConverters())
                     .addTypeConverter(AddressTypeConverter())
+                    .addTypeConverter(UriTypeConverter())
                     .fallbackToDestructiveMigration()
                     .build().also {
                         INSTANCE = it

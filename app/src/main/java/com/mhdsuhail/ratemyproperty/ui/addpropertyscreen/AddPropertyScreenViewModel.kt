@@ -45,7 +45,6 @@ class AddPropertyScreenViewModel @Inject constructor(
     val selectedImageUri = mutableStateOf<Uri?>(null)
 
 
-    // TODO: Move data organization logic to asset repository
 
     var addressFormState = FormStates.Address()
     var featuresListState = mutableStateListOf<Feature>()
@@ -142,7 +141,7 @@ class AddPropertyScreenViewModel @Inject constructor(
                     }
                     AddFormPages.AmenitiesForm.route -> {
                         if (featuresListState.isEmpty()) {
-                            sendUiEvent(UiEvent.ShowSnackbar("Please any amenities available"))
+                            sendUiEvent(UiEvent.ShowSnackbar("Please add any amenities available"))
                         } else {
                             sendUiEvent(UiEvent.Navigate(AddFormPages.PictureDescForm.route))
                         }
