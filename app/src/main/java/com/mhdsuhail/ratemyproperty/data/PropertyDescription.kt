@@ -20,6 +20,6 @@ data class PropertyDescription(
     @ColumnInfo(name = "text") val text: String
 ) {
     companion object {
-        const val lengthLimit = 200
+        const val lengthLimit = 500
     }
 }

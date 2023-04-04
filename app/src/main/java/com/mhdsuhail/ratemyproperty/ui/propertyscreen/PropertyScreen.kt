@@ -22,6 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -124,6 +125,11 @@ fun PropertyView(
     var showMoreState by remember {
         mutableStateOf(false)
     }
+    var textOverflow by remember {
+        mutableStateOf(false)
+    }
+    val maxDescPreviewLineCount = 4;
+
     Column(
         modifier = modifier
     ) {
@@ -225,42 +231,33 @@ fun PropertyView(
                         .fillMaxWidth()
                         .wrapContentHeight()
                 ) {
-                    if (!showMoreState) {
-                        Text(
-                            text = let {
-                                propertyDescription.text.ifEmpty { "No description provided" }
-                            },
-                            maxLines = 4,
-                            overflow = TextOverflow.Ellipsis,
-                            textAlign = TextAlign.Left,
-                            color = Color.Gray
-                        )
-                    } else {
-                        Text(
-                            text = let {
-                                propertyDescription.text.ifEmpty { "No description provided" }
-                            },
-                            textAlign = TextAlign.Left,
-                            color = Color.Gray
-                        )
-                    }
 
-                    ClickableText(modifier = Modifier.align(Alignment.End),
-                        text = AnnotatedString(
-                            text = if (!showMoreState) {
-                                "Show more"
-                            } else {
-                                "Show less"
-                            },
-                            spanStyle = SpanStyle(
-                                color = primaryTextColor,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 17.sp
-                            )
-                        ),
-                        onClick = {
-                            showMoreState = !showMoreState
-                        })
+                    Text(
+                        text = let {
+                            propertyDescription.text.ifEmpty { "No description provided" }
+                        },
+                        maxLines = let { if (showMoreState) Int.MAX_VALUE else maxDescPreviewLineCount },
+                        overflow = TextOverflow.Ellipsis,
+                        textAlign = TextAlign.Left,
+                        color = Color.Gray,
+                        onTextLayout = { textOverflow = it.hasVisualOverflow }
+                    )
+
+                    if(textOverflow) {
+                        ClickableText(modifier = Modifier.align(Alignment.End),
+                            text = AnnotatedString(
+                                text = "Show more",
+                                spanStyle = SpanStyle(
+                                    color = primaryTextColor,
+                                    fontWeight = FontWeight.Bold,
+                                    fontSize = 17.sp,
+                                    textDecoration = TextDecoration.Underline
+                                )
+                            ),
+                            onClick = {
+                                showMoreState = !showMoreState
+                            })
+                    }
                 }
 
                 Divider(
@@ -275,16 +272,6 @@ fun PropertyView(
     }
 }
 
-
-//@Preview
-//@Composable
-//fun ContactCardPreview(@PreviewParameter(PosterContactPreviewProvider::class) contactInfo: PosterContact) {
-//    RateMyPropertyTheme() {
-//        Surface {
-//            ContactCard(contactInfo)
-//        }
-//    }
-//}
 
 @Composable
 fun ContributorCard(
